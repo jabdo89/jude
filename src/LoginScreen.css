@@ -1,0 +1,160 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat");
+.HomeScreen_Blue_Background {
+  position: absolute;
+  height: 100%;
+  width: 45%;
+  left: -1%;
+  top: 0%;
+}
+.usernameBox {
+  top: 40%;
+  left: 55%;
+  position: absolute;
+  background: url(./img/avatar.png) no-repeat scroll 7px 7px;
+  background-size: 5% 40%;
+  background-position-x: 8%;
+  background-position-y: 50%;
+  height: 3vh;
+  width: 21vw;
+  padding: 1%;
+  margin: 2%;
+  border-radius: 30px;
+  display: inline-block;
+  border: 1.5px solid #ccc;
+}
+.passwordBox {
+  top: 50%;
+  left: 55%;
+  background: url(./img/key.png) no-repeat scroll 7px 7px;
+  background-size: 5% 40%;
+  background-position-x: 8%;
+  background-position-y: 50%;
+  position: absolute;
+  height: 3vh;
+  width: 21vw;
+  padding: 1%;
+  margin: 2%;
+  border-radius: 30px;
+  display: inline-block;
+  border: 1.5px solid #ccc;
+}
+.Sign_In_Word {
+  position: absolute;
+  color: rgba(0, 52, 77, 1);
+  font-size: calc(1vw + 1vh + 0.5vmin);
+  left: 67%;
+  font-family: "Montserrat";
+  font-weight: bold;
+  top: 32%;
+}
+.TO_ACCESS_Word {
+  position: absolute;
+  color: rgba(0, 52, 77, 1);
+  font-size: calc(0.5vw + 0.5vh + 0.25vmin);
+  font-family: "Montserrat";
+  left: 65%;
+  top: 37%;
+  font-weight: bold;
+  text-align: center;
+}
+.Login_btn-1:hover {
+  background-image: linear-gradient(to right, #2eafd9 0%, #18a1d6 100%);
+}
+
+.Login_btn-1 {
+  position: absolute;
+  top: 60%;
+  border: none;
+  font-family: "Montserrat";
+  font-size: calc(0.5vw + 0.5vh + 0.25vmin);
+  color: white;
+  left: 55%;
+  height: 5vh;
+  width: 27vw;
+  margin: 2%;
+  border-radius: 30px;
+  cursor: pointer;
+  background-image: linear-gradient(to right, #18a1d6 0%, #2eafd9 100%);
+}
+input[type="text"] {
+  font-size: calc(0.5vw + 0.5vh + 0.25vmin);
+  padding-left: 5%;
+  font-family: "Montserrat";
+}
+input[type="password"] {
+  font-size: calc(0.5vw + 0.5vh + 0.25vmin);
+  padding-left: 5%;
+  font-family: "Montserrat";
+}
+
+.UserName {
+  position: relative;
+  top: 40vh;
+}
+.Auth_Error_Word {
+  position: absolute;
+  left: 61%;
+  width: 20%;
+  font-family: "Montserrat";
+  color: red;
+  text-align: center;
+  top: 71%;
+}
+.Target_Icon {
+  position: absolute;
+  height: 8%;
+  width: 4%;
+  left: 6%;
+  top: 5%;
+}
+.Connecting_Word {
+  position: absolute;
+  color: white;
+  left: 12%;
+  top: 5%;
+  width: 20%;
+  font-size: calc(1vw + 1vh + 0.5vmin);
+  font-family: "Montserrat";
+}
+.Welcome_Word {
+  position: absolute;
+  font-family: "Montserrat";
+  font-weight: bold;
+  left: 6%;
+  top: 40%;
+  font-size: calc(0.8vw + 0.8vh + 0.4vmin);
+  color: white;
+}
+.Enter_Word {
+  position: absolute;
+  font-family: "Montserrat";
+  left: 6%;
+  top: 46%;
+  width: 20%;
+  font-size: calc(0.7vw + 0.7vh + 0.4vmin);
+  color: white;
+}
+.Jude_Logo {
+  position: absolute;
+  top: 20%;
+  height: 80%;
+  width: 29.5%;
+  left: 14.5%;
+}
+.Jude_Logo2 {
+  position: absolute;
+  top: 4%;
+  width: 4.5%;
+  height: 12%;
+  left: 80%;
+}
+.UDE_Word {
+  position: absolute;
+  top: 8%;
+  height: 12%;
+  color: #26738c;
+  font-family: "Montserrat";
+  font-weight: bold;
+  font-size: calc(1.8vw + 1.8vh + 0.9vmin);
+  left: 85%;
+}

@@ -1,6 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
 import App from "./App";
 import firebase from "firebase";
 import * as serviceWorker from "./serviceWorker";
@@ -11,6 +10,8 @@ import thunk from "redux-thunk";
 import { ReactReduxFirebaseProvider, getFirestore } from "react-redux-firebase";
 import { createFirestoreInstance } from "redux-firestore";
 import { getFirebase } from "react-redux-firebase";
+import { useSelector } from "react-redux";
+import { isLoaded } from "react-redux-firebase";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBWlMrr8wurY04dALTgZ7QGpCgkwJpbeOE",
@@ -22,6 +23,12 @@ const firebaseConfig = {
   appId: "1:686559516875:web:b9eec0528716316db0a34e",
   measurementId: "G-5ZQ7E1R0CV"
 };
+
+function AuthIsLoaded({ children }) {
+  const auth = useSelector(state => state.firebase.auth);
+  if (!isLoaded(auth)) return <div></div>;
+  return children;
+}
 
 const middlewares = [thunk.withExtraArgument(getFirebase, getFirestore)];
 
@@ -48,7 +55,9 @@ const rrfProps = {
 ReactDOM.render(
   <Provider store={store}>
     <ReactReduxFirebaseProvider {...rrfProps}>
-      <App />
+      <AuthIsLoaded>
+        <App />
+      </AuthIsLoaded>
     </ReactReduxFirebaseProvider>
   </Provider>,
   document.getElementById("root")

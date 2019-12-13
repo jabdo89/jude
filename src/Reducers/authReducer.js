@@ -8,6 +8,16 @@ const initState = {
 
 const authReducer = (state = initState, action) => {
   switch (action.type) {
+    case "SIGNIN_SUCCESS":
+      return {
+        ...state,
+        authError: null
+      };
+    case "SIGNIN_ERROR":
+      return {
+        ...state,
+        authError: action.error.message
+      };
     default:
       return state;
   }

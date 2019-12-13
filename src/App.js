@@ -1,13 +1,12 @@
 import React, { Component } from "react";
 import firebase from "firebase";
+import Prueba from "./prueba.js";
+import LoginScreen from "./LoginScreen.js";
 
 class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      user: null
-    };
-  }
+  state = {
+    user: null
+  };
 
   componentDidMount() {
     this.authListener();
@@ -16,6 +15,8 @@ class App extends Component {
   authListener() {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
+        console.log(user);
+        console.log("hey");
         this.setState({ user });
       } else {
         this.setState({ user: null });
@@ -23,7 +24,15 @@ class App extends Component {
     });
   }
   render() {
-    return <div> {this.state.user ? <div>Yes</div> : <div>No</div>} </div>;
+    console.log(this.state.user);
+    let action;
+    if (this.state.user) {
+      action = <Prueba />;
+    } else {
+      action = <LoginScreen />;
+    }
+
+    return <div> {action} </div>;
   }
 }
 
