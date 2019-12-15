@@ -36,15 +36,15 @@ const StudentCard = ({ usuario }) => (
   </Card>
 );
 
-// StudentCard.propTypes = {
-//   index: PropTypes.number.isRequired,
-//   firstName: PropTypes.string.isRequired,
-//   lastName: PropTypes.string.isRequired,
-//   profileImg: PropTypes.string.isRequired,
-//   semester: PropTypes.number.isRequired,
-//   description: PropTypes.string.isRequired,
-//   major: PropTypes.string.isRequired,
-//   setStudent: PropTypes.func.isRequired
-// };
+StudentCard.propTypes = {
+  // index: PropTypes.number.isRequired,
+  firstName: PropTypes.string.isRequired,
+  lastName: PropTypes.string.isRequired,
+  profileImg: PropTypes.string.isRequired,
+  semester: PropTypes.number.isRequired,
+  description: PropTypes.string.isRequired,
+  major: PropTypes.string.isRequired,
+  setStudent: PropTypes.func.isRequired
+};
 
 export default StudentCard;
