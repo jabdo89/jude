@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import faker from 'faker';
 import DashboardLayout from '@layouts/dashboard';
@@ -25,45 +25,49 @@ for (let i = 0; i < 10; i++) {
   });
 }
 
-const Company = () => {
-  const [activeModal, toggleModal] = useState(false);
-  const [studentIndex, setStudentIndex] = useState(0);
-
-  const setStudent = index => {
-    setStudentIndex(index);
-    toggleModal(true);
+class Company extends Component {
+  state = {
+    activeModal: false,
+    studentIndex: 0
   };
 
-  return (
-    <DashboardLayout>
-      <Container>
-        {students.map(
-          ({ id, firstName, lastName, profileImg, semester, description, major }, index) => (
-            <StudentCard
-              index={index}
-              setStudent={setStudent}
-              key={id}
-              firstName={firstName}
-              lastName={lastName}
-              profileImg={profileImg}
-              semester={semester}
-              description={description}
-              major={major}
-            />
-          )
-        )}
-      </Container>
-      <Modal
-        size="large"
-        title={`${students[studentIndex].firstName} ${students[studentIndex].lastName}`}
-        active={activeModal}
-        closeButton={() => toggleModal(false)}
-      >
-        {studentIndex}
-      </Modal>
-    </DashboardLayout>
-  );
-};
+  setStudent = studentIndex => this.setState({ studentIndex, activeModal: true });
+
+  toggleModal = activeModal => this.setState({ activeModal });
+
+  render() {
+    const { activeModal, studentIndex } = this.state;
+    return (
+      <DashboardLayout>
+        <Container>
+          {students.map(
+            ({ id, firstName, lastName, profileImg, semester, description, major }, index) => (
+              <StudentCard
+                index={index}
+                setStudent={this.setStudent}
+                key={id}
+                firstName={firstName}
+                lastName={lastName}
+                profileImg={profileImg}
+                semester={semester}
+                description={description}
+                major={major}
+              />
+            )
+          )}
+        </Container>
+        <Modal
+          size="large"
+          title={`${students[studentIndex].firstName} ${students[studentIndex].lastName}`}
+          active={activeModal}
+          closeButton={() => this.toggleModal(false)}
+        >
+          {studentIndex}
+        </Modal>
+      </DashboardLayout>
+    );
+  }
+}
 
 const mapStateToProps = state => {
   return {
