@@ -1,16 +1,9 @@
-import React from "react";
-import PropTypes from "prop-types";
-import DefaultButton from "./elements";
-import propTypes from "@styled-system/prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
+import DefaultButton from './elements';
+import propTypes from '@styled-system/prop-types';
 
-const Button = ({
-  children,
-  color,
-  uppercase,
-  fullWidth,
-  disabled,
-  ...props
-}) => (
+const Button = ({ children, color, uppercase, fullWidth, disabled, ...props }) => (
   <DefaultButton
     children={children}
     color={color}
@@ -23,7 +16,7 @@ const Button = ({
 
 Button.defaultProps = {
   uppercase: true,
-  color: "default",
+  color: 'default',
   fullWidth: false,
   disabled: false
 };

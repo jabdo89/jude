@@ -1,6 +1,6 @@
-import styled from "styled-components";
-import { getStyle, getSize } from "./utils";
-import { space, typography } from "styled-system";
+import styled from 'styled-components';
+import { getStyle, getSize } from './utils';
+import { space, typography } from 'styled-system';
 
 const Button = styled.button`
   position: relative;
@@ -12,8 +12,8 @@ const Button = styled.button`
   align-items: center;
   justify-content: center;
   font-size: 12px;
-  width: ${({ width }) => (width ? width : "max-content")};
-  text-transform: ${({ uppercase }) => (uppercase ? "uppercase" : "initial")};
+  width: ${({ width }) => (width ? width : 'max-content')};
+  text-transform: ${({ uppercase }) => (uppercase ? 'uppercase' : 'initial')};
   letter-spacing: 1px;
 
   ${space}

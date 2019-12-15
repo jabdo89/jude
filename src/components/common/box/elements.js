@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { space, layout, color, typography, flexbox, grid } from "styled-system";
+import styled from 'styled-components';
+import { space, layout, color, typography, flexbox, grid } from 'styled-system';
 
 const Box = styled.div`
   ${space}
@@ -9,7 +9,7 @@ const Box = styled.div`
   ${flexbox}
   ${grid}
 
-  cursor: ${({ clickable }) => (clickable ? "pointer" : "initial")}
+  cursor: ${({ clickable }) => (clickable ? 'pointer' : 'initial')}
 `;
 
 export default Box;

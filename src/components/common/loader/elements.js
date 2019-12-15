@@ -1,5 +1,5 @@
-import styled, { keyframes } from "styled-components";
-import { space } from "styled-system";
+import styled, { keyframes } from 'styled-components';
+import { space } from 'styled-system';
 
 const ldsRing = keyframes`
   0% {
@@ -24,8 +24,7 @@ const LoaderWrapper = styled.div`
     border: 2px solid ${({ theme, color }) => theme.colors[color]};
     border-radius: 50%;
     animation: ${ldsRing} 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-    border-color: ${({ theme, color }) => theme.colors[color]} transparent
-      transparent transparent;
+    border-color: ${({ theme, color }) => theme.colors[color]} transparent transparent transparent;
   }
   & div:nth-child(1) {
     animation-delay: -0.45s;

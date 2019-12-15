@@ -1,12 +1,12 @@
-import { outlined, soft, link, normal } from "./button-styles";
+import { outlined, soft, link, normal } from './button-styles';
 
 const getStyle = ({ variant, theme, color }) => {
   switch (variant) {
-    case "outlined":
+    case 'outlined':
       return outlined(theme, color);
-    case "soft":
+    case 'soft':
       return soft(theme, color);
-    case "link":
+    case 'link':
       return link(theme, color);
     default:
       return normal(theme, color);
@@ -15,12 +15,12 @@ const getStyle = ({ variant, theme, color }) => {
 
 const getSize = ({ size }) => {
   switch (size) {
-    case "small":
-      return "padding: .425rem .5rem; font-size: 10px;";
-    case "large":
-      return "padding: .875rem 1.5rem";
+    case 'small':
+      return 'padding: .425rem .5rem; font-size: 10px;';
+    case 'large':
+      return 'padding: .875rem 1.5rem';
     default:
-      return "padding: .625rem 1.25rem";
+      return 'padding: .625rem 1.25rem';
   }
 };
 
