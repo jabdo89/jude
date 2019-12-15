@@ -12,9 +12,12 @@ class Prueba extends Component {
   render() {
     const { JobOffers } = this.props;
     const { profile } = this.props;
+    const {}
+    //aqui se ocuraa job offers
     console.log(JobOffers);
     return (
       <div>
+
         <button onClick={this.handleSubmit}>Log Out</button>
       </div>
     );
