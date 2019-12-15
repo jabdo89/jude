@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 import propTypes from '@styled-system/prop-types';
 import { ProfilePictureContainer, ProfilePictureImage } from './elements';
 
-const Avatar = ({ src, size, alt, borderColor, borderWidth, ...props }) => (
+const Avatar = ({ src, size, alt, borderColor, borderWidth, className, ...props }) => (
   <ProfilePictureContainer
     borderColor={borderColor}
     borderWidth={borderWidth}
+    className={className}
     size={size}
     {...props}
   >
@@ -18,7 +19,8 @@ Avatar.defaultProps = {
   size: 32,
   alt: '',
   borderColor: 'default',
-  borderWidth: '0'
+  borderWidth: '0',
+  className: ''
 };
 
 Avatar.propTypes = {
