@@ -1,9 +1,9 @@
-import { combineReducers } from "redux";
-import companyReducer from "./companyReducer.js";
-import studentReducer from "./studentReducer.js";
-import authReducer from "./authReducer.js";
-import { firestoreReducer } from "redux-firestore";
-import { firebaseReducer } from "react-redux-firebase";
+import { combineReducers } from 'redux';
+import { firestoreReducer } from 'redux-firestore';
+import { firebaseReducer } from 'react-redux-firebase';
+import companyReducer from './companyReducer';
+import studentReducer from './studentReducer';
+import authReducer from './authReducer';
 
 const allReducers = combineReducers({
   company: companyReducer,

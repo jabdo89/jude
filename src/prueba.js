@@ -1,25 +1,31 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { firestoreConnect } from "react-redux-firebase";
-import { compose } from "redux";
-import { signOut } from "./Actions/authActions";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { firestoreConnect } from 'react-redux-firebase';
+import { compose } from 'redux';
+import { signOut } from './Actions/authActions';
 
 class Prueba extends Component {
   handleSubmit = e => {
     e.preventDefault();
-    this.props.signOut();
+    const { signOut: localeSignout } = this.props;
+    localeSignout();
   };
+
   render() {
-    const { JobOffers } = this.props;
-    const { profile } = this.props;
-    console.log(JobOffers);
     return (
       <div>
-        <button onClick={this.handleSubmit}>Log Out</button>
+        <button type="button" onClick={this.handleSubmit}>
+          Log Out
+        </button>
       </div>
     );
   }
 }
+
+Prueba.propTypes = {
+  signOut: PropTypes.func.isRequired
+};
 
 const mapStateToProps = state => {
   return {
@@ -32,7 +38,8 @@ const mapDispatchToProps = dispatch => {
     signOut: () => dispatch(signOut())
   };
 };
+
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  firestoreConnect([{ collection: "JobOffers" }, { collection: "Usuarios" }])
+  firestoreConnect([{ collection: 'JobOffers' }, { collection: 'Usuarios' }])
 )(Prueba);

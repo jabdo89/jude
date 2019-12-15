@@ -5,11 +5,10 @@ export const signIn = newUser => {
       .auth()
       .signInWithEmailAndPassword(newUser.email, newUser.password)
       .then(() => {
-        dispatch({ type: "SIGNIN_SUCCESS" });
+        dispatch({ type: 'SIGNIN_SUCCESS' });
       })
       .catch(error => {
-        console.log("it worked");
-        dispatch({ type: "SIGNIN_ERROR", error });
+        dispatch({ type: 'SIGNIN_ERROR', error });
       });
   };
 };
