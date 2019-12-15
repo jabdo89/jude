@@ -38,13 +38,16 @@ const StudentCard = ({ usuario }) => (
 
 StudentCard.propTypes = {
   // index: PropTypes.number.isRequired,
-  firstName: PropTypes.string.isRequired,
-  lastName: PropTypes.string.isRequired,
-  profileImg: PropTypes.string.isRequired,
-  semester: PropTypes.number.isRequired,
-  description: PropTypes.string.isRequired,
-  major: PropTypes.string.isRequired,
-  setStudent: PropTypes.func.isRequired
+  usuario: PropTypes.shape({
+    firstName: PropTypes.string.isRequired,
+    lastName: PropTypes.string.isRequired,
+    profileImg: PropTypes.string,
+    semester: PropTypes.number.isRequired,
+    description: PropTypes.string.isRequired,
+    major: PropTypes.string.isRequired
+  }).isRequired
+
+  // setStudent: PropTypes.func.isRequired
 };
 
 export default StudentCard;

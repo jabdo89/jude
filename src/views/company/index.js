@@ -38,7 +38,7 @@ class Company extends Component {
   render() {
     const { activeModal, studentIndex } = this.state;
     const { Usuarios } = this.props;
-    console.log(Usuarios);
+
     return (
       <DashboardLayout>
         <Container>
@@ -59,7 +59,6 @@ class Company extends Component {
           )} */}
           {Usuarios &&
             Usuarios.map(usuario => {
-              console.log(usuario);
               return <StudentCard usuario={usuario} key={usuario.id} />;
             })}
         </Container>
