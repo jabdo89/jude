@@ -3,13 +3,13 @@ import media from './media';
 // Every brand color should be defined by Abdo :)
 // This include grays. This config is just a proposal
 const brand = {
-  primary: '#2EAFD9',
-  secondary: '#8265FC',
+  primary: '#26738C',
+  secondary: '#2EAFD9',
   info: '#30CEE7',
   default: '#1F262D',
   success: '#00E18D',
   warning: '#FFAB00',
-  danger: '#FF4F64'
+  danger: '#F5365C'
 };
 
 const softColors = {};
@@ -39,7 +39,7 @@ const theme = {
   font: 'Montserrat, system-ui, sans-serif',
   shadow: '0 0 2rem 0 rgba(136, 152, 170, 0.15)',
   shadowHover: '0 0 4rem 0 rgba(136, 152, 170, 0.3)',
-  radius: '.1rem',
+  radius: '1rem',
   maxWidth: '1170px',
   colors,
   softColors,

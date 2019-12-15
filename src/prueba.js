@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
-import { signOut } from './Actions/authActions';
+import { signOut } from '@actions/authActions';
 
 class Prueba extends Component {
   handleSubmit = e => {

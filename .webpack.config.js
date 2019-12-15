@@ -1,0 +1,9 @@
+const path = require('path');
+
+module.exports = config => {
+  config.resolve.alias['@'] = path.join(__dirname, './src');
+  config.resolve.alias['@common'] = path.join(__dirname, './src/components/common');
+  config.resolve.alias['@actions'] = path.join(__dirname, './src/redux/Actions');
+  config.resolve.alias['@reducers'] = path.join(__dirname, './src/redux/Reducers');
+  return config;
+};

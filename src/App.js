@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { Fragment, Component } from 'react';
 import firebase from 'firebase';
 import Prueba from './prueba';
-import LoginScreen from './LoginScreen';
+import LoginScreen from './views/login';
 
 class App extends Component {
   state = {
@@ -31,7 +31,7 @@ class App extends Component {
       action = <LoginScreen />;
     }
 
-    return <div> {action} </div>;
+    return <Fragment> {action} </Fragment>;
   }
 }
 
