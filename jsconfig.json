@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@layouts": ["src/components/layouts"],
+      "@common": ["src/components/common"],
+      "@actions": ["src/redux/Actions"],
+      "@reducres": ["src/redux/Reducers"]
+    }
+  }
+}

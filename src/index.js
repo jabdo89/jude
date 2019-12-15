@@ -1,65 +1,15 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import App from "./App";
-import firebase from "firebase";
-import * as serviceWorker from "./serviceWorker";
-import { Provider } from "react-redux";
-import { createStore, applyMiddleware, compose } from "redux";
-import allReducers from "./Reducers/allReducers";
-import thunk from "redux-thunk";
-import { ReactReduxFirebaseProvider, getFirestore } from "react-redux-firebase";
-import { createFirestoreInstance } from "redux-firestore";
-import { getFirebase } from "react-redux-firebase";
-import { useSelector } from "react-redux";
-import { isLoaded } from "react-redux-firebase";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyBWlMrr8wurY04dALTgZ7QGpCgkwJpbeOE",
-  authDomain: "jude-8cd07.firebaseapp.com",
-  databaseURL: "https://jude-8cd07.firebaseio.com",
-  projectId: "jude-8cd07",
-  storageBucket: "jude-8cd07.appspot.com",
-  messagingSenderId: "686559516875",
-  appId: "1:686559516875:web:b9eec0528716316db0a34e",
-  measurementId: "G-5ZQ7E1R0CV"
-};
-
-function AuthIsLoaded({ children }) {
-  const auth = useSelector(state => state.firebase.auth);
-  if (!isLoaded(auth)) return <div></div>;
-  return children;
-}
-
-const middlewares = [thunk.withExtraArgument(getFirebase, getFirestore)];
-
-const store = createStore(
-  allReducers,
-  compose(applyMiddleware(...middlewares))
-);
-
-firebase.initializeApp(firebaseConfig);
-firebase.firestore();
-
-const rrfConfig = {
-  userProfile: "Usuarios",
-  useFirestoreForProfile: true
-};
-
-const rrfProps = {
-  firebase,
-  config: rrfConfig,
-  dispatch: store.dispatch,
-  createFirestoreInstance
-};
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { ThemeProvider } from 'styled-components';
+import theme from './theme';
+import App from './App';
+import ReduxWrapper from './redux';
 
 ReactDOM.render(
-  <Provider store={store}>
-    <ReactReduxFirebaseProvider {...rrfProps}>
-      <AuthIsLoaded>
-        <App />
-      </AuthIsLoaded>
-    </ReactReduxFirebaseProvider>
-  </Provider>,
-  document.getElementById("root")
+  <ReduxWrapper>
+    <ThemeProvider theme={theme}>
+      <App />
+    </ThemeProvider>
+  </ReduxWrapper>,
+  document.getElementById('root')
 );
-serviceWorker.unregister();

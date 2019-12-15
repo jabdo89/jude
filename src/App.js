@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import firebase from "firebase";
-import Prueba from "./prueba.js";
-import LoginScreen from "./LoginScreen.js";
+import React, { Fragment, Component } from 'react';
+import firebase from 'firebase';
+import LoginScreen from './views/login';
+import Company from './views/company';
 
 class App extends Component {
   state = {
@@ -15,24 +15,23 @@ class App extends Component {
   authListener() {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
-        console.log(user);
-        console.log("hey");
         this.setState({ user });
       } else {
         this.setState({ user: null });
       }
     });
   }
+
   render() {
-    console.log(this.state.user);
     let action;
-    if (this.state.user) {
-      action = <Prueba />;
+    const { user } = this.state;
+    if (user) {
+      action = <Company />;
     } else {
       action = <LoginScreen />;
     }
 
-    return <div> {action} </div>;
+    return <Fragment> {action} </Fragment>;
   }
 }
 
