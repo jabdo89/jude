@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { FiMenu, FiBell } from 'react-icons/fi';
+import Typography from '@common/typography';
 import {
   Container,
   Routes,
@@ -27,6 +28,9 @@ class Navbar extends Component {
       <Fragment>
         <Container shrink={false}>
           <Content>
+            <Typography marginRight="auto" variant="leadText" color="primary">
+              Students
+            </Typography>
             <Routes>
               <Route active fontSize="11px">
                 Home

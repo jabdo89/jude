@@ -58,6 +58,10 @@ const Break = styled.div`
 
 const Avatar = styled(CommonAvatar)`
   margin-right: 10px;
+
+  ${props => props.theme.media.tablet`
+    margin-right: 0;
+  `}
 `;
 
 export { Profile, Name, Text, DownIcon, Break, Avatar };

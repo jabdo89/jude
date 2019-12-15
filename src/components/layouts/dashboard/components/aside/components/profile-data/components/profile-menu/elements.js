@@ -47,7 +47,7 @@ const Content = styled.div`
   z-index: 300;
   background: ${props => props.theme.colors.lighter};
   box-shadow: 0 0 2rem 0 rgba(136, 152, 170, 0.15);
-  border-radius: 0.1rem;
+  border-radius: ${({ theme }) => theme.smallRadius};
   left: 200px;
   bottom: 0;
   overflow: hidden;

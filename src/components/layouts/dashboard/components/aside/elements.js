@@ -7,7 +7,7 @@ const Container = styled.div`
   position: fixed;
   left: 0;
   bottom: 0;
-  z-index: 0;
+  z-index: 1;
   background: ${props => props.theme.colors.default};
   overflow-y: scroll;
   ::-webkit-scrollbar {

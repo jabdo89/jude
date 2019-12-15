@@ -14,6 +14,7 @@ const Content = styled.div`
   display: flex;
   justify-content: flex-end;
   width: 100%;
+  align-items: center;
 `;
 
 const Routes = styled.div`
