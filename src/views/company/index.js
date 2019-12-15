@@ -37,10 +37,12 @@ class Company extends Component {
 
   render() {
     const { activeModal, studentIndex } = this.state;
+    const { Usuarios } = this.props;
+    console.log(Usuarios);
     return (
       <DashboardLayout>
         <Container>
-          {students.map(
+          {/* {students.map(
             ({ id, firstName, lastName, profileImg, semester, description, major }, index) => (
               <StudentCard
                 index={index}
@@ -54,7 +56,12 @@ class Company extends Component {
                 major={major}
               />
             )
-          )}
+          )} */}
+          {Usuarios &&
+            Usuarios.map(usuario => {
+              console.log(usuario);
+              return <StudentCard usuario={usuario} key={usuario.id} />;
+            })}
         </Container>
         <Modal
           size="large"
@@ -71,7 +78,7 @@ class Company extends Component {
 
 const mapStateToProps = state => {
   return {
-    JobOffers: state.firestore.ordered.JobOffers,
+    Usuarios: state.firestore.ordered.Usuarios,
     profile: state.firebase.profile
   };
 };
