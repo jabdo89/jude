@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import { getStyle, getSize } from './utils';
 import { space, typography } from 'styled-system';
+import { getStyle, getSize } from './utils';
 
 const Button = styled.button`
   position: relative;

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import LoaderWrapper from './elements';
 import propTypes from '@styled-system/prop-types';
+import LoaderWrapper from './elements';
 import Box from '../box';
 
 const Loader = ({ size, alignSelf, className, color, ...props }) => (

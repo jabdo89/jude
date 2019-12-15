@@ -1,7 +1,7 @@
 import React from 'react';
+import propTypes from '@styled-system/prop-types';
 import PropTypes from 'prop-types';
 import StyledBox from './elements';
-import propTypes from '@styled-system/prop-types';
 
 const Box = ({ clickable, ...props }) => <StyledBox clickable={clickable} {...props} />;
 
