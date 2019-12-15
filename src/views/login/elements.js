@@ -68,13 +68,13 @@ const Form = styled.form`
   justify-content: center;
   padding: 10%;
 
-  ${({ theme }) => theme.media.phone`
+  ${({ theme }) => theme.media.tablet`
     margin-left: 0;
   `}
 `;
 
 const LeftContainer = styled.div`
-  ${({ theme }) => theme.media.phone`
+  ${({ theme }) => theme.media.tablet`
     display: none;
   `}
 `;

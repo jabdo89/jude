@@ -50,23 +50,23 @@ class Login extends Component {
           <ConnectingWord color="lighter">Connect Students With Companies</ConnectingWord>
           <WelcomeWord color="lighter">WELCOME BACK!</WelcomeWord>
           <EnterWord color="lighter">Enter your Email and Password to continue</EnterWord>
-          <LogoBig src="/static/img/login/jude_logo.png" alt="logo" />
+          <LogoBig src="/static/img/brand/jude_logo.png" alt="logo" />
         </LeftContainer>
         <LogoContainer>
-          <LogoMain src="/static/img/login/jude_logo.png" alt="logo" />
+          <LogoMain src="/static/img/brand/jude_logo.png" alt="logo" />
           <UDEWord color="primary">UDE</UDEWord>
         </LogoContainer>
         <Form onSubmit={this.handleSubmit}>
           <Typography variant="headingTitle" textAlign="center">
             SIGN IN
           </Typography>
-
           <Typography mb={30} textAlign="center">
             TO ACCESS THE PORTAL
           </Typography>
           <Input
             leftIcon={<FaRegUserCircle />}
-            placeholder="Enter Email Here"
+            placeholder="Enter email here"
+            label="Email"
             value={email}
             onChange={this.handleChange}
             name="email"
@@ -74,7 +74,8 @@ class Login extends Component {
           <Input
             leftIcon={<FaKey />}
             type="password"
-            placeholder="Enter Password "
+            placeholder="Enter password here"
+            label="Password"
             value={password}
             onChange={this.handleChange}
             name="password"

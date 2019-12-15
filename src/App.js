@@ -1,7 +1,7 @@
 import React, { Fragment, Component } from 'react';
 import firebase from 'firebase';
-import Prueba from './prueba';
 import LoginScreen from './views/login';
+import Company from './views/company';
 
 class App extends Component {
   state = {
@@ -26,7 +26,7 @@ class App extends Component {
     let action;
     const { user } = this.state;
     if (user) {
-      action = <Prueba />;
+      action = <Company />;
     } else {
       action = <LoginScreen />;
     }
