@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import firebase from 'firebase';
 import { Provider, useSelector } from 'react-redux';
+import { ThemeProvider } from 'styled-components';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import {
@@ -11,7 +12,7 @@ import {
   isLoaded
 } from 'react-redux-firebase';
 import { createFirestoreInstance } from 'redux-firestore';
-
+import theme from './theme';
 import allReducers from './Reducers/allReducers';
 import App from './App';
 
@@ -54,9 +55,11 @@ const rrfProps = {
 ReactDOM.render(
   <Provider store={store}>
     <ReactReduxFirebaseProvider {...rrfProps}>
-      <AuthIsLoaded>
-        <App />
-      </AuthIsLoaded>
+      <ThemeProvider theme={theme}>
+        <AuthIsLoaded>
+          <App />
+        </AuthIsLoaded>
+      </ThemeProvider>
     </ReactReduxFirebaseProvider>
   </Provider>,
   document.getElementById('root')
