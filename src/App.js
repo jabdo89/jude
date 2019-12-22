@@ -1,5 +1,6 @@
-import React, { Fragment, Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import firebase from 'firebase';
+import { Router, Redirect } from '@reach/router';
 import LoginScreen from './views/login';
 import Company from './views/company';
 
@@ -23,15 +24,33 @@ class App extends Component {
   }
 
   render() {
-    let action;
     const { user } = this.state;
-    if (user) {
-      action = <Company />;
-    } else {
-      action = <LoginScreen />;
+    // REQUIRED: Define a criteria to show company, admin or student layout
+
+    const isStudent = false;
+    const isCompany = Boolean(user);
+    const isAdmin = false;
+
+    if (isCompany /* COMPANY CRITERIA */) {
+      return <Company />;
     }
 
-    return <Fragment> {action} </Fragment>;
+    if (isStudent /* STUDENT CRITERIA */) {
+      // Fill in the future with student router
+      return <Fragment />;
+    }
+
+    if (isAdmin /* STUDENT CRITERIA */) {
+      // Fill in the future with admin router
+      return <Fragment />;
+    }
+
+    return (
+      <Router>
+        <LoginScreen path="/login" />
+        <Redirect noThrow from="*" to="/login" />
+      </Router>
+    );
   }
 }
 
