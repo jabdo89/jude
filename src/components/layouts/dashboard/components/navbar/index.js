@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { FiMenu, FiBell } from 'react-icons/fi';
+import { Location } from '@reach/router';
 import Typography from '@common/typography';
 import {
   Container,
@@ -25,28 +26,32 @@ class Navbar extends Component {
   render() {
     const { isMenuOpen } = this.state;
     return (
-      <Fragment>
-        <Container shrink={false}>
-          <Content>
-            <Typography marginRight="auto" variant="leadText" color="primary">
-              Students
-            </Typography>
-            <Routes>
-              <Route active fontSize="11px">
-                Home
-              </Route>
-            </Routes>
-            <Divider />
-            <NotificationButton>
-              <FiBell />
-            </NotificationButton>
-            <MenuButton onClick={this.toggleMenu}>
-              <FiMenu />
-            </MenuButton>
-          </Content>
-        </Container>
-        <ResponsiveMenu active={isMenuOpen} closeModal={this.toggleMenu} />
-      </Fragment>
+      <Location>
+        {({ location: { pathname } }) => (
+          <Fragment>
+            <Container shrink={false}>
+              <Content>
+                <Typography capitalize marginRight="auto" variant="leadText" color="primary">
+                  {pathname.split('/')[1]}
+                </Typography>
+                <Routes>
+                  <Route active fontSize="11px">
+                    Home
+                  </Route>
+                </Routes>
+                <Divider />
+                <NotificationButton>
+                  <FiBell />
+                </NotificationButton>
+                <MenuButton onClick={this.toggleMenu}>
+                  <FiMenu />
+                </MenuButton>
+              </Content>
+            </Container>
+            <ResponsiveMenu active={isMenuOpen} closeModal={this.toggleMenu} />
+          </Fragment>
+        )}
+      </Location>
     );
   }
 }
