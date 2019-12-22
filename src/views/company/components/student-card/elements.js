@@ -16,7 +16,7 @@ const BookIcon = styled(FiBookOpen)`
 
 const CardTop = styled.div`
   height: 55px;
-  background-color: ${({ theme }) => theme.colors.secondary};
+  background-color: ${({ theme }) => theme.colors.primary};
   display: flex;
   align-items: center;
   cursor: pointer;

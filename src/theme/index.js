@@ -3,8 +3,8 @@ import media from './media';
 // Every brand color should be defined by Abdo :)
 // This include grays. This config is just a proposal
 const brand = {
-  primary: '#26738C',
-  secondary: '#2EAFD9',
+  secondary: '#FFA90B',
+  primary: '#2EAFD9',
   info: '#30CEE7',
   default: '#1F262D',
   success: '#00E18D',

@@ -7,7 +7,8 @@ import Modal from '@common/modal';
 import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
 import Container from './elements';
-import StudentCard from './components/student-card/index';
+import StudentCard from './components/student-card';
+import FilterBar from './components/filter-bar';
 
 faker.locale = 'es_MX';
 
@@ -27,15 +28,21 @@ class Company extends Component {
 
     return (
       <DashboardLayout>
+        <FilterBar />
         <Container>
           {Usuarios &&
             Usuarios.map((usuario, index) => (
-              <StudentCard setStudent={this.setStudent} index={index} usuario={usuario} />
+              <StudentCard
+                key={usuario.id}
+                setStudent={this.setStudent}
+                index={index}
+                usuario={usuario}
+              />
             ))}
         </Container>
         <Modal
           size="large"
-          title={`${Usuarios[studentIndex].firstsName} ${Usuarios[studentIndex].lastName}`}
+          title={`${Usuarios[studentIndex].firstName} ${Usuarios[studentIndex].lastName}`}
           active={activeModal}
           closeButton={() => this.toggleModal(false)}
         >
@@ -47,8 +54,7 @@ class Company extends Component {
 }
 
 Company.defaultProps = {
-  // eslint-disable-next-line no-array-constructor
-  Usuarios: new Array(10, '').map(() => ({
+  Usuarios: new Array(10).fill().map(() => ({
     id: faker.random.uuid(),
     firstName: faker.name.firstName(),
     lastName: faker.name.lastName(),
@@ -66,7 +72,8 @@ Company.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    Usuarios: state.firestore.ordered.Usuarios,
+    // Usuarios: state.firestore.ordered.Usuarios,
+    Usuarios: undefined,
     profile: state.firebase.profile
   };
 };

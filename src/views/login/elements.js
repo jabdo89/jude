@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import Typography from '@common/typography';
+import CommonInput from '@common/input';
 
 const Background = styled.img`
   position: absolute;
@@ -87,6 +88,17 @@ const LogoContainer = styled.div`
   align-items: center;
 `;
 
+const Input = styled(CommonInput)`
+  input {
+    padding: 1rem 0.75rem !important;
+    padding-left: 2.825rem !important;
+  }
+
+  svg {
+    margin-left: 0.325rem;
+  }
+`;
+
 export {
   Background,
   TargetIcon,
@@ -98,5 +110,6 @@ export {
   UDEWord,
   Form,
   LeftContainer,
-  LogoContainer
+  LogoContainer,
+  Input
 };

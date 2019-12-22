@@ -3,9 +3,9 @@ const getWidth = size => {
     case 'small':
       return '400px';
     case 'large':
-      return '600px';
+      return '800px';
     default:
-      return '500px';
+      return '600px';
   }
 };
 

@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { space } from 'styled-system';
+import getOptionsButtonTop from './utils';
 
 const Container = styled.div`
   position: relative;
@@ -30,34 +31,34 @@ const Message = styled.div`
   ${({ theme, error }) => error && `color: ${theme.colors.danger} !important;`};
 `;
 
-const PseudoInput = styled.input`
+const PseudoSelect = styled.select`
   background-color: ${({ theme }) => theme.colors.lighter};
   font-size: 0.875rem;
   border-radius: ${({ theme }) => theme.radius};
   flex-grow: 1;
   width: 100%;
   border: 1px solid ${({ theme }) => theme.colors.lightGrey};
-  padding: 0.625rem 0.75rem;
+  padding: 0.625rem 1.5rem 0.625rem 0.75rem;
   -webkit-appearance: initial;
   -moz-appearance: initial;
   appearance: initial;
-  transition: all .45s ease;
+  transition: all 0.45s ease;
 
   ::placeholder {
     color: ${({ theme }) => theme.colors.lightGrey};
   }
 
-  ${({ theme, disabled }) =>
+  ${({ disabled, theme }) =>
     disabled &&
     `
     background-color: ${theme.colors.light};
   `}
 
-  ${({ align }) =>
-    align &&
+  ${({ value }) =>
+    !value &&
     `
-    text-align: ${align}
-  `}
+    color: #808080;
+  `};
 
   ${({ leftIcon }) =>
     leftIcon &&
@@ -86,20 +87,13 @@ const PseudoInput = styled.input`
     border: 1px solid ${({ theme }) => theme.colors.primary};
     box-shadow: 0 0 0 0.1rem ${({ theme }) => theme.colors.primary}33;
   }
-
-  ${({ theme }) => theme.media.phone`
-    width: auto;
-  `};
 `;
 
 const LeftIconContainer = styled.div`
   position: absolute;
   display: block;
   left: 0;
-  display: flex;
-  align-items: center;
-  height: 100%;
-  padding: 0.825rem 0.75rem;
+  padding: 0.675rem 0.75rem;
   color: ${({ theme }) => theme.colors.lightDark};
   font-size: 16px;
 
@@ -130,7 +124,23 @@ const LeftIconContainer = styled.div`
 `};
 `;
 
-const InputGroup = styled.div`
+const OptionsButton = styled.div`
+  svg {
+    top: ${getOptionsButtonTop};
+    right: 5px;
+    color: transparent;
+    stroke: rgba(0, 0, 0, 0.54);
+    position: absolute;
+    pointer-events: none;
+    fill: currentColor;
+    width: 1em;
+    height: 1em;
+    display: inline-block;
+    font-size: 18px;
+  }
+`;
+
+const SelectGroup = styled.div`
   display: flex;
 `;
 
@@ -141,7 +151,7 @@ const Prefix = styled.span`
   border-top-left-radius: 5px;
   color: ${({ theme }) => theme.colors.lightGrey};
   border-bottom-left-radius: 5px;
-  border: 1px solid ${({ theme }) => theme.colors.lightGrey};
+  border: 1px solid ${({ theme }) => theme.colors.veryLightGrey};
   border-right: none;
   padding: 0.625rem 0.75rem;
   transition: all 0.45s ease;
@@ -153,4 +163,13 @@ const Prefix = styled.span`
     `};
 `;
 
-export { Container, PseudoInput, Label, Message, LeftIconContainer, InputGroup, Prefix };
+export {
+  Container,
+  Label,
+  Message,
+  LeftIconContainer,
+  PseudoSelect,
+  OptionsButton,
+  SelectGroup,
+  Prefix
+};

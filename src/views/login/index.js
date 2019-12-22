@@ -5,7 +5,6 @@ import { signIn } from '@actions/authActions';
 import Typography from '@common/typography';
 import Button from '@common/button';
 import { FaRegUserCircle, FaKey } from 'react-icons/fa';
-import Input from '@common/input';
 import {
   Background,
   TargetIcon,
@@ -17,7 +16,8 @@ import {
   UDEWord,
   Form,
   LeftContainer,
-  LogoContainer
+  LogoContainer,
+  Input
 } from './elements';
 
 class Login extends Component {
