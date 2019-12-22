@@ -66,16 +66,15 @@ class Login extends Component {
           <Input
             leftIcon={<FaRegUserCircle />}
             placeholder="Enter email here"
-            label="Email"
             value={email}
             onChange={this.handleChange}
             name="email"
+            mb={10}
           />
           <Input
             leftIcon={<FaKey />}
             type="password"
             placeholder="Enter password here"
-            label="Password"
             value={password}
             onChange={this.handleChange}
             name="password"

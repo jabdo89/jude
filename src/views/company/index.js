@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import faker from 'faker';
 import DashboardLayout from '@layouts/dashboard';
@@ -9,21 +10,6 @@ import Container from './elements';
 import StudentCard from './components/student-card/index';
 
 faker.locale = 'es_MX';
-
-// This should be populated with the students real model
-const students = [];
-for (let i = 0; i < 10; i++) {
-  students.push({
-    id: faker.random.uuid(),
-    firstName: faker.name.firstName(),
-    lastName: faker.name.lastName(),
-    profileImg: faker.image.avatar(),
-    semester: Math.round(Math.random() * 9) + 1,
-    description: faker.lorem.paragraph(),
-    major: Math.random() > 0.5 ? 'ITC' : 'INT',
-    resume: 'https://writing.colostate.edu/guides/documents/resume/functionalSample.pdf'
-  });
-}
 
 class Company extends Component {
   state = {
@@ -42,29 +28,14 @@ class Company extends Component {
     return (
       <DashboardLayout>
         <Container>
-          {/* {students.map(
-            ({ id, firstName, lastName, profileImg, semester, description, major }, index) => (
-              <StudentCard
-                index={index}
-                setStudent={this.setStudent}
-                key={id}
-                firstName={firstName}
-                lastName={lastName}
-                profileImg={profileImg}
-                semester={semester}
-                description={description}
-                major={major}
-              />
-            )
-          )} */}
           {Usuarios &&
-            Usuarios.map(usuario => {
-              return <StudentCard usuario={usuario} key={usuario.id} />;
-            })}
+            Usuarios.map((usuario, index) => (
+              <StudentCard setStudent={this.setStudent} index={index} usuario={usuario} />
+            ))}
         </Container>
         <Modal
           size="large"
-          title={`${students[studentIndex].firstName} ${students[studentIndex].lastName}`}
+          title={`${Usuarios[studentIndex].firstsName} ${Usuarios[studentIndex].lastName}`}
           active={activeModal}
           closeButton={() => this.toggleModal(false)}
         >
@@ -74,6 +45,24 @@ class Company extends Component {
     );
   }
 }
+
+Company.defaultProps = {
+  // eslint-disable-next-line no-array-constructor
+  Usuarios: new Array(10, '').map(() => ({
+    id: faker.random.uuid(),
+    firstName: faker.name.firstName(),
+    lastName: faker.name.lastName(),
+    profileImg: faker.image.avatar(),
+    semester: Math.round(Math.random() * 9) + 1,
+    description: faker.lorem.paragraph(),
+    major: Math.random() > 0.5 ? 'ITC' : 'INT',
+    resume: 'https://writing.colostate.edu/guides/documents/resume/functionalSample.pdf'
+  }))
+};
+
+Company.propTypes = {
+  Usuarios: PropTypes.arrayOf(PropTypes.object)
+};
 
 const mapStateToProps = state => {
   return {

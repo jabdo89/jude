@@ -37,7 +37,7 @@ const PseudoInput = styled.input`
   flex-grow: 1;
   width: 100%;
   border: 1px solid ${({ theme }) => theme.colors.lightGrey};
-  padding: 0.625rem 0.75rem;
+  padding: 1rem 0.75rem;
   -webkit-appearance: initial;
   -moz-appearance: initial;
   appearance: initial;
@@ -62,7 +62,7 @@ const PseudoInput = styled.input`
   ${({ leftIcon }) =>
     leftIcon &&
     `
-    padding-left: 2.5rem;
+    padding-left: 2.825rem;
     `};
 
   ${({ prefix }) =>
@@ -94,8 +94,11 @@ const PseudoInput = styled.input`
 const LeftIconContainer = styled.div`
   position: absolute;
   display: block;
-  left: 0;
-  padding: 0.675rem 0.75rem;
+  left: 0.325rem;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 0.825rem 0.75rem;
   color: ${({ theme }) => theme.colors.lightDark};
   font-size: 16px;
 

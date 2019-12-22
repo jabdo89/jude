@@ -27,4 +27,9 @@ const Divider = styled.hr`
   border: 0.5px solid ${({ theme }) => theme.colors.lightGrey};
 `;
 
-export { Card, BookIcon, CardTop, Divider };
+const DescriptionContainer = styled.div`
+  overflow-x: auto;
+  word-break: break-all;
+`;
+
+export { Card, BookIcon, CardTop, Divider, DescriptionContainer };

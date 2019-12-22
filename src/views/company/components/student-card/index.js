@@ -4,13 +4,12 @@ import { CardBody } from '@common/card';
 import Avatar from '@common/avatar';
 import Box from '@common/box';
 import Typography from '@common/typography';
-import { Card, BookIcon, CardTop, Divider } from './elements';
+import { Card, BookIcon, CardTop, Divider, DescriptionContainer } from './elements';
 
 const trimText = text => `${text.slice(0, 200)}...`;
 
-const StudentCard = ({ usuario }) => (
-  // <Card onClick={() => setStudent(index)}>
-  <Card>
+const StudentCard = ({ usuario, setStudent, index }) => (
+  <Card onClick={() => setStudent(index)}>
     <CardTop>
       <CardBody>
         <Box alignItems="center" display="flex">
@@ -30,14 +29,15 @@ const StudentCard = ({ usuario }) => (
         </Box>
       </Box>
       <Divider />
-      <Typography variant="muted">{trimText(usuario.description)}</Typography>
-      {/* <Typography variant="muted">{usuario.description}</Typography> */}
+      <DescriptionContainer>
+        <Typography variant="muted">{trimText(usuario.description)}</Typography>
+      </DescriptionContainer>
     </CardBody>
   </Card>
 );
 
 StudentCard.propTypes = {
-  // index: PropTypes.number.isRequired,
+  index: PropTypes.number.isRequired,
   usuario: PropTypes.shape({
     firstName: PropTypes.string.isRequired,
     lastName: PropTypes.string.isRequired,
@@ -45,9 +45,8 @@ StudentCard.propTypes = {
     semester: PropTypes.number.isRequired,
     description: PropTypes.string.isRequired,
     major: PropTypes.string.isRequired
-  }).isRequired
-
-  // setStudent: PropTypes.func.isRequired
+  }).isRequired,
+  setStudent: PropTypes.func.isRequired
 };
 
 export default StudentCard;

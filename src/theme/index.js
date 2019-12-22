@@ -39,7 +39,7 @@ const theme = {
   font: 'Montserrat, system-ui, sans-serif',
   shadow: '0 0 2rem 0 rgba(136, 152, 170, 0.15)',
   shadowHover: '0 0 4rem 0 rgba(136, 152, 170, 0.3)',
-  radius: '1rem',
+  radius: '1.5rem',
   smallRadius: '0.25rem',
   maxWidth: '1170px',
   colors,
