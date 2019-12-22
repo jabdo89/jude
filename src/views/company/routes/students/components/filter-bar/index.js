@@ -1,8 +1,7 @@
 import React from 'react';
 import { FiSearch } from 'react-icons/fi';
-import Box from '@common/box';
 import Typography from '@common/typography';
-import { Container, Input, Select, Divider } from './elements';
+import { Container, Input, Select, Divider, FilterContainer } from './elements';
 
 const FilterBar = () => (
   <Container>
@@ -14,7 +13,7 @@ const FilterBar = () => (
       leftIcon={<FiSearch />}
       placeholder="Buscar"
     />
-    <Box display="flex" alignItems="center">
+    <FilterContainer>
       <Typography variant="muted">Semester</Typography>
       <Select
         value=""
@@ -34,9 +33,9 @@ const FilterBar = () => (
         <option value="9">9º</option>
         <option value="10">10º</option>
       </Select>
-    </Box>
+    </FilterContainer>
     <Divider />
-    <Box display="flex" alignItems="center">
+    <FilterContainer>
       <Typography variant="muted">Major</Typography>
       <Select
         value=""
@@ -48,7 +47,7 @@ const FilterBar = () => (
         <option value="ITC">ITC</option>
         <option value="INT">INT</option>
       </Select>
-    </Box>
+    </FilterContainer>
   </Container>
 );
 

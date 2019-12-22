@@ -8,29 +8,29 @@ import { Card, BookIcon, CardTop, Divider, DescriptionContainer } from './elemen
 
 const trimText = text => `${text.slice(0, 200)}...`;
 
-const StudentCard = ({ usuario, setStudent, index }) => (
+const StudentCard = ({ user, setStudent, index }) => (
   <Card onClick={() => setStudent(index)}>
     <CardTop>
       <CardBody>
         <Box alignItems="center" display="flex">
           <BookIcon />
           <Typography ml={10} variant="heading" color="lighter">
-            {usuario.major}
+            {user.major}
           </Typography>
         </Box>
       </CardBody>
     </CardTop>
     <CardBody>
       <Box display="flex">
-        <Avatar mr={10} size={60} src={usuario.profileImg} />
+        <Avatar mr={10} size={60} src={user.profileImg} />
         <Box display="flex" flexDirection="column" justifyContent="center">
-          <Typography variant="heading">{`${usuario.firstName} ${usuario.lastName}`}</Typography>
-          <Typography variant="muted">{usuario.semester}º semester</Typography>
+          <Typography variant="heading">{`${user.firstName} ${user.lastName}`}</Typography>
+          <Typography variant="muted">{user.semester}º semester</Typography>
         </Box>
       </Box>
       <Divider />
       <DescriptionContainer>
-        <Typography variant="muted">{trimText(usuario.description)}</Typography>
+        <Typography variant="muted">{trimText(user.description)}</Typography>
       </DescriptionContainer>
     </CardBody>
   </Card>
@@ -38,7 +38,7 @@ const StudentCard = ({ usuario, setStudent, index }) => (
 
 StudentCard.propTypes = {
   index: PropTypes.number.isRequired,
-  usuario: PropTypes.shape({
+  user: PropTypes.shape({
     firstName: PropTypes.string.isRequired,
     lastName: PropTypes.string.isRequired,
     profileImg: PropTypes.string,
