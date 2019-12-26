@@ -10,6 +10,7 @@ const Container = styled.div`
 
   ${props => props.theme.media.phone`
     flex-direction: column;
+    align-items: flex-start;
   `}
 `;
 
@@ -32,8 +33,8 @@ const Input = styled(CommonInput)`
     font-size: 12px;
   }
 
-  ${props => props.theme.media.desktop`
-    width: 100% !important;
+  ${props => props.theme.media.phone`
+    width: 100%;
   `};
 
   &:focus-within {
@@ -52,10 +53,14 @@ const Select = styled(CommonSelect)`
     background-color: transparent;
   }
 
+  ${props => props.theme.media.phone`
+    flex-grow: 1;
+  `};
+
   &:focus-within {
     select {
       border: none;
-      box-shadow: none;
+      box-shadow: initial;
     }
   }
 `;
@@ -64,6 +69,18 @@ const Divider = styled.div`
   margin: 0 10px;
   height: 19px;
   border: thin solid ${props => props.theme.colors.lightGrey};
+  ${props => props.theme.media.phone`
+    display: none;
+  `}
 `;
 
-export { Input, Container, Select, Divider };
+const FilterContainer = styled.div`
+  display: flex;
+  align-items: center;
+
+  ${props => props.theme.media.phone`
+    width: 100%;
+  `};
+`;
+
+export { Input, Container, Select, Divider, FilterContainer };
