@@ -79,5 +79,5 @@ const mapStateToProps = state => {
 
 export default compose(
   connect(mapStateToProps),
-  firestoreConnect([{ collection: 'JobOffers' }, { collection: 'Usuarios' }])
+  firestoreConnect([{ collection: 'Usuarios' }])
 )(Company);
