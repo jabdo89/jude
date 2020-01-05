@@ -57,6 +57,11 @@ const ModalBox = styled.div`
   flex-direction: column;
   flex: 0 1 auto;
   width: ${({ size }) => getWidth(size)};
+
+  ${props => props.theme.media.phone`
+    margin: 10px
+  `};
+
   ${({ animate }) => animate && animationIn};
 `;
 

@@ -5,6 +5,7 @@ import Button from '@common/button';
 import Avatar from '@common/avatar';
 import Typography from '@common/typography';
 import { Row, Column, ActionsContainer, DownloadIcon, ContactIcon } from './elements';
+import PreviewPDF from './components/pdf-viewer';
 
 const DetailModal = ({ user, active, closeButton }) => (
   <Modal size="large" title="Student detail" active={active} closeButton={closeButton}>
@@ -17,12 +18,10 @@ const DetailModal = ({ user, active, closeButton }) => (
         <Typography fontSize="13px" color="secondary" textAlign="center">
           {user.semester}º semester
         </Typography>
-      </Column>
-      <Column basis="60">
-        <Typography my={10} variant="leadText" color="primary">
+        <Typography my={20} variant="leadText" color="primary">
           About
         </Typography>
-        <Typography fontSize="14px" mb={50}>
+        <Typography fontSize="14px" mb={20}>
           {user.description}
         </Typography>
         <ActionsContainer>
@@ -37,6 +36,9 @@ const DetailModal = ({ user, active, closeButton }) => (
             <ContactIcon />
           </Button>
         </ActionsContainer>
+      </Column>
+      <Column basis="60">
+        <PreviewPDF src={user.resume} />
       </Column>
     </Row>
   </Modal>

@@ -54,7 +54,7 @@ Company.defaultProps = {
     description: faker.lorem.paragraph(),
     major: Math.random() > 0.5 ? 'ITC' : 'INT',
     resume:
-      'https://blockdemy-certs-dev.s3.amazonaws.com/certificates/5d8a8d6f019dfe7f4a2b4bec/1569361263350.pdf'
+      'https://cors-anywhere.herokuapp.com/https://blockdemy-certs-dev.s3.amazonaws.com/certificates/5d8a8d6f019dfe7f4a2b4bec/1569361263350.pdf'
   }))
 };
 
