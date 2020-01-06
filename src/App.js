@@ -1,8 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import firebase from 'firebase';
-import { Router, Redirect } from '@reach/router';
-import LoginScreen from './views/login';
 import Company from './views/company';
+import Authentication from './views/authentication';
 
 class App extends Component {
   state = {
@@ -45,12 +44,7 @@ class App extends Component {
       return <Fragment />;
     }
 
-    return (
-      <Router>
-        <LoginScreen path="/login" />
-        <Redirect noThrow from="*" to="/login" />
-      </Router>
-    );
+    return <Authentication />;
   }
 }
 
