@@ -32,7 +32,7 @@ class Navbar extends Component {
             <Container shrink={false}>
               <Content>
                 <Typography capitalize marginRight="auto" variant="leadText" color="primary">
-                  {pathname.split('/')[1]}
+                  {pathname.split('/')[1].replace('-', ' ')}
                 </Typography>
                 <Routes>
                   <Route active fontSize="11px">
