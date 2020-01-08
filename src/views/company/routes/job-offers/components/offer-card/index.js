@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { CardBody } from '@common/card';
 import Avatar from '@common/avatar';
+import shortId from 'shortid';
 import Box from '@common/box';
 import { Link } from '@reach/router';
 import { FaRegCalendarAlt, FaRegClock } from 'react-icons/fa';
@@ -51,6 +52,23 @@ const OfferCard = ({ offer }) => (
             <FaRegClock />
             From {offer.scheduleDesc.startHour} hrs. to {offer.scheduleDesc.endHour} hrs.
           </TypographyWithIcon>
+          <Typography color="primary" mt={20} mb={5} fontWeight="bold">
+            Requirements
+          </Typography>
+          <Box flexWrap="wrap" display="flex">
+            {offer.requirements.map(requirement => (
+              <Pill
+                key={shortId.generate()}
+                mr={5}
+                color="secondary"
+                variant="outlined"
+                size="small"
+                mb={5}
+              >
+                {requirement}
+              </Pill>
+            ))}
+          </Box>
         </TextContainer>
       </CardBody>
     </Card>
