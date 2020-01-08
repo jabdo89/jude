@@ -13,7 +13,7 @@ const trimText = text => `${text.slice(0, 200)}...`;
 
 const OfferCard = ({ offer }) => (
   <Link to={`/job-offers/${offer.id}`}>
-    <Card>
+    <Card scaleOnHover>
       <CardTop>
         <CardBody>
           <Box alignItems="center" display="flex">

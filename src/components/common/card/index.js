@@ -9,7 +9,11 @@ import {
   HeaderSubtitle
 } from './elements';
 
-const Card = ({ children, ...props }) => <DefaultCard {...props}>{children}</DefaultCard>;
+const Card = ({ children, scaleOnHover, scale, ...props }) => (
+  <DefaultCard scaleOnHover={scaleOnHover} scale={scale} {...props}>
+    {children}
+  </DefaultCard>
+);
 
 const CardHeader = ({ title, subtitle, ...props }) => (
   <CardHeaderContainer {...props}>
@@ -22,8 +26,15 @@ const CardBody = ({ children, ...props }) => <Body {...props}>{children}</Body>;
 
 const CardFooter = ({ children, ...props }) => <Footer {...props}>{children}</Footer>;
 
+Card.defaultProps = {
+  scaleOnHover: false,
+  scale: 1.021
+};
+
 Card.propTypes = {
-  children: PropTypes.any.isRequired
+  children: PropTypes.any.isRequired,
+  scaleOnHover: PropTypes.bool,
+  scale: PropTypes.number
 };
 
 CardBody.propTypes = {
