@@ -1,31 +1,46 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { CardBody } from '@common/card';
+import { Card, CardBody } from '@common/card';
 import Avatar from '@common/avatar';
+import Button from '@common/button';
 import shortId from 'shortid';
 import Box from '@common/box';
 import { Link } from '@reach/router';
 import { FaRegCalendarAlt, FaRegClock } from 'react-icons/fa';
 import Pill from '@common/pill';
+import { FiEdit3 } from 'react-icons/fi';
 import Typography from '@common/typography';
-import { Card, Divider, TextContainer, TypographyWithIcon, CardTop, JobIcon } from './elements';
+import {
+  OfferBody,
+  Divider,
+  TextContainer,
+  TypographyWithIcon,
+  CardTop,
+  JobIcon,
+  Actions
+} from './elements';
 
 const trimText = text => `${text.slice(0, 200)}...`;
 
-const OfferCard = ({ offer }) => (
-  <Link to={`/job-offers/${offer.id}`}>
-    <Card scaleOnHover>
-      <CardTop>
-        <CardBody>
-          <Box alignItems="center" display="flex">
-            <JobIcon />
-            <Typography ml={10} variant="heading" color="lighter">
-              Offer
-            </Typography>
-          </Box>
-        </CardBody>
-      </CardTop>
+const OfferCard = ({ offer, setEditOffer }) => (
+  <Card scaleOnHover>
+    <CardTop>
       <CardBody>
+        <Box alignItems="center" display="flex">
+          <JobIcon />
+          <Typography ml={10} variant="heading" color="lighter">
+            Offer
+          </Typography>
+        </Box>
+      </CardBody>
+      <Actions>
+        <Button onClick={setEditOffer} variant="outlined" color="lighter" size="small" mr={10}>
+          <FiEdit3 />
+        </Button>
+      </Actions>
+    </CardTop>
+    <Link to={`/job-offers/${offer.id}`}>
+      <OfferBody>
         <Box display="flex">
           <Avatar mr={10} size={60} src={offer.companyLogoUrl} />
           <Box display="flex" flexDirection="column" justifyContent="center">
@@ -70,9 +85,9 @@ const OfferCard = ({ offer }) => (
             ))}
           </Box>
         </TextContainer>
-      </CardBody>
-    </Card>
-  </Link>
+      </OfferBody>
+    </Link>
+  </Card>
 );
 
 OfferCard.propTypes = {
