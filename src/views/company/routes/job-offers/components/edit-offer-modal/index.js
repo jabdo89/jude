@@ -10,23 +10,20 @@ import Textarea from '@common/textarea';
 import Button from '@common/button';
 import { Row, Requirement } from './elements';
 
-const initialState = {
-  name: '',
-  budget: '',
-  description: '',
-  scheduleDesc: {
-    weekStart: '',
-    weekEnd: '',
-    startHour: '',
-    endHour: ''
-  },
-  requirements: [],
-  requirement: ''
-};
-
 const weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+
 class NewOfferModal extends Component {
-  state = initialState;
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: props.offerToEdit.name,
+      budget: props.offerToEdit.budget.replace(',', ''),
+      description: props.offerToEdit.description,
+      scheduleDesc: props.offerToEdit.scheduleDesc,
+      requirements: props.offerToEdit.requirements,
+      requirement: ''
+    };
+  }
 
   addRequirement = event => {
     const { requirements, requirement } = this.state;
@@ -59,9 +56,6 @@ class NewOfferModal extends Component {
      Handle job offer creation here
     */
 
-    // Reset initial values
-    this.setState(initialState);
-
     closeModal();
   };
 
@@ -77,7 +71,7 @@ class NewOfferModal extends Component {
     const { active, closeButton } = this.props;
     const { name, budget, description, scheduleDesc, requirement, requirements } = this.state;
     return (
-      <Modal size="large" title="Add a new offer" active={active} closeButton={closeButton}>
+      <Modal size="large" title="Edit offer" active={active} closeButton={closeButton}>
         <form onSubmit={this.handleSubmit}>
           <Input
             label="Offer name"
@@ -187,7 +181,14 @@ class NewOfferModal extends Component {
 
 NewOfferModal.propTypes = {
   active: PropTypes.bool.isRequired,
-  closeButton: PropTypes.func.isRequired
+  closeButton: PropTypes.func.isRequired,
+  offerToEdit: PropTypes.shape({
+    name: PropTypes.string,
+    budget: PropTypes.string,
+    description: PropTypes.string,
+    scheduleDesc: PropTypes.object,
+    requirements: PropTypes.arrayOf(PropTypes.string)
+  }).isRequired
 };
 
 export default NewOfferModal;

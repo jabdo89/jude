@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 import Typography from '@common/typography';
-import { Card as CommonCard } from '@common/card';
+import { CardBody as CommonCardBody } from '@common/card';
 import { FaBriefcase } from 'react-icons/fa';
 
-const Card = styled(CommonCard)`
+const OfferBody = styled(CommonCardBody)`
   cursor: pointer;
 
   * {
@@ -36,7 +36,22 @@ const CardTop = styled.div`
   background-color: ${({ theme }) => theme.colors.primary};
   display: flex;
   align-items: center;
-  cursor: pointer;
 `;
 
-export { Card, Divider, TextContainer, TypographyWithIcon, CardTop, JobIcon };
+const Actions = styled.div`
+  display: flex;
+  margin-right: 10px;
+  
+  button:hover {
+    svg {
+      color: ${props => props.theme.colors.primary}
+    }
+  }
+  /* svg {
+    margin-right: 10px;
+    cursor: pointer;
+    color: ${props => props.theme.colors.lighter};
+  } */
+`;
+
+export { OfferBody, Divider, TextContainer, TypographyWithIcon, CardTop, JobIcon, Actions };

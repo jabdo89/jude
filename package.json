@@ -21,6 +21,7 @@
     "redux": "^4.0.4",
     "redux-firestore": "^0.11.0",
     "redux-thunk": "^2.3.0",
+    "shortid": "^2.2.15",
     "styled-components": "^4.4.1",
     "styled-system": "^5.1.4"
   },

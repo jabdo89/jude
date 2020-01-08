@@ -1,30 +1,54 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { CardBody } from '@common/card';
+import { Card, CardBody } from '@common/card';
 import Avatar from '@common/avatar';
+import Button from '@common/button';
+import Tooltip from '@common/tooltip';
+import shortId from 'shortid';
 import Box from '@common/box';
 import { Link } from '@reach/router';
 import { FaRegCalendarAlt, FaRegClock } from 'react-icons/fa';
 import Pill from '@common/pill';
+import { FiEdit3, FiX } from 'react-icons/fi';
 import Typography from '@common/typography';
-import { Card, Divider, TextContainer, TypographyWithIcon, CardTop, JobIcon } from './elements';
+import {
+  OfferBody,
+  Divider,
+  TextContainer,
+  TypographyWithIcon,
+  CardTop,
+  JobIcon,
+  Actions
+} from './elements';
 
 const trimText = text => `${text.slice(0, 200)}...`;
 
-const OfferCard = ({ offer }) => (
-  <Link to={`/job-offers/${offer.id}`}>
-    <Card>
-      <CardTop>
-        <CardBody>
-          <Box alignItems="center" display="flex">
-            <JobIcon />
-            <Typography ml={10} variant="heading" color="lighter">
-              Offer
-            </Typography>
-          </Box>
-        </CardBody>
-      </CardTop>
+const OfferCard = ({ offer, setEditOffer, deleteOffer }) => (
+  <Card scaleOnHover>
+    <CardTop>
       <CardBody>
+        <Box alignItems="center" display="flex">
+          <JobIcon />
+          <Typography ml={10} variant="heading" color="lighter">
+            Offer
+          </Typography>
+        </Box>
+      </CardBody>
+      <Actions>
+        <Tooltip tag="Edit">
+          <Button onClick={setEditOffer} variant="outlined" color="lighter" size="small" mr={5}>
+            <FiEdit3 />
+          </Button>
+        </Tooltip>
+        <Tooltip tag="Delete">
+          <Button onClick={deleteOffer} variant="outlined" color="lighter" size="small">
+            <FiX />
+          </Button>
+        </Tooltip>
+      </Actions>
+    </CardTop>
+    <Link to={`/job-offers/${offer.id}`}>
+      <OfferBody>
         <Box display="flex">
           <Avatar mr={10} size={60} src={offer.companyLogoUrl} />
           <Box display="flex" flexDirection="column" justifyContent="center">
@@ -51,10 +75,27 @@ const OfferCard = ({ offer }) => (
             <FaRegClock />
             From {offer.scheduleDesc.startHour} hrs. to {offer.scheduleDesc.endHour} hrs.
           </TypographyWithIcon>
+          <Typography color="primary" mt={20} mb={5} fontWeight="bold">
+            Requirements
+          </Typography>
+          <Box flexWrap="wrap" display="flex">
+            {offer.requirements.map(requirement => (
+              <Pill
+                key={shortId.generate()}
+                mr={5}
+                color="secondary"
+                variant="outlined"
+                size="small"
+                mb={5}
+              >
+                {requirement}
+              </Pill>
+            ))}
+          </Box>
         </TextContainer>
-      </CardBody>
-    </Card>
-  </Link>
+      </OfferBody>
+    </Link>
+  </Card>
 );
 
 OfferCard.propTypes = {
@@ -67,7 +108,8 @@ OfferCard.propTypes = {
     scheduleDesc: PropTypes.object,
     requirements: PropTypes.arrayOf(PropTypes.string)
   }).isRequired,
-  setEditOffer: PropTypes.func.isRequired
+  setEditOffer: PropTypes.func.isRequired,
+  deleteOffer: PropTypes.func.isRequired
 };
 
 export default OfferCard;

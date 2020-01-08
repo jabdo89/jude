@@ -17,6 +17,12 @@ const DefaultCard = styled.div`
   &:hover {
     box-shadow: ${({ noHover, theme }) => (noHover ? theme.shadow : theme.shadowHover)};
     transition: 0.5s all;
+    ${props =>
+      props.scaleOnHover &&
+      `
+      transform: translateZ(0px) scale(${props.scale});
+      transition: transform 0.25s ease-out 0s;
+    `}
   }
 `;
 

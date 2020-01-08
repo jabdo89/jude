@@ -9,7 +9,7 @@ import { Card, BookIcon, CardTop, Divider, DescriptionContainer } from './elemen
 const trimText = text => `${text.slice(0, 200)}...`;
 
 const StudentCard = ({ user, setStudent, index }) => (
-  <Card onClick={() => setStudent(index)}>
+  <Card scaleOnHover onClick={() => setStudent(index)}>
     <CardTop>
       <CardBody>
         <Box alignItems="center" display="flex">

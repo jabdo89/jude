@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { FiMenu, FiBell } from 'react-icons/fi';
 import { Location } from '@reach/router';
 import Typography from '@common/typography';
+import Box from '@common/box';
 import {
   Container,
   Routes,
@@ -9,7 +10,8 @@ import {
   MenuButton,
   Route,
   Divider,
-  NotificationButton
+  NotificationButton,
+  Action
 } from './elements';
 import ResponsiveMenu from './components/responsive-menu';
 
@@ -31,9 +33,14 @@ class Navbar extends Component {
           <Fragment>
             <Container shrink={false}>
               <Content>
-                <Typography capitalize marginRight="auto" variant="leadText" color="primary">
-                  {pathname.split('/')[1].replace('-', ' ')}
-                </Typography>
+                <Box marginRight="auto" display="flex" alignItems="center">
+                  <Typography mr={5} capitalize variant="leadText" color="primary">
+                    {pathname.split('/')[1].replace('-', ' ')}
+                  </Typography>
+                  {/* This div will be used as a portal for specific action views */}
+                  {/* DO NOT REMOVE */}
+                  <Action id="action"></Action>
+                </Box>
                 <Routes>
                   <Route active fontSize="11px">
                     Home

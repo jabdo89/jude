@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import { getStyle, getPadding, getFontSize } from './utils';
 import { space } from 'styled-system';
+import { getStyle, getPadding, getFontSize } from './utils';
 
 const PillContainer = styled.div`
   width: fit-content;
