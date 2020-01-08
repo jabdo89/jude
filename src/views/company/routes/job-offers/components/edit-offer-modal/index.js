@@ -17,7 +17,7 @@ class NewOfferModal extends Component {
     super(props);
     this.state = {
       name: props.offerToEdit.name,
-      budget: props.offerToEdit.budget,
+      budget: props.offerToEdit.budget.replace(',', ''),
       description: props.offerToEdit.description,
       scheduleDesc: props.offerToEdit.scheduleDesc,
       requirements: props.offerToEdit.requirements,
