@@ -17,7 +17,7 @@ const FilterBar = ({ toggleNewOfferModal }) => (
     />
     <NavbarActionPortal>
       <NewContainer>
-        <Button onClick={toggleNewOfferModal} color="secondary" variant="soft">
+        <Button onClick={toggleNewOfferModal} color="secondary">
           New offer <FiPlus />
         </Button>
       </NewContainer>

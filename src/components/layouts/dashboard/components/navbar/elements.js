@@ -98,4 +98,12 @@ const NotificationButton = styled.div`
   }
 `;
 
-export { Container, Content, Routes, Route, MenuButton, Divider, NotificationButton };
+const Action = styled.div`
+  ${props => props.theme.media.tablet`
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+  `}
+`;
+
+export { Container, Content, Routes, Route, MenuButton, Divider, NotificationButton, Action };

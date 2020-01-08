@@ -10,7 +10,8 @@ import {
   MenuButton,
   Route,
   Divider,
-  NotificationButton
+  NotificationButton,
+  Action
 } from './elements';
 import ResponsiveMenu from './components/responsive-menu';
 
@@ -38,7 +39,7 @@ class Navbar extends Component {
                   </Typography>
                   {/* This div will be used as a portal for specific action views */}
                   {/* DO NOT REMOVE */}
-                  <div id="action"></div>
+                  <Action id="action"></Action>
                 </Box>
                 <Routes>
                   <Route active fontSize="11px">
