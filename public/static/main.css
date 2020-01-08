@@ -24,6 +24,10 @@ body a {
   cursor: pointer;
 }
 
+textarea, input[type="time" i] {
+  font-family: 'Montserrat';
+}
+
 *::-webkit-scrollbar {
   max-width: 5px;
   max-height: 5px;
