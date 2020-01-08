@@ -25,7 +25,7 @@ body a {
 }
 
 textarea,
-input[type='time' i] {
+input[type='time' i], pre {
   font-family: 'Montserrat';
 }
 

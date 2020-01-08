@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Card, CardBody } from '@common/card';
 import Avatar from '@common/avatar';
 import Button from '@common/button';
+import Tooltip from '@common/tooltip';
 import shortId from 'shortid';
 import Box from '@common/box';
 import { Link } from '@reach/router';
@@ -34,12 +35,16 @@ const OfferCard = ({ offer, setEditOffer, deleteOffer }) => (
         </Box>
       </CardBody>
       <Actions>
-        <Button onClick={setEditOffer} variant="outlined" color="lighter" size="small" mr={5}>
-          <FiEdit3 />
-        </Button>
-        <Button onClick={deleteOffer} variant="outlined" color="lighter" size="small">
-          <FiX />
-        </Button>
+        <Tooltip tag="Edit">
+          <Button onClick={setEditOffer} variant="outlined" color="lighter" size="small" mr={5}>
+            <FiEdit3 />
+          </Button>
+        </Tooltip>
+        <Tooltip tag="Delete">
+          <Button onClick={deleteOffer} variant="outlined" color="lighter" size="small">
+            <FiX />
+          </Button>
+        </Tooltip>
       </Actions>
     </CardTop>
     <Link to={`/job-offers/${offer.id}`}>
