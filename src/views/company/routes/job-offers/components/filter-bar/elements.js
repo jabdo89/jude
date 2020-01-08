@@ -45,21 +45,9 @@ const Input = styled(CommonInput)`
 `;
 
 const NewContainer = styled.div`
-  display: flex;
-  align-items: center;
-
   svg {
     margin-left: 5px;
   }
-
-  ${props => props.theme.media.phone`
-    width: 100%;
-
-    button {
-      margin-top: 10px;
-      width: 100%;
-    }
-  `};
 `;
 
 export { Input, Container, NewContainer };

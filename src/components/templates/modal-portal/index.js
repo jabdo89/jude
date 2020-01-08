@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { createPortal } from 'react-dom';
 
 class ModalPortal extends Component {
-  // Inside of component because if we put this out, ssr would crash,
-  // due to inexistence of document at server
   modalsRoot = document.getElementById('modal');
 
   constructor(props) {
