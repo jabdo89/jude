@@ -8,7 +8,7 @@ import Box from '@common/box';
 import { Link } from '@reach/router';
 import { FaRegCalendarAlt, FaRegClock } from 'react-icons/fa';
 import Pill from '@common/pill';
-import { FiEdit3 } from 'react-icons/fi';
+import { FiEdit3, FiX } from 'react-icons/fi';
 import Typography from '@common/typography';
 import {
   OfferBody,
@@ -22,7 +22,7 @@ import {
 
 const trimText = text => `${text.slice(0, 200)}...`;
 
-const OfferCard = ({ offer, setEditOffer }) => (
+const OfferCard = ({ offer, setEditOffer, deleteOffer }) => (
   <Card scaleOnHover>
     <CardTop>
       <CardBody>
@@ -34,8 +34,11 @@ const OfferCard = ({ offer, setEditOffer }) => (
         </Box>
       </CardBody>
       <Actions>
-        <Button onClick={setEditOffer} variant="outlined" color="lighter" size="small" mr={10}>
+        <Button onClick={setEditOffer} variant="outlined" color="lighter" size="small" mr={5}>
           <FiEdit3 />
+        </Button>
+        <Button onClick={deleteOffer} variant="outlined" color="lighter" size="small">
+          <FiX />
         </Button>
       </Actions>
     </CardTop>
@@ -100,7 +103,8 @@ OfferCard.propTypes = {
     scheduleDesc: PropTypes.object,
     requirements: PropTypes.arrayOf(PropTypes.string)
   }).isRequired,
-  setEditOffer: PropTypes.func.isRequired
+  setEditOffer: PropTypes.func.isRequired,
+  deleteOffer: PropTypes.func.isRequired
 };
 
 export default OfferCard;

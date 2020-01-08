@@ -1,6 +1,7 @@
 import React, { Fragment, Component } from 'react';
 import PropTypes from 'prop-types';
 import faker from 'faker';
+import confirmation from '@templates/confirmation';
 import Container from './elements';
 import FilterBar from './components/filter-bar';
 import OfferCard from './components/offer-card';
@@ -40,6 +41,20 @@ class JobOffers extends Component {
     }
   };
 
+  deleteOffer = async () => {
+    if (
+      await confirmation(
+        'Are you sure?',
+        'This deletion can cause problem for those who previously applied',
+        { text: 'DELETE', description: "Please, type 'DELETE' to confirm" }
+      )
+    ) {
+      /*
+        Handle offer deletion here
+      */
+    }
+  };
+
   render() {
     const { Offers } = this.props;
     const { isNewOfferOpen, isEditOfferOpen, offerToEdit } = this.state;
@@ -51,6 +66,7 @@ class JobOffers extends Component {
             <OfferCard
               key={offer.id}
               setEditOffer={() => this.toggleEditOfferModal(idx)}
+              deleteOffer={() => this.deleteOffer(idx)}
               offer={offer}
             />
           ))}

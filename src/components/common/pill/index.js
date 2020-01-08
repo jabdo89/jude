@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import PillContainer from './elements';
 import propTypes from '@styled-system/prop-types';
+import PillContainer from './elements';
 
 const Pill = ({ children, size, color, fontColor, variant, className, ...props }) => (
   <PillContainer
