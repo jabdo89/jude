@@ -54,11 +54,10 @@ export const studentSignUp = newUser => {
             })
             .catch(err => {
               dispatch({ type: 'SIGNUP_ERROR', err });
-              console.log(err);
             });
         }
         snapshot.forEach(doc => {
-          dispatch({ type: 'USER_ALREADY_EXISTS' });
+          dispatch({ type: 'USER_ALREADY_EXISTS', doc });
         });
       })
       .catch(err => {

@@ -1,7 +1,7 @@
 // Create Job Offer
-export const createJobOffer = jobOffer => {
+export default createJobOffer = jobOffer => {
   return (dispatch, getState, getFirebase) => {
-    const profile = getState().firebase.profile;
+    const { profile } = getState().firebase.profile;
     const firebase = getFirebase();
     const db = firebase.firestore();
     db.collection('JobOffers')
