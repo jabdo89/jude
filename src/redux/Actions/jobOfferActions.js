@@ -1,4 +1,4 @@
-//Create Job Offer
+// Create Job Offer
 export const createJobOffer = jobOffer => {
   return (dispatch, getState, getFirebase) => {
     const profile = getState().firebase.profile;
@@ -25,10 +25,10 @@ export const createJobOffer = jobOffer => {
   };
 };
 
-//Action for Student Appling for JobOffers
+// Action for Student Appling for JobOffers
 
-//Action for Company Recomending StudentaJob
+// Action for Company Recomending StudentaJob
 
-//Update Job Offer
+// Update Job Offer
 
-//DeleteJobOffer
+// DeleteJobOffer

@@ -1,4 +1,4 @@
-//Sign in Both Student and Company
+// Sign in Both Student and Company
 export const signIn = newUser => {
   return (dispatch, getState, getFirebase) => {
     const firebase = getFirebase();
@@ -14,7 +14,7 @@ export const signIn = newUser => {
   };
 };
 
-//SignOut
+// SignOut
 export const signOut = () => {
   return (dispatch, getState, getFirebase) => {
     const firebase = getFirebase();
@@ -22,7 +22,7 @@ export const signOut = () => {
   };
 };
 
-//Student Sign Up
+// Student Sign Up
 export const studentSignUp = newUser => {
   return (dispatch, getState, getFirebase) => {
     const firebase = getFirebase();
@@ -67,8 +67,8 @@ export const studentSignUp = newUser => {
   };
 };
 
-//Company Sign Up
+// Company Sign Up
 
-//Update Comapny Profile
+// Update Comapny Profile
 
-//Update Student Profile
+// Update Student Profile
