@@ -49,7 +49,7 @@ class App extends Component {
       return <Fragment />;
     }
 
-    if (isAdmin /* STUDENT CRITERIA */) {
+    if (isAdmin /* ADMIN CRITERIA */) {
       // Fill in the future with admin router
       return <Fragment />;
     }

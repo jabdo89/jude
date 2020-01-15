@@ -57,7 +57,7 @@ const PseudoSelect = styled.select`
   ${({ value }) =>
     !value &&
     `
-    color: #808080;
+    color: #aaaaaa;
   `};
 
   ${({ leftIcon }) =>
