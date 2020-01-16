@@ -1,7 +1,8 @@
-import React, { Fragment, Component } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import faker from 'faker';
 import confirmation from '@templates/confirmation';
+import Box from '@common/box';
 import Container from './elements';
 import FilterBar from './components/filter-bar';
 import OfferCard from './components/offer-card';
@@ -59,7 +60,7 @@ class JobOffers extends Component {
     const { Offers } = this.props;
     const { isNewOfferOpen, isEditOfferOpen, offerToEdit } = this.state;
     return (
-      <Fragment>
+      <Box pb={30}>
         <FilterBar toggleNewOfferModal={this.toggleNewOfferModal} />
         <Container>
           {Offers.map((offer, idx) => (
@@ -79,7 +80,7 @@ class JobOffers extends Component {
             closeButton={this.toggleEditOfferModal}
           />
         )}
-      </Fragment>
+      </Box>
     );
   }
 }

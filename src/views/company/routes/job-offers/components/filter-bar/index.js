@@ -13,7 +13,7 @@ const FilterBar = ({ toggleNewOfferModal }) => (
         /* Replace with handler */
       }}
       leftIcon={<FiSearch />}
-      placeholder="Buscar"
+      placeholder="Search"
     />
     <NavbarActionPortal>
       <NewContainer>

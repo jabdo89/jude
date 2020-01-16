@@ -6,7 +6,6 @@ import Button from '@common/button';
 import Tooltip from '@common/tooltip';
 import shortId from 'shortid';
 import Box from '@common/box';
-import { Link } from '@reach/router';
 import { FaRegCalendarAlt, FaRegClock } from 'react-icons/fa';
 import Pill from '@common/pill';
 import { FiEdit3, FiX } from 'react-icons/fi';
@@ -47,54 +46,52 @@ const OfferCard = ({ offer, setEditOffer, deleteOffer }) => (
         </Tooltip>
       </Actions>
     </CardTop>
-    <Link to={`/job-offers/${offer.id}`}>
-      <OfferBody>
-        <Box display="flex">
-          <Avatar mr={10} size={60} src={offer.companyLogoUrl} />
-          <Box display="flex" flexDirection="column" justifyContent="center">
-            <Typography variant="heading">{offer.name}</Typography>
-            <Pill color="secondary" variant="soft" size="small" mt={5}>
-              ${offer.budget} / month
-            </Pill>
-          </Box>
+    <OfferBody>
+      <Box display="flex">
+        <Avatar mr={10} size={60} src={offer.companyLogoUrl} />
+        <Box display="flex" flexDirection="column" justifyContent="center">
+          <Typography variant="heading">{offer.name}</Typography>
+          <Pill color="secondary" variant="soft" size="small" mt={5}>
+            ${offer.budget} / month
+          </Pill>
         </Box>
-        <Divider />
-        <TextContainer>
-          <Typography color="primary" mb={5} fontWeight="bold">
-            Description
-          </Typography>
-          <Typography variant="muted">{trimText(offer.description)}</Typography>
-          <Typography color="primary" mt={20} mb={5} fontWeight="bold">
-            Schedule
-          </Typography>
-          <TypographyWithIcon variant="muted">
-            <FaRegCalendarAlt />
-            {offer.scheduleDesc.weekStart} - {offer.scheduleDesc.weekEnd}
-          </TypographyWithIcon>
-          <TypographyWithIcon mt={5} variant="muted">
-            <FaRegClock />
-            From {offer.scheduleDesc.startHour} hrs. to {offer.scheduleDesc.endHour} hrs.
-          </TypographyWithIcon>
-          <Typography color="primary" mt={20} mb={5} fontWeight="bold">
-            Requirements
-          </Typography>
-          <Box flexWrap="wrap" display="flex">
-            {offer.requirements.map(requirement => (
-              <Pill
-                key={shortId.generate()}
-                mr={5}
-                color="secondary"
-                variant="outlined"
-                size="small"
-                mb={5}
-              >
-                {requirement}
-              </Pill>
-            ))}
-          </Box>
-        </TextContainer>
-      </OfferBody>
-    </Link>
+      </Box>
+      <Divider />
+      <TextContainer>
+        <Typography color="primary" mb={5} fontWeight="bold">
+          Description
+        </Typography>
+        <Typography variant="muted">{trimText(offer.description)}</Typography>
+        <Typography color="primary" mt={20} mb={5} fontWeight="bold">
+          Schedule
+        </Typography>
+        <TypographyWithIcon variant="muted">
+          <FaRegCalendarAlt />
+          {offer.scheduleDesc.weekStart} - {offer.scheduleDesc.weekEnd}
+        </TypographyWithIcon>
+        <TypographyWithIcon mt={5} variant="muted">
+          <FaRegClock />
+          From {offer.scheduleDesc.startHour} hrs. to {offer.scheduleDesc.endHour} hrs.
+        </TypographyWithIcon>
+        <Typography color="primary" mt={20} mb={5} fontWeight="bold">
+          Requirements
+        </Typography>
+        <Box flexWrap="wrap" display="flex">
+          {offer.requirements.map(requirement => (
+            <Pill
+              key={shortId.generate()}
+              mr={5}
+              color="secondary"
+              variant="outlined"
+              size="small"
+              mb={5}
+            >
+              {requirement}
+            </Pill>
+          ))}
+        </Box>
+      </TextContainer>
+    </OfferBody>
   </Card>
 );
 

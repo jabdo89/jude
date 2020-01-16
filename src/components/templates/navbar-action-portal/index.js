@@ -6,6 +6,7 @@ class NavbarActionPortal extends Component {
   constructor(props) {
     super(props);
     this.action = document.createElement('div');
+    // this.action.style = 'width: 100%;';
     this.state = {
       actionLoaded: false
     };

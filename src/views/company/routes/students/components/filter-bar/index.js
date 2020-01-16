@@ -11,7 +11,7 @@ const FilterBar = () => (
         /* Replace with handler */
       }}
       leftIcon={<FiSearch />}
-      placeholder="Buscar"
+      placeholder="Search"
     />
     <FilterContainer>
       <Typography variant="muted">Semester</Typography>

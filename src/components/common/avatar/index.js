@@ -29,7 +29,7 @@ Avatar.propTypes = {
   alt: PropTypes.string,
   className: PropTypes.string,
   borderColor: PropTypes.string,
-  borderWidth: PropTypes.string,
+  borderWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   ...propTypes.space
 };
 

@@ -86,10 +86,6 @@ const PseudoInput = styled.input`
     border: 1px solid ${({ theme }) => theme.colors.primary};
     box-shadow: 0 0 0 0.1rem ${({ theme }) => theme.colors.primary}33;
   }
-
-  ${({ theme }) => theme.media.phone`
-    width: auto;
-  `};
 `;
 
 const LeftIconContainer = styled.div`

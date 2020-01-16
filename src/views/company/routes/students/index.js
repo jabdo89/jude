@@ -1,9 +1,10 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import faker from 'faker';
 import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
+import Box from '@common/box';
 import Container from './elements';
 import StudentCard from './components/student-card';
 import FilterBar from './components/filter-bar';
@@ -26,7 +27,7 @@ class Company extends Component {
     const { Usuarios } = this.props;
 
     return (
-      <Fragment>
+      <Box pb={30}>
         <FilterBar />
         <Container>
           {Usuarios &&
@@ -39,7 +40,7 @@ class Company extends Component {
           active={activeModal}
           closeButton={() => this.toggleModal(false)}
         />
-      </Fragment>
+      </Box>
     );
   }
 }

@@ -5,7 +5,7 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  padding-bottom: 20px;
+  width: 100%;
 
   ${props => props.theme.media.phone`
     flex-direction: column;
@@ -48,11 +48,6 @@ const NewContainer = styled.div`
   svg {
     margin-left: 5px;
   }
-  ${props => props.theme.media.tablet`
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-  `}
 `;
 
 export { Input, Container, NewContainer };

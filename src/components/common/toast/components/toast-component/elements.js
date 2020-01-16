@@ -56,7 +56,7 @@ const Container = styled.div`
   width: 100%;
   max-width: 500px;
   padding: 0.85rem 1.25rem;
-  background-color: ${({ theme, type }) => theme.colors[type]};
+  background-color: ${({ theme, type }) => theme.colors[type]}ee;
   border-radius: ${({ theme }) => theme.radius};
   box-shadow: 0 10px 60px 0 rgba(29, 29, 31, 0.09);
   margin-bottom: 10px;
@@ -71,8 +71,8 @@ const Container = styled.div`
 
 const CloseContainer = styled.div`
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 15px;
+  right: 15px;
   cursor: pointer;
 `;
 

@@ -15,6 +15,10 @@ const Content = styled.div`
   justify-content: flex-end;
   width: 100%;
   align-items: center;
+
+  h1 {
+    white-space: nowrap;
+  }
 `;
 
 const Routes = styled.div`
@@ -99,11 +103,8 @@ const NotificationButton = styled.div`
 `;
 
 const Action = styled.div`
-  ${props => props.theme.media.tablet`
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-  `}
+  width: 100%;
+  margin-right: auto;
 `;
 
 export { Container, Content, Routes, Route, MenuButton, Divider, NotificationButton, Action };

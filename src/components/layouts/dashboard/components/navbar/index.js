@@ -33,8 +33,15 @@ class Navbar extends Component {
           <Fragment>
             <Container shrink={false}>
               <Content>
-                <Box marginRight="auto" display="flex" alignItems="center">
-                  <Typography mr={5} capitalize variant="leadText" color="primary">
+                <Box width="100%" display="flex" alignItems="center">
+                  <Typography
+                    mr={10}
+                    as="h1"
+                    fontWeight="300"
+                    capitalize
+                    variant="leadText"
+                    color="primary"
+                  >
                     {pathname.split('/')[1].replace('-', ' ')}
                   </Typography>
                   {/* This div will be used as a portal for specific action views */}

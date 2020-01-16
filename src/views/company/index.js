@@ -5,7 +5,6 @@ import Students from './routes/students';
 import Requests from './routes/requests';
 import Messages from './routes/messages';
 import JobOffers from './routes/job-offers';
-import OfferDetail from './routes/offer-detail';
 import Settings from './routes/settings';
 
 const Company = () => (
@@ -15,7 +14,6 @@ const Company = () => (
       <Requests path="/requests" />
       <Messages path="/messages" />
       <JobOffers path="/job-offers" />
-      <OfferDetail path="/job-offers/:offerId" />
       <Settings path="/settings" />
       <Redirect noThrow from="*" to="/students" />
     </Router>
