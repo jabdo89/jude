@@ -13,3 +13,6 @@ ReactDOM.render(
   </ReduxWrapper>,
   document.getElementById('root')
 );
+
+// Read Docs for Info on Components
+// https://ui.blockdemy.com/?path=/story/welcome--to-blockdemy-ui

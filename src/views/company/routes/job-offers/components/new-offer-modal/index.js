@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { FiX } from 'react-icons/fi';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { createJobOffer } from '@actions/jobOfferActions';
 import shortId from 'shortid';
 import Modal from '@common/modal';
 import Box from '@common/box';
@@ -55,9 +57,7 @@ class NewOfferModal extends Component {
     const { closeButton: closeModal } = this.props;
     event.preventDefault();
 
-    /*
-     Handle job offer creation here
-    */
+    this.props.createJobOffer(this.state);
 
     // Reset initial values
     this.setState(initialState);
@@ -74,6 +74,7 @@ class NewOfferModal extends Component {
     });
 
   render() {
+    // Add , jobOfferError to this.props
     const { active, closeButton } = this.props;
     const { name, budget, description, scheduleDesc, requirement, requirements } = this.state;
     return (
@@ -184,10 +185,28 @@ class NewOfferModal extends Component {
     );
   }
 }
+// UnComment When jobOfferError is used
+
+// NewOfferModal.defaultProps = {
+//   jobOfferError: ''
+// };
 
 NewOfferModal.propTypes = {
   active: PropTypes.bool.isRequired,
-  closeButton: PropTypes.func.isRequired
+  closeButton: PropTypes.func.isRequired,
+  createJobOffer: PropTypes.func.isRequired
+  // jobOfferError: PropTypes.string
 };
 
-export default NewOfferModal;
+const mapStateToProps = state => {
+  return {
+    jobOfferError: state.company.jobOfferError
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return {
+    createJobOffer: student => dispatch(createJobOffer(student))
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(NewOfferModal);

@@ -1,4 +1,6 @@
 import React, { Component, Fragment } from 'react';
+import { connect } from 'react-redux';
+import { studentSignUp } from '@actions/authActions';
 import PropTypes from 'prop-types';
 import Typography from '@common/typography';
 import Box from '@common/box';
@@ -42,7 +44,11 @@ class Login extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    // Handle submit here
+
+    // this.props.studentSignUp(this.state);
+
+    const { studentSignUp: localeSignUp } = this.props;
+    localeSignUp(this.state);
   };
 
   setFile = async imageFile => {
@@ -261,7 +267,19 @@ Login.defaultProps = {
 };
 
 Login.propTypes = {
+  studentSignUp: PropTypes.func.isRequired,
   authError: PropTypes.string
 };
 
-export default Login;
+const mapStateToProps = state => {
+  return {
+    authError: state.auth.authError
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return {
+    studentSignUp: student => dispatch(studentSignUp(student))
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

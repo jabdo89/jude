@@ -1,9 +1,34 @@
 // Create Job Offer
-export default createJobOffer = jobOffer => {
+export const createJobOffer = jobOffer => {
+  return (dispatch, getState, getFirebase) => {
+    // const { profile } = getState().firebase.profile;
+    const firebase = getFirebase();
+    const db = firebase.firestore();
+    db.collection('JobOffers')
+      .add({
+        ...jobOffer.requirements,
+        ...jobOffer.scheduleDesc,
+        // companyLogoUrl: profile.companyLogoUrl,
+        name: jobOffer.name,
+        budget: jobOffer.budget,
+        desc: jobOffer.description,
+        createdDate: new Date()
+      })
+      .then(() => {
+        dispatch({ type: 'JOBOFFER_CREATED', jobOffer });
+      })
+      .catch(err => {
+        dispatch({ type: 'JOBOFFER_ERROR', err });
+      });
+  };
+};
+
+export const deleateJobOffer = jobOffer => {
   return (dispatch, getState, getFirebase) => {
     const { profile } = getState().firebase.profile;
     const firebase = getFirebase();
     const db = firebase.firestore();
+    // Not Complete
     db.collection('JobOffers')
       .add({
         companyLogoUrl: profile.companyLogoUrl,

@@ -27,7 +27,7 @@ class App extends Component {
   render() {
     const { user, loading } = this.state;
     // REQUIRED: Define a criteria to show company, admin or student layout
-
+    // @Ernesto Remove Loading (App Does not render until user is logged in)
     const isStudent = false;
     const isCompany = Boolean(user);
     const isAdmin = false;
