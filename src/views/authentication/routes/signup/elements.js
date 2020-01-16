@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import CommonInput from '@common/input';
-import CommonSelect from '@common/select';
 
 const Form = styled.form`
   margin-left: 45%;
@@ -26,20 +25,8 @@ const Input = styled(CommonInput)`
   }
 `;
 
-const Select = styled(CommonSelect)`
-  select {
-    padding: 1rem 0.75rem !important;
-    padding-left: 2.825rem !important;
-  }
-
-  .icon {
-    margin-left: 0.325rem;
-    margin-top: 6px;
-  }
-`;
-
 const Column = styled.div`
   flex-basis: ${props => props.basis}%;
 `;
 
-export { Form, Input, Select, Column };
+export { Form, Input, Column };

@@ -11,9 +11,9 @@ import CropModal from '@common/modal';
 import Textarea from '@common/textarea';
 import crop from '@common/cropper';
 import Dropzone from '@templates/dropzone';
-import { FaEnvelope, FaKey, FaRegUser, FaStar, FaGraduationCap, FaHashtag } from 'react-icons/fa';
+import { FaEnvelope, FaKey, FaRegUser, FaGraduationCap, FaHashtag } from 'react-icons/fa';
 import { Link } from '@reach/router';
-import { Form, Input, Select, Column } from './elements';
+import { Form, Input, Column } from './elements';
 
 class Login extends Component {
   state = {
@@ -65,9 +65,9 @@ class Login extends Component {
   };
 
   changeStep = step => {
-    const { email, firstName, lastName, password, mayor, rol, semester } = this.state;
+    const { email, firstName, lastName, password, mayor, semester } = this.state;
     if (step === 2) {
-      if (!email || !firstName || !lastName || !password || !mayor || !rol || !semester) {
+      if (!email || !firstName || !lastName || !password || !mayor || !semester) {
         toast.secondary('Wait', 'Every field is required');
         return;
       }
@@ -82,7 +82,6 @@ class Login extends Component {
       password,
       firstName,
       lastName,
-      rol,
       mayor,
       semester,
       step,
@@ -127,29 +126,6 @@ class Login extends Component {
                   ml={5}
                 />
               </Box>
-              <Input
-                leftIcon={<FaKey />}
-                type="password"
-                placeholder="Enter password here"
-                value={password}
-                onChange={this.handleChange}
-                name="password"
-                mb={10}
-              />
-              <Select
-                leftIcon={<FaStar className="icon" />}
-                value={rol}
-                onChange={this.handleChange}
-                name="rol"
-                mb={10}
-                required
-              >
-                <option value="" hidden className="placeholder">
-                  Role
-                </option>
-                <option value="Student">Student</option>
-                <option value="Company">Company</option>
-              </Select>
               <Box mb={10} display="flex">
                 <Column basis="65">
                   <Input
@@ -173,6 +149,15 @@ class Login extends Component {
                   />
                 </Column>
               </Box>
+              <Input
+                leftIcon={<FaKey />}
+                type="password"
+                placeholder="Enter password here"
+                value={password}
+                onChange={this.handleChange}
+                name="password"
+                mb={10}
+              />
               <Button
                 type="button"
                 onClick={() => this.changeStep(2)}
