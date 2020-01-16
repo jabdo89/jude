@@ -9,22 +9,29 @@ import Bubble from './elements';
 const Message = ({ otherProfileImg, isYours, message, sentAt, seenAt }) => (
   <Box display="flex" justifyContent={isYours ? 'flex-end' : 'flex-start'}>
     {!isYours && <Avatar mt={5} mr={5} src={otherProfileImg || '/static/img/general/avatar.png'} />}
-    
+
     <Box display="flex" flexDirection="column">
       <Bubble color={isYours ? 'primary' : 'secondary'}>{message}</Bubble>
-      <Box alignItems="center" justifyContent={isYours ? 'flex-end' : 'flex-start'} display="flex" width="100%">
-      <Typography fontSize="0.6rem" textAlign={isYours ? 'right' : 'left'} color="lightGrey">{moment(sentAt).format('lll')}</Typography>
-        {isYours &&
-        seenAt &&
+      <Box
+        alignItems="center"
+        justifyContent={isYours ? 'flex-end' : 'flex-start'}
+        display="flex"
+        width="100%"
+      >
+        <Typography fontSize="0.6rem" textAlign={isYours ? 'right' : 'left'} color="lightGrey">
+          {moment(sentAt).format('lll')}
+        </Typography>
+        {isYours && seenAt && (
           <Avatar ml={5} size={15} src={otherProfileImg || '/static/img/general/avatar.png'} />
-        }
+        )}
       </Box>
     </Box>
     {isYours && (
       <Avatar
         mt={5}
         ml={5}
-        src=/* Place authenticated user profileImg here  || */ '/static/img/general/avatar.png'
+        // eslint-disable-next-line react/jsx-curly-brace-presence
+        src={/* Place authenticated user profileImg here  || */ '/static/img/general/avatar.png'}
       />
     )}
   </Box>
@@ -35,7 +42,7 @@ Message.propTypes = {
   message: PropTypes.string.isRequired,
   isYours: PropTypes.bool.isRequired,
   sentAt: PropTypes.any.isRequired,
-  seenAt: PropTypes.any.isRequired,
+  seenAt: PropTypes.any.isRequired
 };
 
 export default Message;
