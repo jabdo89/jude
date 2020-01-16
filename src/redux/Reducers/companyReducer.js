@@ -1,7 +1,7 @@
 const initState = {
   companys: [
     {
-      companyError: null
+      jobOfferError: null
     }
   ]
 };
