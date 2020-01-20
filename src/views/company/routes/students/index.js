@@ -5,10 +5,10 @@ import faker from 'faker';
 import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
 import Box from '@common/box';
+import UserDetailModal from '@templates/user-detail-modal';
 import Container from './elements';
 import StudentCard from './components/student-card';
 import FilterBar from './components/filter-bar';
-import DetailModal from './components/detail-modal';
 
 faker.locale = 'es_MX';
 
@@ -35,7 +35,7 @@ class Company extends Component {
               <StudentCard key={user.id} setStudent={this.setStudent} index={index} user={user} />
             ))}
         </Container>
-        <DetailModal
+        <UserDetailModal
           user={Usuarios[studentIndex]}
           active={activeModal}
           closeButton={() => this.toggleModal(false)}
