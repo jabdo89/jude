@@ -16,12 +16,12 @@ const authReducer = (state = initState, action) => {
     case 'SIGNIN_ERROR':
       return {
         ...state,
-        authError: action.error.message
+        authError: action.err.message
       };
     case 'SIGNUP_ERROR':
       return {
         ...state,
-        authError: action.error.message
+        authError: action.err.message
       };
     case 'SIGNUP_SUCCESS':
       return {

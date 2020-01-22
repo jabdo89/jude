@@ -25,38 +25,35 @@ class Company extends Component {
   render() {
     const { activeModal, studentIndex } = this.state;
     const { Usuarios } = this.props;
-
-    return (
-      <Box pb={30}>
-        <FilterBar />
-        <Container>
-          {Usuarios &&
-            Usuarios.map((user, index) => (
-              <StudentCard key={user.id} setStudent={this.setStudent} index={index} user={user} />
-            ))}
-        </Container>
+    let action;
+    if (Usuarios !== undefined) {
+      action = (
         <UserDetailModal
           user={Usuarios[studentIndex]}
           active={activeModal}
           closeButton={() => this.toggleModal(false)}
         />
+      );
+    } else action = null;
+    return (
+      <Box pb={30}>
+        <FilterBar />
+        <Container>
+          {Usuarios &&
+            Usuarios.map((user, index) => {
+              return (
+                <StudentCard key={user.id} setStudent={this.setStudent} index={index} user={user} />
+              );
+            })}
+        </Container>
+        {action}
       </Box>
     );
   }
 }
 
 Company.defaultProps = {
-  Usuarios: new Array(10).fill().map(() => ({
-    id: faker.random.uuid(),
-    firstName: faker.name.firstName(),
-    lastName: faker.name.lastName(),
-    profileImg: faker.image.avatar(),
-    semester: Math.round(Math.random() * 9) + 1,
-    description: faker.lorem.paragraph(),
-    major: Math.random() > 0.5 ? 'ITC' : 'INT',
-    resume:
-      'https://cors-anywhere.herokuapp.com/https://blockdemy-certs-dev.s3.amazonaws.com/certificates/5d8a8d6f019dfe7f4a2b4bec/1569361263350.pdf'
-  }))
+  Usuarios: undefined
 };
 
 Company.propTypes = {
@@ -65,8 +62,7 @@ Company.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    // Usuarios: state.firestore.ordered.Usuarios,
-    Usuarios: undefined,
+    Usuarios: state.firestore.ordered.Usuarios,
     profile: state.firebase.profile
   };
 };

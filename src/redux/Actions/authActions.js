@@ -42,11 +42,11 @@ export const studentSignUp = newUser => {
                 .set({
                   pictureUrl: '',
                   rol: 'Student',
-                  fName: newUser.fName,
-                  lName: newUser.lName,
-                  mayor: newUser.mayor,
+                  firstName: newUser.firstName,
+                  lastName: newUser.lastName,
+                  major: newUser.mayor,
                   semester: newUser.semester,
-                  desc: newUser.desc
+                  description: newUser.description
                 });
             })
             .then(() => {
