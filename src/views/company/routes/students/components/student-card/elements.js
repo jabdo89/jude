@@ -1,14 +1,6 @@
 import styled from 'styled-components';
+import Button from '@common/button';
 import { FiBookOpen } from 'react-icons/fi';
-import { Card as CommonCard } from '@common/card';
-
-const Card = styled(CommonCard)`
-  cursor: pointer;
-
-  * {
-    cursor: pointer;
-  }
-`;
 
 const BookIcon = styled(FiBookOpen)`
   color: ${({ theme }) => theme.colors.lighter};
@@ -32,4 +24,10 @@ const DescriptionContainer = styled.div`
   word-break: break-all;
 `;
 
-export { Card, BookIcon, CardTop, Divider, DescriptionContainer };
+const FooterButton = styled(Button)`
+  svg {
+    margin-left: 5px;
+  }
+`;
+
+export { BookIcon, CardTop, Divider, DescriptionContainer, FooterButton };

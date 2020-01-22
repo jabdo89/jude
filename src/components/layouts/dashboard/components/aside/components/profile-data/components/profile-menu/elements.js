@@ -1,5 +1,5 @@
 import styled, { keyframes } from 'styled-components';
-import { FiUser, FiLogOut } from 'react-icons/fi';
+import { FiLogOut } from 'react-icons/fi';
 
 const fadeIn = keyframes`
   from {
@@ -47,9 +47,8 @@ const Content = styled.div`
   z-index: 300;
   background: ${props => props.theme.colors.lighter};
   box-shadow: 0 0 2rem 0 rgba(136, 152, 170, 0.15);
-  border-radius: ${({ theme }) => theme.smallRadius};
   left: 200px;
-  bottom: 0;
+  bottom: 25px;
   overflow: hidden;
 
   ${props => props.theme.media.tablet`
@@ -88,14 +87,9 @@ const Header = styled(Option)`
   padding-left: 2.5em;
 `;
 
-const ProfileIcon = styled(FiUser)`
-  font-size: 20px;
-  margin-right: 10px;
-`;
-
 const ExitIcon = styled(FiLogOut)`
   font-size: 20px;
   margin-right: 10px;
 `;
 
-export { Container, PseudoContainer, Content, Option, Header, ProfileIcon, ExitIcon };
+export { Container, PseudoContainer, Content, Option, Header, ExitIcon };

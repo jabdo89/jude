@@ -1,7 +1,9 @@
 import React, { Component, Fragment } from 'react';
 import firebase from 'firebase';
 import Loader, { LoaderContainer } from '@common/loader';
+import DashboardLayout from '@layouts/dashboard';
 import Company from './views/company';
+import Student from './views/student';
 import Authentication from './views/authentication';
 
 class App extends Component {
@@ -27,8 +29,8 @@ class App extends Component {
   render() {
     const { user, loading } = this.state;
     // REQUIRED: Define a criteria to show company, admin or student layout
-    const isStudent = false;
-    const isCompany = Boolean(user);
+    const isStudent = Boolean(user);
+    const isCompany = false;
     const isAdmin = false;
 
     // @Ernesto Remove Loading (App Does not render until user is logged in)
@@ -42,17 +44,29 @@ class App extends Component {
     }
 
     if (isCompany /* COMPANY CRITERIA */) {
-      return <Company />;
+      return (
+        <DashboardLayout company>
+          <Company />
+        </DashboardLayout>
+      );
     }
 
     if (isStudent /* STUDENT CRITERIA */) {
       // Fill in the future with student router
-      return <Fragment />;
+      return (
+        <DashboardLayout student>
+          <Student />
+        </DashboardLayout>
+      );
     }
 
     if (isAdmin /* ADMIN CRITERIA */) {
       // Fill in the future with admin router
-      return <Fragment />;
+      return (
+        <DashboardLayout admin>
+          <Fragment />
+        </DashboardLayout>
+      );
     }
 
     return <Authentication />;
