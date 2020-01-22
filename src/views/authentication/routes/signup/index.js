@@ -12,7 +12,7 @@ import Textarea from '@common/textarea';
 import crop from '@common/cropper';
 import Dropzone from '@templates/dropzone';
 import { FaEnvelope, FaKey, FaRegUser, FaGraduationCap, FaHashtag } from 'react-icons/fa';
-import { Link } from '@reach/router';
+import { Link } from 'react-router-dom';
 import { Form, Input, Column } from './elements';
 
 class Login extends Component {

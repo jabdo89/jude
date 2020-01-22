@@ -1,5 +1,5 @@
 import React from 'react';
-import { Router, Redirect } from '@reach/router';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import DashboardLayout from '@layouts/dashboard';
 import Students from './routes/students';
 import Requests from './routes/requests';
@@ -9,14 +9,24 @@ import Settings from './routes/settings';
 
 const Company = () => (
   <DashboardLayout>
-    <Router>
-      <Students path="/students" />
-      <Requests path="/requests" />
-      <Messages path="/messages" />
-      <JobOffers path="/job-offers" />
-      <Settings path="/settings" />
-      <Redirect noThrow from="*" to="/students" />
-    </Router>
+    <Switch>
+      <Route path="/students">
+        <Students />
+      </Route>
+      <Route path="/requests">
+        <Requests />
+      </Route>
+      <Route path="/messages">
+        <Messages />
+      </Route>
+      <Route path="/job-offers">
+        <JobOffers />
+      </Route>
+      <Route path="/settings">
+        <Settings />
+      </Route>
+      <Redirect to="/students" />
+    </Switch>
   </DashboardLayout>
 );
 

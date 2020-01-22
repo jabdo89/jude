@@ -6,7 +6,7 @@ import Typography from '@common/typography';
 import Box from '@common/box';
 import Button from '@common/button';
 import { FaRegUserCircle, FaKey } from 'react-icons/fa';
-import { Link } from '@reach/router';
+import { Link } from 'react-router-dom';
 import { Form, Input } from './elements';
 
 class Login extends Component {

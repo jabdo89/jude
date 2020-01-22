@@ -1,17 +1,21 @@
 import React from 'react';
-import { Router, Redirect } from '@reach/router';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import AuthLayout from '@layouts/auth';
 import Login from './routes/login';
 import Signup from './routes/signup';
 
-const Company = () => (
+const Public = () => (
   <AuthLayout>
-    <Router>
-      <Login path="/login" />
-      <Signup path="/signup" />
-      <Redirect noThrow from="*" to="/login" />
-    </Router>
+    <Switch>
+      <Route path="/login">
+        <Login />
+      </Route>
+      <Route path="/signup">
+        <Signup />
+      </Route>
+      <Redirect to="/login" />
+    </Switch>
   </AuthLayout>
 );
 
-export default Company;
+export default Public;
