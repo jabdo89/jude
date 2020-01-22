@@ -5,9 +5,9 @@ import Container from './elements';
 import Aside from './components/aside';
 import Navbar from './components/navbar';
 
-const DashboardLayout = ({ children }) => (
+const DashboardLayout = ({ children, admin, student, company }) => (
   <Container>
-    <Aside />
+    <Aside admin={admin} student={student} company={company} />
     <Box pt={66}>
       <Navbar />
       {children}
@@ -15,8 +15,17 @@ const DashboardLayout = ({ children }) => (
   </Container>
 );
 
+DashboardLayout.defaultProps = {
+  admin: false,
+  student: false,
+  company: false
+};
+
 DashboardLayout.propTypes = {
-  children: PropTypes.any.isRequired
+  children: PropTypes.any.isRequired,
+  admin: PropTypes.bool,
+  student: PropTypes.bool,
+  company: PropTypes.bool
 };
 
 export default DashboardLayout;

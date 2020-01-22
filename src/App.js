@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import firebase from 'firebase';
 import Loader, { LoaderContainer } from '@common/loader';
+import DashboardLayout from '@layouts/dashboard';
 import Company from './views/company';
 import Authentication from './views/authentication';
 
@@ -42,17 +43,29 @@ class App extends Component {
     }
 
     if (isCompany /* COMPANY CRITERIA */) {
-      return <Company />;
+      return (
+        <DashboardLayout company>
+          <Company />
+        </DashboardLayout>
+      );
     }
 
     if (isStudent /* STUDENT CRITERIA */) {
       // Fill in the future with student router
-      return <Fragment />;
+      return (
+        <DashboardLayout student>
+          <Fragment />
+        </DashboardLayout>
+      );
     }
 
     if (isAdmin /* ADMIN CRITERIA */) {
       // Fill in the future with admin router
-      return <Fragment />;
+      return (
+        <DashboardLayout admin>
+          <Fragment />
+        </DashboardLayout>
+      );
     }
 
     return <Authentication />;
