@@ -5,7 +5,8 @@
       "@layouts": ["components/layouts"],
       "@common": ["components/common"],
       "@actions": ["redux/Actions"],
-      "@reducres": ["redux/Reducers"]
+      "@templates": ["redux/Reducers"],
+      "@reducers": ["redux/Reducers"]
     }
   }
 }
