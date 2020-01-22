@@ -1,15 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { CardBody } from '@common/card';
+import { Card, CardBody, CardFooter } from '@common/card';
 import Avatar from '@common/avatar';
 import Box from '@common/box';
+import { FiArrowRight } from 'react-icons/fi';
+import { MdSchool } from 'react-icons/md';
 import Typography from '@common/typography';
-import { Card, BookIcon, CardTop, Divider, DescriptionContainer } from './elements';
+import { BookIcon, CardTop, Divider, DescriptionContainer, FooterButton } from './elements';
 
 const trimText = text => `${text.slice(0, 200)}...`;
 
-const StudentCard = ({ user, setStudent, index }) => (
-  <Card scaleOnHover onClick={() => setStudent(index)}>
+const StudentCard = ({ user, setStudent }) => (
+  <Card scaleOnHover>
     <CardTop>
       <CardBody>
         <Box alignItems="center" display="flex">
@@ -33,11 +35,20 @@ const StudentCard = ({ user, setStudent, index }) => (
         <Typography variant="muted">{trimText(user.description)}</Typography>
       </DescriptionContainer>
     </CardBody>
+    <CardFooter>
+      <FooterButton onClick={setStudent} ml="auto" variant="soft" color="primary">
+        Detail
+        <MdSchool />
+      </FooterButton>
+      <FooterButton ml={10} variant="soft" color="secondary">
+        Request
+        <FiArrowRight />
+      </FooterButton>
+    </CardFooter>
   </Card>
 );
 
 StudentCard.propTypes = {
-  index: PropTypes.number.isRequired,
   user: PropTypes.shape({
     firstName: PropTypes.string.isRequired,
     lastName: PropTypes.string.isRequired,
