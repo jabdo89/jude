@@ -54,8 +54,7 @@ Company.defaultProps = {
     semester: Math.round(Math.random() * 9) + 1,
     description: faker.lorem.paragraph(),
     major: Math.random() > 0.5 ? 'ITC' : 'INT',
-    resume:
-      'https://cors-anywhere.herokuapp.com/https://blockdemy-certs-dev.s3.amazonaws.com/certificates/5d8a8d6f019dfe7f4a2b4bec/1569361263350.pdf'
+    resume: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf'
   }))
 };
 

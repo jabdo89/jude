@@ -19,7 +19,7 @@ class ProfileData extends Component {
         <Profile onClick={this.toggleMenu}>
           <Avatar size="36" src="/static/img/general/avatar.png" />
           <Text>
-            Bienvenido,
+            Welcome,
             <Break />
             <Name>Abdo</Name>
           </Text>

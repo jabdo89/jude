@@ -5,7 +5,7 @@ import Button from '@common/button';
 import Avatar from '@common/avatar';
 import Typography from '@common/typography';
 import { Row, Column, ActionsContainer, DownloadIcon, ContactIcon } from './elements';
-import PreviewPDF from './components/pdf-viewer';
+import Chart from './components/chart';
 
 const DetailModal = ({ user, active, closeButton }) => (
   <Modal size="large" title="Student detail" active={active} closeButton={closeButton}>
@@ -25,9 +25,9 @@ const DetailModal = ({ user, active, closeButton }) => (
           {user.description}
         </Typography>
         <ActionsContainer>
-          <a href={user.resume} download={`${user.firstName}-${user.lastName}-resume.pdf`}>
-            <Button target="_blank" mr={10} variant="soft" color="secondary">
-              Download resume
+          <a href={user.resume} target="_blank" rel="noopener noreferrer">
+            <Button mr={10} variant="soft" color="secondary">
+              View resume
               <DownloadIcon />
             </Button>
           </a>
@@ -38,7 +38,7 @@ const DetailModal = ({ user, active, closeButton }) => (
         </ActionsContainer>
       </Column>
       <Column basis="60">
-        <PreviewPDF src={user.resume} />
+        <Chart />
       </Column>
     </Row>
   </Modal>
