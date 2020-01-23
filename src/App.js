@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import firebase from 'firebase';
+import { connect } from 'react-redux';
 import Loader, { LoaderContainer } from '@common/loader';
 import DashboardLayout from '@layouts/dashboard';
 import Company from './views/company';
@@ -28,10 +29,12 @@ class App extends Component {
 
   render() {
     const { user, loading } = this.state;
+    const { profile } = this.props;
     // REQUIRED: Define a criteria to show company, admin or student layout
     const isStudent = Boolean(user);
     const isCompany = false;
     const isAdmin = false;
+    console.log(profile);
 
     // @Ernesto Remove Loading (App Does not render until user is logged in)
     // @Abdo Can't remove Loading (Routes bounce to students because of redirect before load authentication)
@@ -43,7 +46,7 @@ class App extends Component {
       );
     }
 
-    if (isCompany /* COMPANY CRITERIA */) {
+    if (profile.rol === 'Company') {
       return (
         <DashboardLayout company>
           <Company />
@@ -51,7 +54,7 @@ class App extends Component {
       );
     }
 
-    if (isStudent /* STUDENT CRITERIA */) {
+    if (profile.rol === 'Student') {
       // Fill in the future with student router
       return (
         <DashboardLayout student>
@@ -73,4 +76,10 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = state => {
+  return {
+    profile: state.firebase.profile
+  };
+};
+
+export default connect(mapStateToProps)(App);

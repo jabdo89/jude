@@ -41,6 +41,7 @@ export const studentSignUp = newUser => {
                 .doc(resp.user.uid)
                 .set({
                   pictureUrl: '',
+                  email: newUser.email,
                   rol: 'Student',
                   firstName: newUser.firstName,
                   lastName: newUser.lastName,

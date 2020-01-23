@@ -40,17 +40,11 @@ class Company extends Component {
         <FilterBar />
         <Container>
           {Usuarios &&
-<<<<<<< HEAD
             Usuarios.map((user, index) => {
               return (
                 <StudentCard key={user.id} setStudent={this.setStudent} index={index} user={user} />
               );
             })}
-=======
-            Usuarios.map((user, index) => (
-              <StudentCard key={user.id} setStudent={() => this.setStudent(index)} user={user} />
-            ))}
->>>>>>> 3ac1588fbbd681bccc5b6b77f6a1e5c99f1e2f8e
         </Container>
         {action}
       </Box>
@@ -59,20 +53,7 @@ class Company extends Component {
 }
 
 Company.defaultProps = {
-<<<<<<< HEAD
   Usuarios: undefined
-=======
-  Usuarios: new Array(10).fill().map(() => ({
-    id: faker.random.uuid(),
-    firstName: faker.name.firstName(),
-    lastName: faker.name.lastName(),
-    profileImg: faker.image.avatar(),
-    semester: Math.round(Math.random() * 9) + 1,
-    description: faker.lorem.paragraph(),
-    major: Math.random() > 0.5 ? 'ITC' : 'INT',
-    resume: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf'
-  }))
->>>>>>> 3ac1588fbbd681bccc5b6b77f6a1e5c99f1e2f8e
 };
 
 Company.propTypes = {
