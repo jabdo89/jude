@@ -8,8 +8,8 @@ export const signIn = newUser => {
       .then(() => {
         dispatch({ type: 'SIGNIN_SUCCESS' });
       })
-      .catch(error => {
-        dispatch({ type: 'SIGNIN_ERROR', error });
+      .catch(err => {
+        dispatch({ type: 'SIGNIN_ERROR', err });
       });
   };
 };
