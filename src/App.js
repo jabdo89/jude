@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import firebase from 'firebase';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Loader, { LoaderContainer } from '@common/loader';
 import DashboardLayout from '@layouts/dashboard';
@@ -9,7 +10,6 @@ import Authentication from './views/authentication';
 
 class App extends Component {
   state = {
-    user: null,
     loading: true
   };
 
@@ -20,22 +20,16 @@ class App extends Component {
   authListener() {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
-        this.setState({ user, loading: false });
+        this.setState({ loading: false });
       } else {
-        this.setState({ user: null, loading: false });
+        this.setState({ loading: false });
       }
     });
   }
 
   render() {
-    const { user, loading } = this.state;
+    const { loading } = this.state;
     const { profile } = this.props;
-    // REQUIRED: Define a criteria to show company, admin or student layout
-    const isStudent = Boolean(user);
-    const isCompany = false;
-    const isAdmin = false;
-    console.log(profile);
-
     // @Ernesto Remove Loading (App Does not render until user is logged in)
     // @Abdo Can't remove Loading (Routes bounce to students because of redirect before load authentication)
     if (loading) {
@@ -55,7 +49,6 @@ class App extends Component {
     }
 
     if (profile.rol === 'Student') {
-      // Fill in the future with student router
       return (
         <DashboardLayout student>
           <Student />
@@ -63,8 +56,7 @@ class App extends Component {
       );
     }
 
-    if (isAdmin /* ADMIN CRITERIA */) {
-      // Fill in the future with admin router
+    if (profile.rol === 'Admin') {
       return (
         <DashboardLayout admin>
           <Fragment />
@@ -75,6 +67,14 @@ class App extends Component {
     return <Authentication />;
   }
 }
+
+App.defaultProps = {
+  profile: undefined
+};
+
+App.propTypes = {
+  profile: PropTypes.object
+};
 
 const mapStateToProps = state => {
   return {
