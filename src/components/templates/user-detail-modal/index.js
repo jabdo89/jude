@@ -4,7 +4,9 @@ import Modal from '@common/modal';
 import Button from '@common/button';
 import Avatar from '@common/avatar';
 import Typography from '@common/typography';
-import { Row, Column, ActionsContainer, DownloadIcon, ContactIcon } from './elements';
+import { CardFooter } from '@common/card';
+import { FiArrowRight } from 'react-icons/fi';
+import { Row, Column, ActionsContainer, DownloadIcon, ContactIcon, FooterButton } from './elements';
 import Chart from './components/chart';
 
 const DetailModal = ({ user, active, closeButton }) => (
@@ -41,6 +43,12 @@ const DetailModal = ({ user, active, closeButton }) => (
         <Chart />
       </Column>
     </Row>
+    <CardFooter>
+      <FooterButton ml="auto" variant="soft" color="secondary">
+        Request
+        <FiArrowRight />
+      </FooterButton>
+    </CardFooter>
   </Modal>
 );
 

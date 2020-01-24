@@ -1,17 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Card, CardBody, CardFooter } from '@common/card';
+import { CardBody } from '@common/card';
 import Avatar from '@common/avatar';
 import Box from '@common/box';
-import { FiArrowRight } from 'react-icons/fi';
-import { MdSchool } from 'react-icons/md';
 import Typography from '@common/typography';
-import { BookIcon, CardTop, Divider, DescriptionContainer, FooterButton } from './elements';
+import { Card, BookIcon, CardTop, Divider, DescriptionContainer } from './elements';
 
 const trimText = text => `${text.slice(0, 200)}...`;
 
 const StudentCard = ({ user, setStudent }) => (
-  <Card scaleOnHover>
+  <Card onClick={setStudent} scaleOnHover>
     <CardTop>
       <CardBody>
         <Box alignItems="center" display="flex">
@@ -35,16 +33,6 @@ const StudentCard = ({ user, setStudent }) => (
         <Typography variant="muted">{trimText(user.description)}</Typography>
       </DescriptionContainer>
     </CardBody>
-    <CardFooter>
-      <FooterButton onClick={setStudent} ml="auto" variant="soft" color="primary">
-        Detail
-        <MdSchool />
-      </FooterButton>
-      <FooterButton ml={10} variant="soft" color="secondary">
-        Request
-        <FiArrowRight />
-      </FooterButton>
-    </CardFooter>
   </Card>
 );
 

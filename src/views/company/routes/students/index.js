@@ -42,7 +42,7 @@ class Company extends Component {
           {Usuarios &&
             Usuarios.map((user, index) => {
               return (
-                <StudentCard key={user.id} setStudent={this.setStudent} index={index} user={user} />
+                <StudentCard key={user.id} setStudent={() => this.setStudent(index)} user={user} />
               );
             })}
         </Container>
