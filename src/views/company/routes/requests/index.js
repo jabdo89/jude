@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import faker from 'faker';
 import Box from '@common/box';
+import UserDetailModal from '@templates/user-detail-modal';
 import confirmation from '@templates/confirmation';
 import FilterBar from './components/filter-bar';
 import RequestCard from './components/request-card';
@@ -10,6 +11,45 @@ import Container from './elements';
 faker.locale = 'es_MX';
 
 class RequestsView extends Component {
+  state = {
+    activeModal: false,
+    selectedUser: {}
+  };
+
+  setUserModal = idx => {
+    const { activeModal } = this.state;
+    const { Requests } = this.props;
+    if (activeModal) {
+      this.setState({
+        activeModal: false,
+        selectedUser: {}
+      });
+    } else {
+      const {
+        studentFirstName,
+        studentLastName,
+        studentProfileImg,
+        studentDesc,
+        semester,
+        major,
+        curriculumPdf
+      } = Requests[idx];
+
+      this.setState({
+        activeModal: true,
+        selectedUser: {
+          firstName: studentFirstName,
+          lastName: studentLastName,
+          profileImg: studentProfileImg,
+          semester,
+          description: studentDesc,
+          major,
+          resume: curriculumPdf
+        }
+      });
+    }
+  };
+
   acceptRequest = async () => {
     if (
       await confirmation(
@@ -38,19 +78,28 @@ class RequestsView extends Component {
   };
 
   render() {
+    const { selectedUser, activeModal } = this.state;
     const { Requests } = this.props;
     return (
       <Box pb={30}>
         <FilterBar />
         <Container>
-          {Requests.map(request => (
+          {Requests.map((request, idx) => (
             <RequestCard
               key={request.id}
               request={request}
               acceptRequest={this.acceptRequest}
               deleteRequest={this.deleteRequest}
+              setUserModal={() => this.setUserModal(idx)}
             />
           ))}
+          {activeModal && (
+            <UserDetailModal
+              user={selectedUser}
+              active={activeModal}
+              closeButton={this.setUserModal}
+            />
+          )}
         </Container>
       </Box>
     );
@@ -64,7 +113,8 @@ RequestsView.defaultProps = {
     companyLogoUrl: faker.image.business(),
     budget: faker.random.number().toLocaleString(),
     jobOfferDescription: faker.lorem.paragraph(),
-    studentName: `${faker.name.firstName()} ${faker.name.lastName()}`,
+    studentFirstName: faker.name.firstName(),
+    studentLastName: faker.name.lastName(),
     major: Math.random() > 0.5 ? 'ITC' : 'INT',
     semester: Math.round(Math.random() * 9) + 1,
     studentDesc: faker.lorem.paragraph(),

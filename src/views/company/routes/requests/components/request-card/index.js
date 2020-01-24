@@ -8,13 +8,15 @@ import Button from '@common/button';
 import Avatar from '@common/avatar';
 import { Container, Span } from './elements';
 
-const RequestCard = ({ request, acceptRequest, deleteRequest }) => (
+const RequestCard = ({ request, acceptRequest, deleteRequest, setUserModal }) => (
   <Card scaleOnHover scale={1.011}>
     <Container>
       <Box display="flex" alignItems="center" mr="auto">
         <Avatar mr={15} size={42} src={request.studentProfileImg} />
         <Box>
-          <Typography>{request.studentName}</Typography>
+          <Typography>
+            {request.studentFirstName} {request.studentLastName}
+          </Typography>
           <Typography mt={5} variant="muted">
             {request.major} | {request.semester}º semester
           </Typography>
@@ -32,8 +34,8 @@ const RequestCard = ({ request, acceptRequest, deleteRequest }) => (
           Delete
           <FiX />
         </Button>
-        <Button variant="soft" color="primary" size="small">
-          Profile
+        <Button onClick={setUserModal} variant="soft" color="primary" size="small">
+          Detail
           <FiUser />
         </Button>
       </Box>
@@ -48,7 +50,8 @@ RequestCard.propTypes = {
     companyLogoUrl: PropTypes.string,
     budget: PropTypes.string,
     jobOfferDescription: PropTypes.string,
-    studentName: PropTypes.string,
+    studentFirstName: PropTypes.string,
+    studentLastName: PropTypes.string,
     major: PropTypes.string,
     semester: PropTypes.number,
     studentDesc: PropTypes.string,
@@ -62,7 +65,8 @@ RequestCard.propTypes = {
     studentProfileImg: PropTypes.string
   }).isRequired,
   acceptRequest: PropTypes.func.isRequired,
-  deleteRequest: PropTypes.func.isRequired
+  deleteRequest: PropTypes.func.isRequired,
+  setUserModal: PropTypes.func.isRequired
 };
 
 export default RequestCard;
