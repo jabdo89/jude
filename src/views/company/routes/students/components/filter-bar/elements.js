@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import CommonInput from '@common/input';
+import CommonButton from '@common/button';
 import CommonSelect from '@common/select';
 
 const Container = styled.div`
@@ -83,4 +84,11 @@ const FilterContainer = styled.div`
   `};
 `;
 
-export { Input, Container, Select, Divider, FilterContainer };
+const BackButton = styled(CommonButton)`
+  svg {
+    font-size: 22px;
+    margin-right: 5px;
+  }
+`;
+
+export { Input, Container, Select, Divider, FilterContainer, BackButton };

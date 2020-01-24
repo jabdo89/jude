@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 import Typography from '@common/typography';
+import Box from '@common/box';
+import Button from '@common/button';
 import { CardBody as CommonCardBody } from '@common/card';
 import { FaBriefcase } from 'react-icons/fa';
 
@@ -54,4 +56,44 @@ const Actions = styled.div`
   } */
 `;
 
-export { OfferBody, Divider, TextContainer, TypographyWithIcon, CardTop, JobIcon, Actions };
+const Column = styled(Box)`
+  flex-basis: ${props => props.basis}%;
+  margin-right: 20px;
+  word-break: break-all;
+
+  &:last-child {
+    margin-right: 0px;
+  }
+
+  ${props => props.theme.media.tablet`
+    margin-right: 0px;
+  `}
+`;
+
+const Row = styled.div`
+  display: flex;
+
+  ${props => props.theme.media.desktop`
+    flex-direction: column;
+  `}
+`;
+
+const ActionButton = styled(Button)`
+  svg {
+    font-size: 22p;
+    margin-left: 5px;
+  }
+`;
+
+export {
+  OfferBody,
+  Divider,
+  TextContainer,
+  TypographyWithIcon,
+  CardTop,
+  JobIcon,
+  Actions,
+  Column,
+  Row,
+  ActionButton
+};
