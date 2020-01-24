@@ -44,7 +44,7 @@ class Navbar extends Component {
                 variant="leadText"
                 color="primary"
               >
-                {pathname.split('/')[1].replace('-', ' ')}
+                {pathname.includes('@') ? 'My profile' : pathname.split('/')[1].replace('-', ' ')}
               </Typography>
               {/* This div will be used as a portal for specific action views */}
               {/* DO NOT REMOVE */}

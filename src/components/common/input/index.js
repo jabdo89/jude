@@ -61,6 +61,7 @@ class Input extends Component {
             warning={warning}
             error={error}
             message={message}
+            label={label}
             active={active}
           >
             {leftIcon}

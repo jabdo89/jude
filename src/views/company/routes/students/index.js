@@ -45,7 +45,7 @@ class Company extends Component {
     } else action = null;
     return (
       <Box pb={30}>
-        <FilterBar isRecommendation={!!refState} jobOfferName={refState.jobOfferName} />
+        <FilterBar isRecommendation={!!refState} jobOfferName={refState && refState.jobOfferName} />
         <Container>
           {Usuarios &&
             Usuarios.map((user, index) => {

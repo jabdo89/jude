@@ -105,6 +105,12 @@ const LeftIconContainer = styled.div`
     margin-top: 0px;
   `};
 
+  ${({ label }) =>
+    label &&
+    `
+    height: 40px;
+  `};
+
   ${({ active, theme, success, warning, error }) =>
     active &&
     `
