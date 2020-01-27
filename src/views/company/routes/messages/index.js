@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Box from '@common/box';
+import { firestoreConnect } from 'react-redux-firebase';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
 import faker from 'faker';
 import Typography from '@common/typography';
 import NavbarActionPortal from '@templates/navbar-action-portal';
@@ -22,37 +25,40 @@ class Messages extends Component {
   render() {
     const { Conversations } = this.props;
     const { actualChat } = this.state;
-    return (
-      <Container>
-        <Column basis="35" pl={20} bg="lighter" hideOnMobileIf={actualChat}>
-          <NavbarActionPortal>
-            <SearchBar />
-          </NavbarActionPortal>
-          <ListContainer>
-            {Conversations.map(({ user, messages, seen }, idx) => (
-              <ConversationCard
-                key={user.id}
-                openChat={() => this.setActualChat(idx)}
-                user={user}
-                lastMessage={messages[0].message}
-                seen={seen}
-              />
-            ))}
-          </ListContainer>
-        </Column>
-        <Column basis="65" hideOnMobileIf={!actualChat}>
-          {!actualChat ? (
-            <Box height="100%" display="flex" alignItems="center" justifyContent="center" p={20}>
-              <Typography textAlign="center" variant="leadText">
-                Selecciona una conversación
-              </Typography>
-            </Box>
-          ) : (
-            <ChatContent closeChat={() => this.setActualChat(-1)} chat={actualChat} />
-          )}
-        </Column>
-      </Container>
-    );
+    if (Conversations !== undefined) {
+      return (
+        <Container>
+          <Column basis="35" pl={20} bg="lighter" hideOnMobileIf={actualChat}>
+            <NavbarActionPortal>
+              <SearchBar />
+            </NavbarActionPortal>
+            <ListContainer>
+              {Conversations.map(({ user, messages, seen }, idx) => (
+                <ConversationCard
+                  key={idx.id}
+                  openChat={() => this.setActualChat(idx)}
+                  user={user}
+                  lastMessage="change to Job Offer Title"
+                  seen={seen}
+                />
+              ))}
+            </ListContainer>
+          </Column>
+          <Column basis="65" hideOnMobileIf={!actualChat}>
+            {!actualChat ? (
+              <Box height="100%" display="flex" alignItems="center" justifyContent="center" p={20}>
+                <Typography textAlign="center" variant="leadText">
+                  Selecciona una conversación
+                </Typography>
+              </Box>
+            ) : (
+              <ChatContent closeChat={() => this.setActualChat(-1)} chat={actualChat} />
+            )}
+          </Column>
+        </Container>
+      );
+    }
+    return null;
   }
 }
 
@@ -82,5 +88,14 @@ Messages.defaultProps = {
 Messages.propTypes = {
   Conversations: PropTypes.arrayOf(PropTypes.object)
 };
+function mapStateToProps(state) {
+  return {
+    Conversations: state.firestore.ordered.JobOffersyStudents,
+    profile: state.firebase.profile
+  };
+}
 
-export default Messages;
+export default compose(
+  connect(mapStateToProps),
+  firestoreConnect([{ collection: 'JobOffersyStudents' }])
+)(Messages);

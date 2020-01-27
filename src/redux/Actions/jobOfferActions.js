@@ -50,6 +50,22 @@ export const deleateJobOffer = jobOffer => {
   };
 };
 
+export const sendMessage = message => {
+  return (dispatch, getState, getFirebase) => {
+    const firebase = getFirebase();
+    const id = getState().firebase.profile.firstName;
+
+    firebase
+      .database()
+      .ref('messages/' + 1)
+      .set({
+        id: 4,
+        message: message.message,
+        timestamp: new Date(),
+        sender: 'abdo'
+      });
+  };
+};
 // Action for Student Appling for JobOffers
 
 // Action for Company Recomending StudentaJob
