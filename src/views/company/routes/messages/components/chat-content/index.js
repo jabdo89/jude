@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Typography from '@common/typography';
 import Box from '@common/box';
-import { MdSend, MdClear } from 'react-icons/md';
+import { MdSend, MdClear, MdDone, MdCancel } from 'react-icons/md';
 import Avatar from '@common/avatar';
 import Input from '@common/input';
 import Tooltip from '@common/tooltip';
@@ -13,7 +13,9 @@ import {
   SendButton,
   MessagesContainer,
   Scroll,
-  CloseButton
+  CloseButton,
+  ActionButton,
+  Form
 } from './elements';
 
 class ChatContent extends Component {
@@ -30,6 +32,11 @@ class ChatContent extends Component {
 
   handleMessageChange = ({ target: { value } }) => this.setState({ message: value });
 
+  submitMessage = event => {
+    event.preventDefault();
+    // Complete with message submission
+  };
+
   render() {
     const {
       chat: { user, messages },
@@ -44,6 +51,14 @@ class ChatContent extends Component {
             <Typography mr="auto" variant="leadText">
               {user.firstName} {user.lastName}
             </Typography>
+            <Box display="flex" alignItems="center">
+              <ActionButton size="small" color="primary" variant="soft" mr={5}>
+                Hire <MdDone />
+              </ActionButton>
+              <ActionButton size="small" color="danger" variant="soft" mr={5}>
+                Reject <MdCancel />
+              </ActionButton>
+            </Box>
             <Tooltip tag="Close chat">
               <CloseButton onClick={closeChat} variant="link" color="danger">
                 <MdClear />
@@ -66,13 +81,13 @@ class ChatContent extends Component {
           </MessagesContainer>
         </Scroll>
         <WhiteBox height={60} bottom="0">
-          <Box display="flex" p={10}>
+          <Form onSubmit={this.submitMessage}>
             <Input value={message} onChange={this.handleMessageChange} mt={0} />
             <SendButton ml={5} variant="soft" color="primary">
               Send
               <MdSend />
             </SendButton>
-          </Box>
+          </Form>
         </WhiteBox>
       </Container>
     );

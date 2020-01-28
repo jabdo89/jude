@@ -58,4 +58,24 @@ const CloseButton = styled(Button)`
   }
 `;
 
-export { Container, WhiteBox, SendButton, MessagesContainer, Scroll, CloseButton };
+const ActionButton = styled(Button)`
+  svg {
+    margin-left: 5px;
+  }
+`;
+
+const Form = styled.form`
+  display: flex;
+  padding: 10px;
+`;
+
+export {
+  Container,
+  WhiteBox,
+  SendButton,
+  MessagesContainer,
+  Scroll,
+  CloseButton,
+  ActionButton,
+  Form
+};
