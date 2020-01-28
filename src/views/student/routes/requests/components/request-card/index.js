@@ -3,41 +3,46 @@ import PropTypes from 'prop-types';
 import { Card } from '@common/card';
 import Typography from '@common/typography';
 import Box from '@common/box';
-import { FiCheck, FiX, FiUser } from 'react-icons/fi';
-import Button from '@common/button';
+import Pill from '@common/pill';
 import Avatar from '@common/avatar';
-import { Container, Span } from './elements';
+import { Container, Span, StagePill } from './elements';
 
-const RequestCard = ({ request, acceptRequest, deleteRequest, setUserModal }) => (
+const getColor = stage => {
+  if (stage === 'interviewing') {
+    return 'secondary';
+  }
+
+  if (stage === 'wating for interview') {
+    return 'warning';
+  }
+
+  return 'primary';
+};
+
+const RequestCard = ({ request }) => (
   <Card scaleOnHover scale={1.011}>
     <Container>
       <Box display="flex" alignItems="center" mr="auto">
-        <Avatar mr={15} size={42} src={request.studentProfileImg} />
+        <Avatar mr={15} size={42} src={request.companyLogoUrl} />
         <Box>
-          <Typography>
-            {request.studentFirstName} {request.studentLastName}
+          <Typography fontWeight="bold">{request.jobOfferName}</Typography>
+          <Box display="flex" flexDirection="column" justifyContent="center">
+            <Pill color="secondary" variant="soft" size="small" mt={5}>
+              ${request.budget} / month
+            </Pill>
+          </Box>
+          <Typography mt={5} pr="10" fontSize="0.85rem">
+            Company <Span color="primary">{request.companyName}</Span>
           </Typography>
           <Typography mt={5} variant="muted">
-            {request.major} | {request.semester}º semester
-          </Typography>
-          <Typography mt={5} fontSize="0.85rem">
-            Applied for <Span color="primary">{request.jobOfferName}</Span>
+            {request.jobOfferDescription}
           </Typography>
         </Box>
       </Box>
-      <Box display="flex" ml="auto">
-        <Button onClick={acceptRequest} variant="soft" mr={5} color="success" size="small">
-          Accept
-          <FiCheck />
-        </Button>
-        <Button onClick={deleteRequest} variant="soft" mr={5} color="danger" size="small">
-          Delete
-          <FiX />
-        </Button>
-        <Button onClick={setUserModal} variant="soft" color="primary" size="small">
-          Detail
-          <FiUser />
-        </Button>
+      <Box minWidth={200} display="flex" justifyContent="center">
+        <StagePill variant="outlined" color={getColor(request.stage)}>
+          {request.stage}
+        </StagePill>
       </Box>
     </Container>
   </Card>
@@ -46,6 +51,7 @@ const RequestCard = ({ request, acceptRequest, deleteRequest, setUserModal }) =>
 RequestCard.propTypes = {
   request: PropTypes.shape({
     id: PropTypes.string,
+    stage: PropTypes.string,
     jobOfferName: PropTypes.string,
     companyLogoUrl: PropTypes.string,
     companyName: PropTypes.string,
@@ -64,10 +70,7 @@ RequestCard.propTypes = {
     requirements: PropTypes.arrayOf(PropTypes.string),
     status: PropTypes.string,
     studentProfileImg: PropTypes.string
-  }).isRequired,
-  acceptRequest: PropTypes.func.isRequired,
-  deleteRequest: PropTypes.func.isRequired,
-  setUserModal: PropTypes.func.isRequired
+  }).isRequired
 };
 
 export default RequestCard;

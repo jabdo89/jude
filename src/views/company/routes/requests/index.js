@@ -112,6 +112,7 @@ RequestsView.defaultProps = {
     jobOfferName: faker.name.jobTitle(),
     companyLogoUrl: faker.image.business(),
     budget: faker.random.number().toLocaleString(),
+    companyName: faker.company.companyName(),
     jobOfferDescription: faker.lorem.paragraph(),
     studentFirstName: faker.name.firstName(),
     studentLastName: faker.name.lastName(),
