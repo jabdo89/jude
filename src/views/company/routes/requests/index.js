@@ -31,6 +31,7 @@ class RequestsView extends Component {
         studentProfileImg,
         studentDesc,
         semester,
+        school,
         major,
         curriculumPdf
       } = Requests[idx];
@@ -40,6 +41,7 @@ class RequestsView extends Component {
         selectedUser: {
           firstName: studentFirstName,
           lastName: studentLastName,
+          school,
           profileImg: studentProfileImg,
           semester,
           description: studentDesc,
@@ -112,6 +114,7 @@ RequestsView.defaultProps = {
     jobOfferName: faker.name.jobTitle(),
     companyLogoUrl: faker.image.business(),
     budget: faker.random.number().toLocaleString(),
+    school: Math.random() < 0.5 ? 'ITESM' : 'UANL',
     companyName: faker.company.companyName(),
     jobOfferDescription: faker.lorem.paragraph(),
     studentFirstName: faker.name.firstName(),

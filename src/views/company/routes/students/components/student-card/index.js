@@ -26,6 +26,10 @@ const StudentCard = ({ user, setStudent }) => (
         <Box display="flex" flexDirection="column" justifyContent="center">
           <Typography variant="heading">{`${user.firstName} ${user.lastName}`}</Typography>
           <Typography variant="muted">{user.semester}º semester</Typography>
+          <Typography fontSize="0.875rem" color="secondary">
+            {/* REMOVE DEFAULT ITESM AFTER ADDED DATA */}
+            {user.school || 'ITESM'}
+          </Typography>
         </Box>
       </Box>
       <Divider />
@@ -40,6 +44,7 @@ StudentCard.propTypes = {
   user: PropTypes.shape({
     firstName: PropTypes.string.isRequired,
     lastName: PropTypes.string.isRequired,
+    school: PropTypes.string.isRequired,
     profileImg: PropTypes.string,
     semester: PropTypes.number.isRequired,
     description: PropTypes.string.isRequired,

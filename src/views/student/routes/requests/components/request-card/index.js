@@ -55,6 +55,7 @@ RequestCard.propTypes = {
     jobOfferName: PropTypes.string,
     companyLogoUrl: PropTypes.string,
     companyName: PropTypes.string,
+    school: PropTypes.string,
     budget: PropTypes.string,
     jobOfferDescription: PropTypes.string,
     studentFirstName: PropTypes.string,

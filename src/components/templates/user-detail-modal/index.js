@@ -31,6 +31,10 @@ class DetailModal extends Component {
               <Typography fontSize="13px" color="secondary" textAlign="center">
                 {user.semester}º semester
               </Typography>
+              <Typography fontSize="13px" color="primary" textAlign="center">
+                {/* REMOVE DEFAULT ITESM AFTER ADDED DATA */}
+                {user.school || 'ITESM'}
+              </Typography>
               <Typography my={20} variant="leadText" color="primary">
                 About
               </Typography>
@@ -65,6 +69,7 @@ DetailModal.propTypes = {
   user: PropTypes.shape({
     firstName: PropTypes.string.isRequired,
     lastName: PropTypes.string.isRequired,
+    school: PropTypes.string.isRequired,
     profileImg: PropTypes.string,
     semester: PropTypes.number.isRequired,
     description: PropTypes.string.isRequired,
