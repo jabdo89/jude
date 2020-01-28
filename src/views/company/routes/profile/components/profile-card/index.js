@@ -81,10 +81,8 @@ class ProfileCard extends Component {
               )}
             </ImageContainer>
             <Info
-              firstName={user.firstName}
-              lastName={user.lastName}
               description={user.description}
-              username={user.username}
+              companyName={user.companyName}
               major={user.major}
               semester={user.semester}
             />
@@ -113,9 +111,7 @@ class ProfileCard extends Component {
 ProfileCard.propTypes = {
   user: PropTypes.shape({
     id: PropTypes.string,
-    username: PropTypes.string.isRequired,
-    firstName: PropTypes.string.isRequired,
-    lastName: PropTypes.string.isRequired,
+    companyName: PropTypes.string.isRequired,
     profileImg: PropTypes.string,
     semester: PropTypes.number.isRequired,
     description: PropTypes.string.isRequired,

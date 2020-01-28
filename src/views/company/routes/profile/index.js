@@ -19,10 +19,9 @@ const Profile = ({ User }) => (
 Profile.defaultProps = {
   User: {
     id: faker.random.uuid(),
-    username: faker.internet.userName(),
+    companyName: faker.company.companyName(),
     email: faker.internet.email(),
-    firstName: faker.name.firstName(),
-    lastName: faker.name.lastName(),
+    website: faker.internet.url(),
     profileImg: faker.image.avatar(),
     semester: Math.round(Math.random() * 9) + 1,
     description: faker.lorem.paragraph(),
@@ -34,10 +33,9 @@ Profile.defaultProps = {
 Profile.propTypes = {
   User: PropTypes.shape({
     id: PropTypes.string,
-    username: PropTypes.string.isRequired,
+    companyName: PropTypes.string.isRequired,
+    website: PropTypes.string.isRequired,
     email: PropTypes.string.isRequired,
-    firstName: PropTypes.string.isRequired,
-    lastName: PropTypes.string.isRequired,
     profileImg: PropTypes.string,
     semester: PropTypes.number.isRequired,
     description: PropTypes.string.isRequired,

@@ -4,60 +4,50 @@ import Typography from '@common/typography';
 import Box from '@common/box';
 import Button from '@common/button';
 import Textarea from '@common/textarea';
-import { FaUser, FaEnvelope, FaBars, FaRegUser } from 'react-icons/fa';
+import { FaEnvelope, FaBars, FaBuilding, FaExternalLinkAlt } from 'react-icons/fa';
 import Input from '@common/input';
 
 class DataForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: props.user.username,
-      firstName: props.user.firstName,
+      companyName: props.user.companyName,
       email: props.user.email,
-      lastName: props.user.lastName,
-      description: props.user.description
+      description: props.user.description,
+      website: props.user.website
     };
   }
 
   handleInputChange = ({ target: { name, value } }) => this.setState({ [name]: value });
 
   render() {
-    const { username, firstName, lastName, email, description } = this.state;
+    const { companyName, email, description, website } = this.state;
     return (
       <Box mt={20} px={20}>
         <Typography mb={30} variant="leadText">
           Edit your data
         </Typography>
         <Input
-          label="Username"
-          name="username"
+          label="Company"
+          name="companyName"
           onChange={this.handleInputChange}
-          value={username}
-          leftIcon={<FaUser />}
+          value={companyName}
+          disabled
+          leftIcon={<FaBuilding />}
         />
-        <Box display="flex">
-          <Input
-            label="First name"
-            name="firstName"
-            onChange={this.handleInputChange}
-            value={firstName}
-            leftIcon={<FaRegUser />}
-            mr={10}
-          />
-          <Input
-            label="Last name"
-            name="lastName"
-            onChange={this.handleInputChange}
-            value={lastName}
-            leftIcon={<FaRegUser />}
-          />
-        </Box>
         <Input
           label="Email"
           name="email"
           onChange={this.handleInputChange}
           value={email}
           leftIcon={<FaEnvelope />}
+        />
+        <Input
+          label="Website"
+          name="website"
+          onChange={this.handleInputChange}
+          value={website}
+          leftIcon={<FaExternalLinkAlt />}
         />
         <Textarea
           label="Description"
@@ -80,10 +70,9 @@ class DataForm extends Component {
 DataForm.propTypes = {
   user: PropTypes.shape({
     id: PropTypes.string,
-    username: PropTypes.string.isRequired,
-    firstName: PropTypes.string.isRequired,
+    companyName: PropTypes.string.isRequired,
     email: PropTypes.string.isRequired,
-    lastName: PropTypes.string.isRequired,
+    website: PropTypes.string.isRequired,
     semester: PropTypes.number.isRequired,
     description: PropTypes.string.isRequired,
     major: PropTypes.string.isRequired,
