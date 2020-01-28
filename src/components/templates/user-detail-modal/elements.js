@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import Box from '@common/box';
 import Button from '@common/button';
-import { FiMessageSquare, FiDownload } from 'react-icons/fi';
+import { FiDownload, FiArrowRight } from 'react-icons/fi';
 
 const Row = styled.div`
   display: flex;
@@ -37,11 +37,11 @@ const ActionsContainer = styled.div`
   `}
 `;
 
-const ContactIcon = styled(FiMessageSquare)`
+const DownloadIcon = styled(FiDownload)`
   margin-left: 5px;
 `;
 
-const DownloadIcon = styled(FiDownload)`
+const RightIcon = styled(FiArrowRight)`
   margin-left: 5px;
 `;
 
@@ -51,4 +51,4 @@ const FooterButton = styled(Button)`
   }
 `;
 
-export { Row, Column, ActionsContainer, ContactIcon, DownloadIcon, FooterButton };
+export { Row, Column, ActionsContainer, DownloadIcon, FooterButton, RightIcon };
