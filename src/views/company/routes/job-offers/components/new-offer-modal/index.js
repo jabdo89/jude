@@ -156,7 +156,6 @@ class NewOfferModal extends Component {
           </Row>
           <Input
             label="Requirements (press enter to add)"
-            required
             onChange={this.handleInputChange}
             onKeyPress={this.addRequirement}
             type="text"
