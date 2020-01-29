@@ -2,6 +2,8 @@ import styled from 'styled-components';
 import Typography from '@common/typography';
 import { CardBody as CommonCardBody } from '@common/card';
 import { FaBriefcase } from 'react-icons/fa';
+import Button from '@common/button';
+import { FiArrowRight } from 'react-icons/fi';
 
 const OfferBody = styled(CommonCardBody)`
   cursor: pointer;
@@ -38,4 +40,25 @@ const CardTop = styled.div`
   align-items: center;
 `;
 
-export { OfferBody, Divider, TextContainer, TypographyWithIcon, CardTop, JobIcon };
+const ShowMore = styled(Button)`
+  padding: 0;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
+const RightIcon = styled(FiArrowRight)`
+  margin-left: 5px;
+`;
+
+export {
+  OfferBody,
+  Divider,
+  TextContainer,
+  TypographyWithIcon,
+  CardTop,
+  JobIcon,
+  ShowMore,
+  RightIcon
+};
