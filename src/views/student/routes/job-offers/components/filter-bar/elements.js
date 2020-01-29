@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import CommonInput from '@common/input';
+import CommonSelect from '@common/select';
 
 const Container = styled.div`
   display: flex;
@@ -44,4 +45,33 @@ const Input = styled(CommonInput)`
   }
 `;
 
-export { Input, Container };
+const Select = styled(CommonSelect)`
+  width: auto;
+  margin-top: 0;
+  select {
+    border: none;
+    background-color: transparent;
+  }
+
+  ${props => props.theme.media.phone`
+    flex-grow: 1;
+  `};
+
+  &:focus-within {
+    select {
+      border: none;
+      box-shadow: initial;
+    }
+  }
+`;
+
+const FilterContainer = styled.div`
+  display: flex;
+  align-items: center;
+
+  ${props => props.theme.media.phone`
+    width: 100%;
+  `};
+`;
+
+export { Input, Container, Select, FilterContainer };
