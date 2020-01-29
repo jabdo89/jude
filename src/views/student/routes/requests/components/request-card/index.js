@@ -4,6 +4,8 @@ import { Card } from '@common/card';
 import Typography from '@common/typography';
 import Box from '@common/box';
 import Pill from '@common/pill';
+import Button from '@common/button';
+import { FiCheck, FiX } from 'react-icons/fi';
 import Avatar from '@common/avatar';
 import { Container, Span, StagePill } from './elements';
 
@@ -19,7 +21,7 @@ const getColor = stage => {
   return 'primary';
 };
 
-const RequestCard = ({ request }) => (
+const RequestCard = ({ request, acceptRequest, deleteRequest }) => (
   <Card scaleOnHover scale={1.011}>
     <Container>
       <Box display="flex" alignItems="center" mr="auto">
@@ -39,10 +41,23 @@ const RequestCard = ({ request }) => (
           </Typography>
         </Box>
       </Box>
-      <Box minWidth={200} display="flex" justifyContent="center">
-        <StagePill variant="outlined" color={getColor(request.stage)}>
-          {request.stage}
-        </StagePill>
+      <Box display="flex" flexDirection="column" alignItems="center">
+        <Box ml="auto" display="flex">
+          <Button onClick={acceptRequest} variant="soft" mr={5} color="success" size="small">
+            Accept
+            <FiCheck />
+          </Button>
+          <Button onClick={deleteRequest} variant="soft" color="danger" size="small">
+            Delete
+            <FiX />
+          </Button>
+        </Box>
+        <Box display="flex" flexDirection="column" mt={10} alignItems="center">
+          <Typography fontSize="10px">Status with company</Typography>
+          <StagePill size="small" variant="outlined" color={getColor(request.stage)}>
+            {request.stage}
+          </StagePill>
+        </Box>
       </Box>
     </Container>
   </Card>
@@ -71,7 +86,9 @@ RequestCard.propTypes = {
     requirements: PropTypes.arrayOf(PropTypes.string),
     status: PropTypes.string,
     studentProfileImg: PropTypes.string
-  }).isRequired
+  }).isRequired,
+  acceptRequest: PropTypes.func.isRequired,
+  deleteRequest: PropTypes.func.isRequired
 };
 
 export default RequestCard;

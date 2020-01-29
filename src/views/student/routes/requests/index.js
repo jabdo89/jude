@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import faker from 'faker';
 import Box from '@common/box';
+import confirmation from '@templates/confirmation';
 import FilterBar from './components/filter-bar';
 import RequestCard from './components/request-card';
 import Container from './elements';
@@ -22,16 +23,52 @@ const getStage = () => {
   return 'accepted';
 };
 
-const RequestsView = ({ Requests }) => (
-  <Box pb={30}>
-    <FilterBar />
-    <Container>
-      {Requests.map(request => (
-        <RequestCard key={request.id} request={request} />
-      ))}
-    </Container>
-  </Box>
-);
+class RequestsView extends Component {
+  acceptRequest = async () => {
+    if (
+      await confirmation('Are you sure?', 'The company will be notified about your confirmation', {
+        text: 'CONFIRM',
+        description: "Please, type 'CONFIRM' to confirm"
+      })
+    ) {
+      /*
+        Handle request acceptance here
+      */
+    }
+  };
+
+  deleteRequest = async () => {
+    if (
+      await confirmation('Are you sure?', 'This will totally discard the selected offer', {
+        text: 'DELETE',
+        description: "Please, type 'DELETE' to confirm"
+      })
+    ) {
+      /*
+        Handle request deletion here
+      */
+    }
+  };
+
+  render() {
+    const { Requests } = this.props;
+    return (
+      <Box pb={30}>
+        <FilterBar />
+        <Container>
+          {Requests.map(request => (
+            <RequestCard
+              key={request.id}
+              request={request}
+              acceptRequest={this.acceptRequest}
+              deleteRequest={this.deleteRequest}
+            />
+          ))}
+        </Container>
+      </Box>
+    );
+  }
+}
 
 RequestsView.defaultProps = {
   Requests: new Array(30).fill().map(() => ({

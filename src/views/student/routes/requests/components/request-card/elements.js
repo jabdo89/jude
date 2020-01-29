@@ -8,6 +8,10 @@ const Container = styled.div`
 
   ${props => props.theme.media.tablet`
     flex-direction: column;
+
+    button {
+      margin-top: 15px;
+    }
   `}
 `;
 
