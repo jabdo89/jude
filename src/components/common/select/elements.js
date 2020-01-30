@@ -91,11 +91,13 @@ const PseudoSelect = styled.select`
 
 const LeftIconContainer = styled.div`
   position: absolute;
-  display: block;
+  display: flex;
   left: 0;
   padding: 0.675rem 0.75rem;
   color: ${({ theme }) => theme.colors.lightDark};
   font-size: 16px;
+  height: 100%;
+  align-items: center;
 
   ${({ message }) =>
     message &&

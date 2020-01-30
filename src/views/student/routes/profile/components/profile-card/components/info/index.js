@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
+import Button from '@common/button';
 import Typography from '@common/typography';
 import Pill from '@common/pill';
 
@@ -25,6 +26,9 @@ const Info = ({ firstName, lastName, username, description, major, semester }) =
     <Typography mt={20} textAlign="center" variant="muted" fontSize="14px">
       {description}
     </Typography>
+    <Button fullWidth mt={20} color="secondary">
+      Complete psychometric test
+    </Button>
   </Fragment>
 );
 

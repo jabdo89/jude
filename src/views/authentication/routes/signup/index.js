@@ -11,9 +11,16 @@ import CropModal from '@common/modal';
 import Textarea from '@common/textarea';
 import crop from '@common/cropper';
 import Dropzone from '@templates/dropzone';
-import { FaEnvelope, FaKey, FaRegUser, FaGraduationCap, FaHashtag } from 'react-icons/fa';
+import {
+  FaEnvelope,
+  FaKey,
+  FaRegUser,
+  FaGraduationCap,
+  FaHashtag,
+  FaBuilding
+} from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import { Form, Input, Column } from './elements';
+import { Form, Input, Select, Column } from './elements';
 
 class Login extends Component {
   state = {
@@ -25,6 +32,7 @@ class Login extends Component {
     rol: '',
     mayor: '',
     semester: '',
+    school: '',
     description: '',
     showCropModal: false,
     image: {
@@ -65,9 +73,9 @@ class Login extends Component {
   };
 
   changeStep = step => {
-    const { email, firstName, lastName, password, mayor, semester } = this.state;
+    const { email, firstName, lastName, password, mayor, semester, school } = this.state;
     if (step === 2) {
-      if (!email || !firstName || !lastName || !password || !mayor || !semester) {
+      if (!email || !firstName || !lastName || !password || !mayor || !semester || !school) {
         toast.secondary('Wait', 'Every field is required');
         return;
       }
@@ -87,7 +95,8 @@ class Login extends Component {
       step,
       description,
       showCropModal,
-      image
+      image,
+      school
     } = this.state;
     return (
       <Fragment>
@@ -149,6 +158,17 @@ class Login extends Component {
                   />
                 </Column>
               </Box>
+              <Select
+                leftIcon={<FaBuilding />}
+                value={school}
+                onChange={this.handleChange}
+                name="school"
+                mb={10}
+              >
+                <option value="">Select your school here</option>
+                <option value="ITESM">ITESM</option>
+                <option value="UANL">UANL</option>
+              </Select>
               <Input
                 leftIcon={<FaKey />}
                 type="password"

@@ -16,7 +16,9 @@ import {
   SendButton,
   MessagesContainer,
   Scroll,
-  CloseButton
+  CloseButton,
+  ActionButton,
+  Form
 } from './elements';
 
 class ChatContent extends Component {

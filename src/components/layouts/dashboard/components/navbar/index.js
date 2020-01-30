@@ -12,22 +12,28 @@ import {
   Route,
   Divider,
   NotificationButton,
-  Action
+  Action,
+  Qty
 } from './elements';
 import ResponsiveMenu from './components/responsive-menu';
+import NotificationsMenu from './components/notifications-menu';
 
 class Navbar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isMenuOpen: false
+      isMenuOpen: false,
+      isNotificationsOpen: false
     };
   }
+
+  toggleNotifications = () =>
+    this.setState(({ isNotificationsOpen }) => ({ isNotificationsOpen: !isNotificationsOpen }));
 
   toggleMenu = () => this.setState(({ isMenuOpen }) => ({ isMenuOpen: !isMenuOpen }));
 
   render() {
-    const { isMenuOpen } = this.state;
+    const { isMenuOpen, isNotificationsOpen } = this.state;
     const {
       location: { pathname }
     } = this.props;
@@ -56,8 +62,9 @@ class Navbar extends Component {
               </Route>
             </Routes>
             <Divider />
-            <NotificationButton>
+            <NotificationButton onClick={this.toggleNotifications}>
               <FiBell />
+              <Qty>2</Qty>
             </NotificationButton>
             <MenuButton onClick={this.toggleMenu}>
               <FiMenu />
@@ -65,6 +72,10 @@ class Navbar extends Component {
           </Content>
         </Container>
         <ResponsiveMenu active={isMenuOpen} closeModal={this.toggleMenu} />
+        <NotificationsMenu
+          active={isNotificationsOpen}
+          toggleNotifications={this.toggleNotifications}
+        />
       </Fragment>
     );
   }

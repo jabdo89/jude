@@ -92,6 +92,7 @@ const NotificationButton = styled.div`
   padding: 0;
   display: flex;
   align-items: center;
+  position: relative;
 
   ${props => props.theme.media.tablet`
     margin-right: 10px;
@@ -107,4 +108,20 @@ const Action = styled.div`
   margin-right: auto;
 `;
 
-export { Container, Content, Routes, Route, MenuButton, Divider, NotificationButton, Action };
+const Qty = styled.div`
+  background-color: ${props => props.theme.colors.secondary};
+  border-radius: 50%;
+  color: ${props => props.theme.colors.lighter};
+  position: absolute;
+  bottom: 0;
+  width: 12px;
+  font-size: 8px;
+  display: flex;
+  right: 0;
+  height: 12px;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+`;
+
+export { Container, Content, Routes, Route, MenuButton, Divider, NotificationButton, Action, Qty };
