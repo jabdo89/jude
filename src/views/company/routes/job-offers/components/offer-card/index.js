@@ -133,7 +133,7 @@ class OfferCard extends Component {
               </TextContainer>
             </Column>
             <Column basis="40">
-              <Chart />
+              <Chart offerData={offer} />
             </Column>
           </Row>
         </OfferBody>

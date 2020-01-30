@@ -184,17 +184,11 @@ class NewOfferModal extends Component {
     );
   }
 }
-// UnComment When jobOfferError is used
-
-// NewOfferModal.defaultProps = {
-//   jobOfferError: ''
-// };
 
 NewOfferModal.propTypes = {
   active: PropTypes.bool.isRequired,
   closeButton: PropTypes.func.isRequired,
   createJobOffer: PropTypes.func.isRequired
-  // jobOfferError: PropTypes.string
 };
 
 const mapStateToProps = state => {

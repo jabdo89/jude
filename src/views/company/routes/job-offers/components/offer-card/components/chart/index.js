@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import Box from '@common/box';
+import PropTypes from 'prop-types';
 import { Doughnut } from 'react-chartjs-2';
 import theme from 'theme';
 
 class Chart extends Component {
   constructor(props) {
     super(props);
+    const { offerData } = this.props;
     this.state = {
       options: {
         cutoutPercentage: 70,
@@ -26,7 +28,7 @@ class Chart extends Component {
         labels: ['Hired', 'Interviewed', 'Requested', 'Needed'],
         datasets: [
           {
-            data: [Math.random() * 10, Math.random() * 10, Math.random() * 10, Math.random() * 10],
+            data: [offerData.hired, offerData.interviewed, offerData.requested, offerData.needed],
             backgroundColor: [
               theme.colors.primary,
               theme.colors.secondary,
@@ -61,5 +63,11 @@ class Chart extends Component {
     );
   }
 }
+Chart.defaultProps = {
+  offerData: undefined
+};
 
+Chart.propTypes = {
+  offerData: PropTypes.object
+};
 export default Chart;

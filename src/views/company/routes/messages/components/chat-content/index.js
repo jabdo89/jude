@@ -3,7 +3,12 @@ import PropTypes from 'prop-types';
 import Typography from '@common/typography';
 import firebase from 'firebase';
 import Box from '@common/box';
-import { sendMessage } from '@actions/jobOfferActions';
+import {
+  sendMessage,
+  getMessages,
+  watchTaskRemovedEvent,
+  watchTaskAddedEvent
+} from '@actions/jobOfferActions';
 import { connect } from 'react-redux';
 import { MdSend, MdClear } from 'react-icons/md';
 import Avatar from '@common/avatar';
@@ -25,20 +30,25 @@ class ChatContent extends Component {
   state = {
     // @Ernesto need the id of the conversation(JobOfferyStudent Collection)
     message: '',
-    messages: null
+    messages: []
   };
 
   componentDidMount() {
-    const db = firebase.database().ref('/messages');
-    db.on(
-      'value',
-      snapshot => {
-        this.setState({ messages: snapshot.val() });
-      },
-      error => {
-        console.error(error);
-      }
-    );
+    const { chat } = this.props;
+    this.props.getMessages(chat.id);
+    // this.props.watchTaskAddedEvent(chat.id);
+    // this.props.watchTaskRemovedEvent(chat.id);
+  }
+
+  componentDidUpdate() {
+    const { chat } = this.props;
+    this.props.getMessages(chat.id);
+    // const db = firebase.database().ref('/messages/');
+    // db.off();
+    // const { chat } = this.props;
+    // this.props.getMessages(chat.id);
+    // this.props.watchTaskAddedEvent(chat.id);
+    // this.props.watchTaskRemovedEvent(chat.id);
   }
 
   setRef = ref => {
@@ -52,7 +62,9 @@ class ChatContent extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    this.props.sendMessage(this.state);
+    const { chat } = this.props;
+    console.log(chat.id);
+    this.props.sendMessage(this.state, chat.id);
   };
 
   render() {
@@ -60,9 +72,11 @@ class ChatContent extends Component {
       chat: { user },
       closeChat
     } = this.props;
-    const { message, messages } = this.state;
-    console.log(this.state);
-    if (messages !== null) {
+    const { messages } = this.props;
+    const { message } = this.state;
+
+    if (user !== null) {
+      console.log(messages);
       return (
         <Container>
           <WhiteBox height={70} top="0">
@@ -80,16 +94,17 @@ class ChatContent extends Component {
           </WhiteBox>
           <Scroll ref={this.setRef}>
             <MessagesContainer>
-              {messages.map(({ id, message: msg, sentAt, seenAt }, index) => (
-                <Message
-                  otherProfileImg={user.profileImg}
-                  key={id}
-                  message={msg}
-                  sentAt={sentAt}
-                  seenAt={seenAt}
-                  isYours={index % 2 === 0}
-                />
-              ))}
+              {messages &&
+                messages.map(({ id, message }, index) => (
+                  <Message
+                    otherProfileImg={user.profileImg}
+                    key={id}
+                    message={message}
+                    sentAt={message}
+                    seenAt={message}
+                    isYours={true}
+                  />
+                ))}
             </MessagesContainer>
           </Scroll>
           <WhiteBox height={60} bottom="0">
@@ -128,13 +143,18 @@ ChatContent.propTypes = {
 };
 
 const mapStateToProps = state => {
+  console.log(state);
   return {
-    profile: state.firebase.profile
+    profile: state.firebase.profile,
+    messages: state.company
   };
 };
 const mapDispatchToProps = dispatch => {
   return {
-    sendMessage: activity => dispatch(sendMessage(activity))
+    getMessages: convID => dispatch(getMessages(convID)),
+    sendMessage: (activity, convID) => dispatch(sendMessage(activity, convID)),
+    watchTaskAddedEvent: convID => dispatch(watchTaskAddedEvent(convID)),
+    watchTaskRemovedEvent: convID => dispatch(watchTaskRemovedEvent(convID))
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(ChatContent);

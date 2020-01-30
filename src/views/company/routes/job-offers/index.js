@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import faker from 'faker';
+import { connect } from 'react-redux';
+import { firestoreConnect } from 'react-redux-firebase';
+import { compose } from 'redux';
 import confirmation from '@templates/confirmation';
 import Box from '@common/box';
 import Container from './elements';
@@ -10,17 +13,6 @@ import NewOfferModal from './components/new-offer-modal';
 import EditOfferModal from './components/edit-offer-modal';
 
 faker.locale = 'es_MX';
-
-const createSchedule = () => {
-  const startHour = Math.round(Math.random() * 16);
-
-  return {
-    weekStart: 'Monday',
-    weekEnd: 'Friday',
-    startHour: `${String(startHour).padStart(2, '0')}:00`,
-    endHour: `${String(startHour + 8).padStart(2, '0')}:00`
-  };
-};
 
 class JobOffers extends Component {
   state = {
@@ -86,21 +78,21 @@ class JobOffers extends Component {
 }
 
 JobOffers.defaultProps = {
-  Offers: new Array(10).fill().map(() => ({
-    id: faker.random.uuid(),
-    companyLogoUrl: faker.image.business(),
-    name: faker.name.jobTitle(),
-    budget: faker.random.number().toLocaleString(),
-    description: faker.lorem.paragraph(),
-    scheduleDesc: createSchedule(),
-    requirements: new Array(Math.ceil(Math.random() * 4))
-      .fill()
-      .map(() => faker.name.jobDescriptor())
-  }))
+  Offers: undefined
 };
 
 JobOffers.propTypes = {
   Offers: PropTypes.arrayOf(PropTypes.object)
 };
 
-export default JobOffers;
+const mapStateToProps = state => {
+  return {
+    Offers: state.firestore.ordered.JobOffers,
+    profile: state.firebase.profile
+  };
+};
+
+export default compose(
+  connect(mapStateToProps),
+  firestoreConnect([{ collection: 'JobOffers' }])
+)(JobOffers);
