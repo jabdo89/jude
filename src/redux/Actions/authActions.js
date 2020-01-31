@@ -40,7 +40,7 @@ export const studentSignUp = newUser => {
                 .collection('Usuarios')
                 .doc(resp.user.uid)
                 .set({
-                  pictureUrl: '',
+                  profileImg: newUser.url,
                   email: newUser.email,
                   rol: 'Student',
                   firstName: newUser.firstName,

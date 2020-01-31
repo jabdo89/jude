@@ -19,7 +19,7 @@ class RequestsView extends Component {
     selectedUser: {}
   };
 
-  setUserModal = (idx, id) => {
+  setUserModal = id => {
     const { activeModal } = this.state;
     const { Usuarios } = this.props;
     const usuario = Usuarios ? Usuarios[id] : null;
@@ -33,10 +33,10 @@ class RequestsView extends Component {
         activeModal: true,
         selectedUser: {
           firstName: usuario.firstName,
-          lastName: usuario.LastName,
-          profileImg: usuario.companyLogoUrl,
-          semeste: usuario.semester,
-          description: usuario.Description,
+          lastName: usuario.lastName,
+          profileImg: usuario.profileImg,
+          semester: usuario.semester,
+          description: usuario.description,
           major: usuario.major,
           resume: usuario.curriculumPDF
         }
@@ -73,19 +73,20 @@ class RequestsView extends Component {
 
   render() {
     const { selectedUser, activeModal } = this.state;
-    const { Requests } = this.props;
+    const { Requests, Usuarios, JobOffers } = this.props;
     return (
       <Box pb={30}>
         <FilterBar />
         <Container>
           {Requests &&
-            Requests.map((request, idx) => (
+            Requests.map(request => (
               <RequestCard
                 key={request.id}
-                request={request}
+                user={Usuarios[request.studentID]}
+                jobOffer={JobOffers[request.jobOfferID]}
                 acceptRequest={this.acceptRequest}
                 deleteRequest={this.deleteRequest}
-                setUserModal={() => this.setUserModal(idx, request.studentID)}
+                setUserModal={() => this.setUserModal(request.studentID)}
               />
             ))}
           {activeModal && (
@@ -103,17 +104,20 @@ class RequestsView extends Component {
 
 RequestsView.defaultProps = {
   Requests: undefined,
-  Usuarios: undefined
+  Usuarios: undefined,
+  JobOffers: undefined
 };
 
 RequestsView.propTypes = {
   Requests: PropTypes.arrayOf(PropTypes.object),
-  Usuarios: PropTypes.arrayOf(PropTypes.object)
+  Usuarios: PropTypes.arrayOf(PropTypes.object),
+  JobOffers: PropTypes.arrayOf(PropTypes.object)
 };
 
 const mapStateToProps = state => {
   return {
     Usuarios: state.firestore.data.Usuarios,
+    JobOffers: state.firestore.data.JobOffers,
     Requests: state.firestore.ordered.JobOffersyStudents,
     profile: state.firebase.profile
   };
@@ -121,5 +125,9 @@ const mapStateToProps = state => {
 
 export default compose(
   connect(mapStateToProps),
-  firestoreConnect([{ collection: 'JobOffersyStudents' }, { collection: 'Usuarios' }])
+  firestoreConnect([
+    { collection: 'JobOffersyStudents' },
+    { collection: 'Usuarios' },
+    { collection: 'JobOffers' }
+  ])
 )(RequestsView);

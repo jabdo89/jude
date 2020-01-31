@@ -8,20 +8,20 @@ import Button from '@common/button';
 import Avatar from '@common/avatar';
 import { Container, Span } from './elements';
 
-const RequestCard = ({ request, acceptRequest, deleteRequest, setUserModal }) => (
+const RequestCard = ({ user, jobOffer, acceptRequest, deleteRequest, setUserModal }) => (
   <Card scaleOnHover scale={1.011}>
     <Container>
       <Box display="flex" alignItems="center" mr="auto">
-        <Avatar mr={15} size={42} src={request.studentProfileImg} />
+        <Avatar mr={15} size={42} src={user.profileImg} />
         <Box>
           <Typography>
-            {request.studentFirstName} {request.studentLastName}
+            {user.firstName} {user.lastName}
           </Typography>
           <Typography mt={5} variant="muted">
-            {request.major} | {request.semester}º semester
+            {user.major} | {user.semester}º semester
           </Typography>
           <Typography mt={5} fontSize="0.85rem">
-            Applied for <Span color="primary">{request.jobOfferName}</Span>
+            Applied for <Span color="primary">{jobOffer.name}</Span>
           </Typography>
         </Box>
       </Box>
@@ -42,30 +42,13 @@ const RequestCard = ({ request, acceptRequest, deleteRequest, setUserModal }) =>
     </Container>
   </Card>
 );
-
+RequestCard.defaultProps = {
+  user: undefined,
+  jobOffer: undefined
+};
 RequestCard.propTypes = {
-  request: PropTypes.shape({
-    id: PropTypes.string,
-    jobOfferName: PropTypes.string,
-    companyLogoUrl: PropTypes.string,
-    companyName: PropTypes.string,
-    budget: PropTypes.string,
-    school: PropTypes.string,
-    jobOfferDescription: PropTypes.string,
-    studentFirstName: PropTypes.string,
-    studentLastName: PropTypes.string,
-    major: PropTypes.string,
-    semester: PropTypes.number,
-    studentDesc: PropTypes.string,
-    curriculumPdf: PropTypes.string,
-    capacity: PropTypes.number,
-    numOfHires: PropTypes.number,
-    companyAddress: PropTypes.string,
-    scheduleDesc: PropTypes.string,
-    requirements: PropTypes.arrayOf(PropTypes.string),
-    status: PropTypes.string,
-    studentProfileImg: PropTypes.string
-  }).isRequired,
+  user: PropTypes.object,
+  jobOffer: PropTypes.object,
   acceptRequest: PropTypes.func.isRequired,
   deleteRequest: PropTypes.func.isRequired,
   setUserModal: PropTypes.func.isRequired

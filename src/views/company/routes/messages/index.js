@@ -4,7 +4,6 @@ import Box from '@common/box';
 import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import faker from 'faker';
 import Typography from '@common/typography';
 import NavbarActionPortal from '@templates/navbar-action-portal';
 import SearchBar from './components/search-bar';
@@ -14,17 +13,24 @@ import { Container, Column, ListContainer } from './elements';
 
 class Messages extends Component {
   state = {
-    actualChat: null
+    actualChat: null,
+    currentUser: null
   };
 
-  setActualChat = idx => {
+  setActualChat = (idx, studentID) => {
     const { Conversations } = this.props;
+    const { Usuarios } = this.props;
     this.setState({ actualChat: Conversations[idx] });
+    this.setState({ currentUser: Usuarios[studentID] });
   };
 
   render() {
-    const { Conversations } = this.props;
-    const { actualChat } = this.state;
+    let { Conversations } = this.props;
+    const { Usuarios } = this.props;
+    if (Conversations !== undefined) {
+      Conversations = Conversations.sort((a, b) => b.lMessageTime - a.lMessageTime);
+    }
+    const { actualChat, currentUser } = this.state;
     if (Conversations !== undefined) {
       return (
         <Container>
@@ -33,15 +39,16 @@ class Messages extends Component {
               <SearchBar />
             </NavbarActionPortal>
             <ListContainer>
-              {Conversations.map(({ user, messages, seen }, idx) => (
-                <ConversationCard
-                  key={idx.id}
-                  openChat={() => this.setActualChat(idx)}
-                  user={user}
-                  lastMessage="change to Job Offer Title"
-                  seen={seen}
-                />
-              ))}
+              {Conversations &&
+                Conversations.map(({ studentID, seen, lastMessage }, idx) => (
+                  <ConversationCard
+                    key={idx.id}
+                    openChat={() => this.setActualChat(idx, studentID)}
+                    user={Usuarios[studentID]}
+                    lastMessage={lastMessage}
+                    seen={seen}
+                  />
+                ))}
             </ListContainer>
           </Column>
           <Column basis="65" hideOnMobileIf={!actualChat}>
@@ -52,7 +59,11 @@ class Messages extends Component {
                 </Typography>
               </Box>
             ) : (
-              <ChatContent closeChat={() => this.setActualChat(-1)} chat={actualChat} />
+              <ChatContent
+                closeChat={() => this.setActualChat(-1)}
+                chat={actualChat}
+                user={currentUser}
+              />
             )}
           </Column>
         </Container>
@@ -63,34 +74,18 @@ class Messages extends Component {
 }
 
 Messages.defaultProps = {
-  Conversations: new Array(20).fill().map(() => ({
-    user: {
-      id: faker.random.uuid(),
-      firstName: faker.name.firstName(),
-      lastName: faker.name.lastName(),
-      profileImg: faker.image.avatar()
-    },
-    seen: Math.random() > 0.5,
-    messages: new Array(30).fill().map((_, index) => {
-      // Messages sent every 2 minutes
-      const sentAt = Date.now() + index * 1000 * 60 * 2;
-      return {
-        id: faker.random.uuid(),
-        message: faker.lorem.sentence(),
-        sentAt,
-        // Messages seen a minute before sent
-        seenAt: sentAt + 1000 * 60
-      };
-    })
-  }))
+  Conversations: undefined,
+  Usuarios: undefined
 };
 
 Messages.propTypes = {
-  Conversations: PropTypes.arrayOf(PropTypes.object)
+  Conversations: PropTypes.arrayOf(PropTypes.object),
+  Usuarios: PropTypes.arrayOf(PropTypes.object)
 };
 function mapStateToProps(state) {
   return {
     Conversations: state.firestore.ordered.JobOffersyStudents,
+    Usuarios: state.firestore.data.Usuarios,
     profile: state.firebase.profile
   };
 }

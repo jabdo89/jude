@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
+import firebase from 'firebase';
 import { studentSignUp } from '@actions/authActions';
 import PropTypes from 'prop-types';
 import Typography from '@common/typography';
@@ -35,6 +36,8 @@ class Login extends Component {
     school: '',
     description: '',
     showCropModal: false,
+    url: '',
+    progress: 0,
     image: {
       file: null,
       bloblUrl: ''
@@ -52,11 +55,33 @@ class Login extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-
-    // this.props.studentSignUp(this.state);
-
-    const { studentSignUp: localeSignUp } = this.props;
-    localeSignUp(this.state);
+    const storage = firebase.storage();
+    const { image, email } = this.state;
+    const uploadTask = storage.ref(`images/${email}`).put(image.file);
+    uploadTask.on(
+      'state_changed',
+      snapshot => {
+        // progress function ...
+        const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+        this.setState({ progress });
+      },
+      error => {
+        // Error function ...
+        console.error(error);
+      },
+      () => {
+        // complete function ...
+        storage
+          .ref('images')
+          .child(email)
+          .getDownloadURL()
+          .then(url => {
+            this.setState({ url });
+            const { studentSignUp: localeSignUp } = this.props;
+            localeSignUp(this.state);
+          });
+      }
+    );
   };
 
   setFile = async imageFile => {

@@ -59,7 +59,11 @@ class DetailModal extends Component {
             </Column>
           </Row>
         </Modal>
-        <RequestModal active={isRequestModalOpen} toggleRequestModal={this.toggleRequestModal} />
+        <RequestModal
+          active={isRequestModalOpen}
+          toggleRequestModal={this.toggleRequestModal}
+          user={user}
+        />
       </Fragment>
     );
   }

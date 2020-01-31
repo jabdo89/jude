@@ -1,8 +1,10 @@
+const uuidv4 = require('uuid/v4');
 // Create Job Offer
 export const createJobOffer = jobOffer => {
   return (dispatch, getState, getFirebase) => {
     const state = getState();
     const { profile } = state.firebase;
+    const authID = getState().firebase.auth.uid;
     const firebase = getFirebase();
     const db = firebase.firestore();
     db.collection('JobOffers')
@@ -14,6 +16,7 @@ export const createJobOffer = jobOffer => {
         budget: jobOffer.budget,
         description: jobOffer.description,
         createdDate: new Date(),
+        company: authID,
         hired: 0,
         requested: 0,
         interviewing: 0
@@ -26,7 +29,36 @@ export const createJobOffer = jobOffer => {
       });
   };
 };
-
+export const createJobOfferyStudent = (jobOffer, user) => {
+  return (dispatch, getState, getFirebase) => {
+    const authID = getState().firebase.auth.uid;
+    const firebase = getFirebase();
+    const db = firebase.firestore();
+    db.collection('JobOffersyStudents')
+      .where('jobOfferID', '==', jobOffer)
+      .where('studentID', '==', user.id)
+      .get()
+      .then(snapshot => {
+        if (snapshot.empty) {
+          db.collection('JobOffersyStudents')
+            .add({
+              comapanyID: authID,
+              jobOfferID: jobOffer,
+              studentID: user.id,
+              status: 'requestedByCompany',
+              lastMessage: '',
+              lMessageTime: ''
+            })
+            .then(() => {
+              dispatch({ type: 'JOBOFFER_REQUESTED', jobOffer });
+            })
+            .catch(err => {
+              dispatch({ type: 'JOBOFFER_REQUEST_ERROR', err });
+            });
+        } else dispatch({ type: 'STUDENT_ALREADY_REQUESTED', jobOffer });
+      });
+  };
+};
 export const deleateJobOffer = jobOffer => {
   return (dispatch, getState, getFirebase) => {
     const { profile } = getState().firebase.profile;
@@ -57,26 +89,30 @@ export const deleateJobOffer = jobOffer => {
 export const sendMessage = (message, convID) => {
   return (dispatch, getState, getFirebase) => {
     const firebase = getFirebase();
-    const id = getState().firebase.profile.firstName;
-    console.log(convID);
+    const db = firebase.firestore();
+    const state = getState().firebase;
+    const { profile } = state;
     firebase
       .database()
-      .ref('messages/' + convID)
+      .ref(`messages/${convID}`)
       .push({
-        id: 4,
+        id: uuidv4(),
         message: message.message,
-        timestamp: new Date()
+        timestamp: new Date().getTime(),
+        sender: profile.email
       });
+    db.collection('JobOffersyStudents')
+      .doc(convID)
+      .update({ lastMessage: message.message, lMessageTime: new Date().getTime() });
   };
 };
 export const getMessages = chatID => {
   return (dispatch, getState, getFirebase) => {
     const firebase = getFirebase();
-    console.log(firebase);
     const messages = [];
     const db = firebase
       .database()
-      .ref('/messages/' + chatID)
+      .ref(`/messages/${chatID}`)
       .limitToLast(10);
     db.once('value', snap => {
       snap.forEach(data => {
@@ -89,10 +125,9 @@ export const getMessages = chatID => {
 export const watchTaskAddedEvent = chatID => {
   return (dispatch, getState, getFirebase) => {
     const firebase = getFirebase();
-    console.log(firebase);
     const db = firebase
       .database()
-      .ref('/messages/' + chatID)
+      .ref(`/messages/${chatID}`)
       .limitToLast(10);
     db.on('child_added', snap => {
       const added = snap.val();
@@ -105,7 +140,7 @@ export const watchTaskRemovedEvent = chatID => {
     const firebase = getFirebase();
     const db = firebase
       .database()
-      .ref('/messages/' + chatID)
+      .ref(`/messages/${chatID}`)
       .limitToLast(10);
     db.on('child_removed', snap => {
       const removed = snap.val();
