@@ -33,7 +33,7 @@ const NotificationsMenu = ({ active, toggleNotifications }) => (
             <Typography fontWeight="bold">Activity</Typography>
           </TitleSection>
           <Button color="secondary" size="small" variant="link">
-            Clear all <Clear/>
+            Clear all <Clear />
           </Button>
         </Box>
         <Notification

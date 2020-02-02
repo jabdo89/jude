@@ -1,9 +1,27 @@
 import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import Requests from './routes/requests';
-import Messages from './routes/messages';
-import JobOffers from './routes/job-offers';
-import Profile from './routes/profile';
+import TopBarProgress from 'react-topbar-progress-indicator';
+import Loadable from 'react-loadable';
+
+const Requests = Loadable({
+  loader: () => import('./routes/requests'),
+  loading: TopBarProgress
+});
+
+const Messages = Loadable({
+  loader: () => import('./routes/messages'),
+  loading: TopBarProgress
+});
+
+const JobOffers = Loadable({
+  loader: () => import('./routes/job-offers'),
+  loading: TopBarProgress
+});
+
+const Profile = Loadable({
+  loader: () => import('./routes/profile'),
+  loading: TopBarProgress
+});
 
 const Company = () => (
   <Switch>

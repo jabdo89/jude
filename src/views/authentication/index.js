@@ -1,8 +1,18 @@
 import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import AuthLayout from '@layouts/auth';
-import Login from './routes/login';
-import Signup from './routes/signup';
+import TopBarProgress from 'react-topbar-progress-indicator';
+import Loadable from 'react-loadable';
+
+const Login = Loadable({
+  loader: () => import('./routes/login'),
+  loading: TopBarProgress
+});
+
+const Signup = Loadable({
+  loader: () => import('./routes/signup'),
+  loading: TopBarProgress
+});
 
 const Public = () => (
   <AuthLayout>
