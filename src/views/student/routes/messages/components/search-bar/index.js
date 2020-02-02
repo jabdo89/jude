@@ -10,7 +10,7 @@ const FilterBar = () => (
         /* Replace with handler */
       }}
       leftIcon={<FiSearch />}
-      placeholder="Search messages"
+      placeholder="Filter by job offer"
     />
   </Container>
 );

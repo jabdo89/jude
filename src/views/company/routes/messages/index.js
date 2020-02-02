@@ -40,11 +40,12 @@ class Messages extends Component {
             </NavbarActionPortal>
             <ListContainer>
               {Conversations &&
-                Conversations.map(({ studentID, seen, lastMessage }, idx) => (
+                Conversations.map(({ studentID, seen, lastMessage, jobOfferName }, idx) => (
                   <ConversationCard
                     key={idx.id}
                     openChat={() => this.setActualChat(idx, studentID)}
                     user={Usuarios[studentID]}
+                    jobOfferName={jobOfferName}
                     lastMessage={lastMessage}
                     seen={seen}
                   />

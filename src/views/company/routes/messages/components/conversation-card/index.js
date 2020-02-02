@@ -4,7 +4,7 @@ import Typography from '@common/typography';
 import Avatar from '@common/avatar';
 import { Container, Divider, Dot, MessageContainer, DataContainer } from './elements';
 
-const ConversationCard = ({ openChat, user, lastMessage, seen }) => (
+const ConversationCard = ({ openChat, user, lastMessage, jobOfferName, seen }) => (
   <Fragment>
     <Container onClick={openChat}>
       <Avatar
@@ -17,6 +17,10 @@ const ConversationCard = ({ openChat, user, lastMessage, seen }) => (
       <DataContainer>
         <Typography color="lightDark">
           {user.firstName} {user.lastName}
+        </Typography>
+        <Typography mb={5} color="primary" fontSize="0.65rem">
+          {/* Fallback is just for visualization, remove the OR when jobOfferName is set */}
+          {jobOfferName || 'JobOffer fallback'}
         </Typography>
         <MessageContainer>
           <Typography color="lightGrey" fontSize="0.7rem">
@@ -34,6 +38,7 @@ ConversationCard.propTypes = {
   openChat: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired,
   lastMessage: PropTypes.string.isRequired,
+  jobOfferName: PropTypes.string.isRequired,
   seen: PropTypes.bool.isRequired
 };
 

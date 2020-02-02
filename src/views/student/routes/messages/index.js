@@ -29,11 +29,12 @@ class Messages extends Component {
             <SearchBar />
           </NavbarActionPortal>
           <ListContainer>
-            {Conversations.map(({ user, messages, seen }, idx) => (
+            {Conversations.map(({ user, messages, seen, jobOfferName }, idx) => (
               <ConversationCard
                 key={user.id}
                 openChat={() => this.setActualChat(idx)}
                 user={user}
+                jobOfferName={jobOfferName}
                 lastMessage={messages[0].message}
                 seen={seen}
               />
@@ -64,6 +65,7 @@ Messages.defaultProps = {
       lastName: faker.name.lastName(),
       profileImg: faker.image.avatar()
     },
+    jobOfferName: faker.name.jobTitle(),
     seen: Math.random() > 0.5,
     messages: new Array(30).fill().map((_, index) => {
       // Messages sent every 2 minutes
