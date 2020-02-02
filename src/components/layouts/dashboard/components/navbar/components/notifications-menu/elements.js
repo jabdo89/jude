@@ -1,4 +1,5 @@
 import styled, { keyframes } from 'styled-components';
+import { MdClear } from 'react-icons/md';
 
 const fadeIn = keyframes`
   from {
@@ -67,4 +68,8 @@ const TitleSection = styled.div`
   border-bottom: 1px solid ${props => props.theme.colors.veryLightGrey};
 `;
 
-export { Container, PseudoContainer, Content, TitleSection };
+const Clear = styled(MdClear)`
+  margin-left: 5px;
+`;
+
+export { Container, PseudoContainer, Content, TitleSection, Clear };

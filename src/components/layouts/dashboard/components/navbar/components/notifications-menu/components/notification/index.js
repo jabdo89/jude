@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Typography from '@common/typography';
 import Box from '@common/box';
 import { MdWarning, MdInfo, MdDone, MdThumbUp } from 'react-icons/md';
-import { Container, Icon } from './elements';
+import { Container, Icon, Clear } from './elements';
 
 const getIcon = type => {
   if (type === 'warning') {
@@ -28,6 +28,7 @@ const Notification = ({ type, title, description }) => (
       <Typography>{title}</Typography>
       <Typography variant="muted">{description}</Typography>
     </Box>
+    <Clear className="clear" />
   </Container>
 );
 

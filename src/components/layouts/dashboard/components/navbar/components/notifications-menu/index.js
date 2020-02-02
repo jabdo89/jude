@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Typography from '@common/typography';
-import { Container, PseudoContainer, Content, TitleSection } from './elements';
+import Box from '@common/box';
+import Button from '@common/button';
+import { Container, PseudoContainer, Content, TitleSection, Clear } from './elements';
 import Notification from './components/notification';
 
 const getType = () => {
@@ -26,9 +28,14 @@ const NotificationsMenu = ({ active, toggleNotifications }) => (
   <Container show={active}>
     <PseudoContainer onClick={toggleNotifications}>
       <Content>
-        <TitleSection>
-          <Typography fontWeight="bold">Activity</Typography>
-        </TitleSection>
+        <Box display="flex" justifyContent="space-between" alignItems="center">
+          <TitleSection>
+            <Typography fontWeight="bold">Activity</Typography>
+          </TitleSection>
+          <Button color="secondary" size="small" variant="link">
+            Clear all <Clear/>
+          </Button>
+        </Box>
         <Notification
           type={getType()}
           title="Notification 1"
