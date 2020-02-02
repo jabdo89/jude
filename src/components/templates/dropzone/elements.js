@@ -32,7 +32,7 @@ const Container = styled.div`
   border-radius: 2px;
   border-color: ${props => getColor(props)};
   border-style: dashed;
-  background-color: #fff;
+  background-color: ${props => props.theme.colors.lighter};
   color: ${props => props.theme.colors.default};
   outline: none;
   transition: border 0.24s ease-in-out;

@@ -72,7 +72,7 @@ const Dropzone = ({
                 {defaultMessage}
               </Typography>
               <Typography mt={20} textAlign="center" variant="muted" fontSize="12px">
-                Tamaño máximo: {maxSize / 1000000}MB
+                Max size: {maxSize / 1000000}MB
               </Typography>
               <Typography mt={5} textAlign="center" variant="muted" fontSize="10px">
                 (

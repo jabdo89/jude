@@ -5,6 +5,7 @@ import { studentSignUp } from '@actions/authActions';
 import PropTypes from 'prop-types';
 import Typography from '@common/typography';
 import Box from '@common/box';
+import { Card, CardBody } from '@common/card';
 import toast from '@common/toast';
 import Avatar from '@common/avatar';
 import Button from '@common/button';
@@ -25,7 +26,7 @@ import { Form, Input, Select, Column } from './elements';
 
 class Login extends Component {
   state = {
-    step: 1,
+    step: 2,
     email: '',
     firstName: '',
     lastName: '',
@@ -38,6 +39,7 @@ class Login extends Component {
     showCropModal: false,
     url: '',
     progress: 0,
+    resume: null,
     image: {
       file: null,
       bloblUrl: ''
@@ -56,7 +58,11 @@ class Login extends Component {
   handleSubmit = event => {
     event.preventDefault();
     const storage = firebase.storage();
-    const { image, email } = this.state;
+    const { image, email, resume } = this.state;
+    if (!resume) {
+      toast.secondary('Resume required', 'You need to upload your resume to signup');
+      return;
+    }
     const uploadTask = storage.ref(`images/${email}`).put(image.file);
     uploadTask.on(
       'state_changed',
@@ -84,7 +90,12 @@ class Login extends Component {
     );
   };
 
-  setFile = async imageFile => {
+  setPdf = pdfFile =>
+    this.setState({
+      resume: pdfFile
+    });
+
+  setImage = async imageFile => {
     this.toggleCropModal();
     const file = await crop(imageFile, 512 / 512, 'Crop your profile image');
     const blobUrl = URL.createObjectURL(file);
@@ -121,7 +132,8 @@ class Login extends Component {
       description,
       showCropModal,
       image,
-      school
+      school,
+      resume
     } = this.state;
     return (
       <Fragment>
@@ -242,7 +254,21 @@ class Login extends Component {
                 ml={5}
                 required
               />
-              <Button onClick={this.handleSubmit} mt={30} color="gradient" fullWidth>
+              <Card my={20}>
+                <CardBody>
+                  <Dropzone
+                    height="100"
+                    accept="application/pdf"
+                    defaultMessage="Drag your PDF resume here"
+                    acceptMessage="Drop your resume here"
+                    rejectMessage="File format not supported"
+                    setFile={this.setPdf}
+                    file={resume}
+                    maxSize={5000000}
+                  />
+                </CardBody>
+              </Card>
+              <Button onClick={this.handleSubmit} color="gradient" fullWidth>
                 Complete signup
               </Button>
               <Button
@@ -282,7 +308,7 @@ class Login extends Component {
               defaultMessage="Arrastra tu nueva imagen o haz click para seleccionar desde tu dispositivo"
               acceptMessage="Suelta tu imagen aquí"
               rejectMessage="Formato de imagen no soportado"
-              setFile={this.setFile}
+              setFile={this.setImage}
               maxSize={2000000}
             />
           </CropModal>
