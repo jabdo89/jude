@@ -14,9 +14,15 @@ const RequestCard = ({ user, jobOffer, acceptRequest, deleteRequest, setUserModa
       <Box display="flex" alignItems="center" mr="auto">
         <Avatar mr={15} size={42} src={user.profileImg} />
         <Box>
-          <Typography>
-            {user.firstName} {user.lastName}
-          </Typography>
+          <Box display="flex" alignItems="center">
+            <Typography>
+              {user.firstName} {user.lastName}
+            </Typography>
+            <Button ml={10} onClick={setUserModal} variant="soft" color="primary" size="small">
+              Detail
+              <FiUser />
+            </Button>
+          </Box>
           <Typography mt={5} variant="muted">
             {user.major} | {user.semester}º semester
           </Typography>
@@ -33,10 +39,6 @@ const RequestCard = ({ user, jobOffer, acceptRequest, deleteRequest, setUserModa
         <Button onClick={deleteRequest} variant="soft" mr={5} color="danger" size="small">
           Delete
           <FiX />
-        </Button>
-        <Button onClick={setUserModal} variant="soft" color="primary" size="small">
-          Detail
-          <FiUser />
         </Button>
       </Box>
     </Container>
