@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { createStudentyJobOffer } from '@actions/jobOfferActions';
 import { Card, CardBody, CardFooter } from '@common/card';
 import Avatar from '@common/avatar';
 import shortId from 'shortid';
@@ -24,6 +26,12 @@ class OfferCard extends Component {
     fullText: false
   };
 
+  requestJob = e => {
+    e.preventDefault();
+    const { offer } = this.props;
+    this.props.createStudentyJobOffer(offer.id, offer.company);
+  };
+
   toggleFullText = () => this.setState(({ fullText }) => ({ fullText: !fullText }));
 
   trimText = text => `${text.slice(0, 200)}...`;
@@ -38,7 +46,7 @@ class OfferCard extends Component {
             <Box alignItems="center" display="flex">
               <JobIcon />
               <Typography ml={10} variant="heading" color="lighter">
-                Offer
+                {offer.companyName}
               </Typography>
             </Box>
           </CardBody>
@@ -95,7 +103,7 @@ class OfferCard extends Component {
           </TextContainer>
         </OfferBody>
         <CardFooter>
-          <Button ml="auto" variant="soft" onClick={this.toggleRequestModal} color="secondary">
+          <Button ml="auto" variant="soft" onClick={this.requestJob} color="secondary">
             Request
             <RightIcon />
           </Button>
@@ -108,13 +116,23 @@ class OfferCard extends Component {
 OfferCard.propTypes = {
   offer: PropTypes.shape({
     id: PropTypes.string,
+    company: PropTypes.string,
     companyLogoUrl: PropTypes.string,
     name: PropTypes.string,
     budget: PropTypes.string,
     description: PropTypes.string,
     scheduleDesc: PropTypes.object,
+    companyName: PropTypes.string,
     requirements: PropTypes.arrayOf(PropTypes.string)
-  }).isRequired
+  }).isRequired,
+  createStudentyJobOffer: PropTypes.func.isRequired
 };
 
-export default OfferCard;
+const mapDispatchToProps = dispatch => {
+  return {
+    createStudentyJobOffer: (jobOfferID, companyID) =>
+      dispatch(createStudentyJobOffer(jobOfferID, companyID))
+  };
+};
+
+export default connect(null, mapDispatchToProps)(OfferCard);

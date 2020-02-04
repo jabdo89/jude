@@ -27,7 +27,7 @@ const RequestCard = ({ request, acceptRequest, deleteRequest }) => (
       <Box display="flex" alignItems="center" mr="auto">
         <Avatar mr={15} size={42} src={request.companyLogoUrl} />
         <Box>
-          <Typography fontWeight="bold">{request.jobOfferName}</Typography>
+          <Typography fontWeight="bold">{request.name}</Typography>
           <Box display="flex" flexDirection="column" justifyContent="center">
             <Pill color="secondary" variant="soft" size="small" mt={5}>
               ${request.budget} / month
@@ -37,7 +37,7 @@ const RequestCard = ({ request, acceptRequest, deleteRequest }) => (
             Company <Span color="primary">{request.companyName}</Span>
           </Typography>
           <Typography mt={5} variant="muted">
-            {request.jobOfferDescription}
+            {request.description}
           </Typography>
         </Box>
       </Box>
@@ -67,12 +67,12 @@ RequestCard.propTypes = {
   request: PropTypes.shape({
     id: PropTypes.string,
     stage: PropTypes.string,
-    jobOfferName: PropTypes.string,
+    name: PropTypes.string,
     companyLogoUrl: PropTypes.string,
     companyName: PropTypes.string,
     school: PropTypes.string,
     budget: PropTypes.string,
-    jobOfferDescription: PropTypes.string,
+    description: PropTypes.string,
     studentFirstName: PropTypes.string,
     studentLastName: PropTypes.string,
     major: PropTypes.string,

@@ -1,6 +1,6 @@
 import React from 'react';
-import faker from 'faker';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import ProfileCard from './components/profile-card';
 import { Container, Column } from './elements';
 import DataForm from './components/data-form';
@@ -17,18 +17,7 @@ const Profile = ({ User }) => (
 );
 
 Profile.defaultProps = {
-  User: {
-    id: faker.random.uuid(),
-    username: faker.internet.userName(),
-    email: faker.internet.email(),
-    firstName: faker.name.firstName(),
-    lastName: faker.name.lastName(),
-    profileImg: faker.image.avatar(),
-    semester: Math.round(Math.random() * 9) + 1,
-    description: faker.lorem.paragraph(),
-    major: Math.random() > 0.5 ? 'ITC' : 'INT',
-    resume: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf'
-  }
+  User: undefined
 };
 
 Profile.propTypes = {
@@ -46,4 +35,14 @@ Profile.propTypes = {
   })
 };
 
-export default Profile;
+const mapStateToProps = state => {
+  return {
+    User: state.firebase.profile
+  };
+};
+
+// const mapDispatchToProps = dispatch => {
+//   return {
+//   };
+// };
+export default connect(mapStateToProps, null)(Profile);

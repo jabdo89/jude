@@ -17,6 +17,7 @@ export const createJobOffer = jobOffer => {
         description: jobOffer.description,
         createdDate: new Date(),
         company: authID,
+        companyName: profile.companyName,
         hired: 0,
         requested: 0,
         interviewing: 0
@@ -42,10 +43,40 @@ export const createJobOfferyStudent = (jobOffer, user) => {
         if (snapshot.empty) {
           db.collection('JobOffersyStudents')
             .add({
-              comapanyID: authID,
+              companyID: authID,
               jobOfferID: jobOffer,
               studentID: user.id,
               status: 'requestedByCompany',
+              lastMessage: '',
+              lMessageTime: ''
+            })
+            .then(() => {
+              dispatch({ type: 'JOBOFFER_REQUESTED', jobOffer });
+            })
+            .catch(err => {
+              dispatch({ type: 'JOBOFFER_REQUEST_ERROR', err });
+            });
+        } else dispatch({ type: 'STUDENT_ALREADY_REQUESTED', jobOffer });
+      });
+  };
+};
+export const createStudentyJobOffer = (jobOffer, companyUID) => {
+  return (dispatch, getState, getFirebase) => {
+    const authID = getState().firebase.auth.uid;
+    const firebase = getFirebase();
+    const db = firebase.firestore();
+    db.collection('JobOffersyStudents')
+      .where('jobOfferID', '==', jobOffer)
+      .where('studentID', '==', authID)
+      .get()
+      .then(snapshot => {
+        if (snapshot.empty) {
+          db.collection('JobOffersyStudents')
+            .add({
+              companyID: companyUID,
+              jobOfferID: jobOffer,
+              studentID: authID,
+              status: 'requestedByStudent',
               lastMessage: '',
               lMessageTime: ''
             })
