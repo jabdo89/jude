@@ -82,16 +82,18 @@ class ChatContent extends Component {
           </WhiteBox>
           <Scroll ref={this.setRef}>
             <MessagesContainer>
-              {messages.map(({ id, message, timestamp, sender }) => (
-                <Message
-                  otherProfileImg={user.profileImg}
-                  key={id}
-                  message={message}
-                  sentAt={timestamp}
-                  seenAt={message}
-                  isYours={profile.email === sender}
-                />
-              ))}
+              {messages &&
+                // eslint-disable-next-line no-shadow
+                messages.map(({ id, message, timestamp, sender }) => (
+                  <Message
+                    otherProfileImg={user.profileImg}
+                    key={id}
+                    message={message}
+                    sentAt={timestamp}
+                    seenAt={message}
+                    isYours={profile.email === sender}
+                  />
+                ))}
             </MessagesContainer>
           </Scroll>
           <WhiteBox height={60} bottom="0">
