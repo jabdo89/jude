@@ -4,6 +4,7 @@ import faker from 'faker';
 import Box from '@common/box';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { acceptStudentInterview, rejectStudentInterview } from '@actions/jobOfferActions';
 import { firestoreConnect } from 'react-redux-firebase';
 import UserDetailModal from '@templates/user-detail-modal';
 import confirmation from '@templates/confirmation';
@@ -44,30 +45,26 @@ class RequestsView extends Component {
     }
   };
 
-  acceptRequest = async () => {
+  acceptRequest = async jobOfferID => {
     if (
       await confirmation(
         'Are you sure?',
-        'The applicant will be notified after accepting its request',
+        'Accepting this student, will begin the interviewing process',
         { text: 'CONFIRM', description: "Please, type 'CONFIRM' to confirm" }
       )
     ) {
-      /*
-        Handle request acceptance here
-      */
+      this.props.acceptStudentInterview(jobOfferID);
     }
   };
 
-  deleteRequest = async () => {
+  deleteRequest = async jobOfferID => {
     if (
       await confirmation('Are you sure?', 'This will totally discard the selected student', {
         text: 'DELETE',
         description: "Please, type 'DELETE' to confirm"
       })
     ) {
-      /*
-        Handle request deletion here
-      */
+      this.props.rejectStudentInterview(jobOfferID);
     }
   };
 
@@ -84,7 +81,7 @@ class RequestsView extends Component {
                 key={request.id}
                 user={Usuarios[request.studentID]}
                 jobOffer={JobOffers[request.jobOfferID]}
-                acceptRequest={this.acceptRequest}
+                acceptRequest={() => this.acceptRequest(request.id)}
                 deleteRequest={this.deleteRequest}
                 setUserModal={() => this.setUserModal(request.studentID)}
               />
@@ -111,7 +108,9 @@ RequestsView.defaultProps = {
 RequestsView.propTypes = {
   Requests: PropTypes.arrayOf(PropTypes.object),
   Usuarios: PropTypes.arrayOf(PropTypes.object),
-  JobOffers: PropTypes.arrayOf(PropTypes.object)
+  JobOffers: PropTypes.arrayOf(PropTypes.object),
+  acceptStudentInterview: PropTypes.func.isRequired,
+  rejectStudentInterview: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {
@@ -122,12 +121,28 @@ const mapStateToProps = state => {
     profile: state.firebase.profile
   };
 };
+const mapDispatchToProps = dispatch => {
+  return {
+    acceptStudentInterview: jobOfferID => dispatch(acceptStudentInterview(jobOfferID)),
+    rejectStudentInterview: jobOfferID => dispatch(rejectStudentInterview(jobOfferID))
+  };
+};
 
 export default compose(
-  connect(mapStateToProps),
-  firestoreConnect([
-    { collection: 'JobOffersyStudents' },
-    { collection: 'Usuarios' },
-    { collection: 'JobOffers' }
-  ])
+  connect(mapStateToProps, mapDispatchToProps),
+  firestoreConnect(props => {
+    if (props.profile.userID === undefined) return [];
+
+    return [
+      {
+        collection: 'JobOffers',
+        where: ['company', '==', props.profile.userID]
+      },
+      { collection: 'Usuarios', where: ['rol', '==', 'Student'] },
+      {
+        collection: 'JobOffersyStudents',
+        where: ['status', '==', 'requestedByStudent']
+      }
+    ];
+  })
 )(RequestsView);

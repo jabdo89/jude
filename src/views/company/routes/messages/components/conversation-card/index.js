@@ -20,7 +20,7 @@ const ConversationCard = ({ openChat, user, lastMessage, jobOfferName, seen }) =
         </Typography>
         <Typography mb={5} color="primary" fontSize="0.65rem">
           {/* Fallback is just for visualization, remove the OR when jobOfferName is set */}
-          {jobOfferName || 'JobOffer fallback'}
+          {jobOfferName.name}
         </Typography>
         <MessageContainer>
           <Typography color="lightGrey" fontSize="0.7rem">

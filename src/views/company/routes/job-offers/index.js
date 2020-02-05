@@ -94,5 +94,14 @@ const mapStateToProps = state => {
 
 export default compose(
   connect(mapStateToProps),
-  firestoreConnect([{ collection: 'JobOffers' }])
+  firestoreConnect(props => {
+    if (props.profile.userID === undefined) return [];
+
+    return [
+      {
+        collection: 'JobOffers',
+        where: ['company', '==', props.profile.userID]
+      }
+    ];
+  })
 )(JobOffers);

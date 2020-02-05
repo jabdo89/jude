@@ -1,4 +1,6 @@
 import React, { Component, Fragment } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import Menu from './components/profile-menu';
 import { Profile, Name, Text, DownIcon, Break, Avatar } from './elements';
 
@@ -14,6 +16,7 @@ class ProfileData extends Component {
 
   render() {
     const { showMenu } = this.state;
+    const { profile } = this.props;
     return (
       <Fragment>
         <Profile onClick={this.toggleMenu}>
@@ -21,7 +24,7 @@ class ProfileData extends Component {
           <Text>
             Welcome,
             <Break />
-            <Name>Abdo</Name>
+            <Name>{profile.firstName}</Name>
           </Text>
           <DownIcon />
         </Profile>
@@ -30,5 +33,16 @@ class ProfileData extends Component {
     );
   }
 }
+ProfileData.defaultProps = {
+  profile: undefined
+};
+ProfileData.propTypes = {
+  profile: PropTypes.object
+};
+const mapStateToProps = state => {
+  return {
+    profile: state.firebase.profile
+  };
+};
 
-export default ProfileData;
+export default connect(mapStateToProps)(ProfileData);

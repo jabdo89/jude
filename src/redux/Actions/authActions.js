@@ -42,6 +42,7 @@ export const studentSignUp = newUser => {
                 .set({
                   profileImg: newUser.url,
                   email: newUser.email,
+                  userID: resp.user.uid,
                   rol: 'Student',
                   firstName: newUser.firstName,
                   lastName: newUser.lastName,

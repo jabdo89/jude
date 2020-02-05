@@ -77,5 +77,8 @@ const mapStateToProps = state => {
 };
 
 export default withRouter(
-  compose(connect(mapStateToProps), firestoreConnect([{ collection: 'Usuarios' }]))(Company)
+  compose(
+    connect(mapStateToProps),
+    firestoreConnect([{ collection: 'Usuarios', where: ['rol', '==', 'Student'] }])
+  )(Company)
 );

@@ -180,10 +180,26 @@ export const watchTaskRemovedEvent = chatID => {
   };
 };
 
+export const acceptStudentInterview = jobOfferID => {
+  return (dispatch, getState, getFirebase) => {
+    const firebase = getFirebase();
+    const db = firebase.firestore();
+    db.collection('JobOffersyStudents')
+      .doc(jobOfferID)
+      .update({ status: 'Interviewing' });
+  };
+};
+export const rejectStudentInterview = jobOfferID => {
+  return (dispatch, getState, getFirebase) => {
+    const firebase = getFirebase();
+    const db = firebase.firestore();
+    db.collection('JobOffersyStudents')
+      .doc(jobOfferID)
+      .delete();
+  };
+};
 // Action for Student Appling for JobOffers
 
 // Action for Company Recomending StudentaJob
-
-// Update Job Offer
 
 // DeleteJobOffer

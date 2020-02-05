@@ -26,12 +26,13 @@ class Messages extends Component {
 
   render() {
     let { Conversations } = this.props;
-    const { Usuarios } = this.props;
+    const { Usuarios, JobOffers } = this.props;
+    // console.log(Usuarios);
     if (Conversations !== undefined) {
       Conversations = Conversations.sort((a, b) => b.lMessageTime - a.lMessageTime);
     }
     const { actualChat, currentUser } = this.state;
-    if (Conversations !== undefined) {
+    if (Conversations !== undefined && Usuarios !== undefined) {
       return (
         <Container>
           <Column basis="35" pl={20} bg="lighter" hideOnMobileIf={actualChat}>
@@ -40,12 +41,12 @@ class Messages extends Component {
             </NavbarActionPortal>
             <ListContainer>
               {Conversations &&
-                Conversations.map(({ studentID, seen, lastMessage, jobOfferName }, idx) => (
+                Conversations.map(({ studentID, seen, lastMessage, jobOfferID }, idx) => (
                   <ConversationCard
                     key={idx.id}
                     openChat={() => this.setActualChat(idx, studentID)}
                     user={Usuarios[studentID]}
-                    jobOfferName={jobOfferName}
+                    jobOfferName={JobOffers[jobOfferID]}
                     lastMessage={lastMessage}
                     seen={seen}
                   />
@@ -76,22 +77,39 @@ class Messages extends Component {
 
 Messages.defaultProps = {
   Conversations: undefined,
-  Usuarios: undefined
+  Usuarios: undefined,
+  JobOffers: undefined
 };
 
 Messages.propTypes = {
   Conversations: PropTypes.arrayOf(PropTypes.object),
-  Usuarios: PropTypes.arrayOf(PropTypes.object)
+  Usuarios: PropTypes.arrayOf(PropTypes.object),
+  JobOffers: PropTypes.arrayOf(PropTypes.object)
 };
 function mapStateToProps(state) {
   return {
     Conversations: state.firestore.ordered.JobOffersyStudents,
     Usuarios: state.firestore.data.Usuarios,
+    JobOffers: state.firestore.data.JobOffers,
     profile: state.firebase.profile
   };
 }
 
 export default compose(
   connect(mapStateToProps),
-  firestoreConnect([{ collection: 'JobOffersyStudents' }])
+  firestoreConnect(props => {
+    if (props.profile.userID === undefined) return [];
+
+    return [
+      {
+        collection: 'JobOffers',
+        where: ['company', '==', props.profile.userID]
+      },
+      { collection: 'Usuarios', where: ['rol', '==', 'Student'] },
+      {
+        collection: 'JobOffersyStudents',
+        where: ['status', '==', 'Interviewing']
+      }
+    ];
+  })
 )(Messages);
