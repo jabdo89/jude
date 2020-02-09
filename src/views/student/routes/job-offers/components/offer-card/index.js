@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { createStudentyJobOffer } from '@actions/jobOfferActions';
+import { NotificationManager } from 'react-notifications';
+import 'react-notifications/lib/notifications.css';
+import { createStudentyJobOffer, clearRequest } from '@actions/jobOfferActions';
 import { Card, CardBody, CardFooter } from '@common/card';
 import Avatar from '@common/avatar';
 import shortId from 'shortid';
@@ -37,8 +39,19 @@ class OfferCard extends Component {
   trimText = text => `${text.slice(0, 200)}...`;
 
   render() {
-    const { offer } = this.props;
+    const { offer, requestErrorStudent } = this.props;
     const { fullText } = this.state;
+    if (requestErrorStudent === 'REQUESTED_SUCCESFULLY') {
+      NotificationManager.success('You will be notified if accepted', 'Requested Succesfully!');
+      this.props.clearRequest(offer);
+    }
+    if (requestErrorStudent === 'ALREADY_EXISTS') {
+      NotificationManager.warning(
+        'You will be notified if accepted',
+        'Job Offer Already Requested'
+      );
+      this.props.clearRequest(offer);
+    }
     return (
       <Card scaleOnHover>
         <CardTop>
@@ -125,14 +138,21 @@ OfferCard.propTypes = {
     companyName: PropTypes.string,
     requirements: PropTypes.arrayOf(PropTypes.string)
   }).isRequired,
-  createStudentyJobOffer: PropTypes.func.isRequired
+  createStudentyJobOffer: PropTypes.func.isRequired,
+  clearRequest: PropTypes.func.isRequired,
+  requestErrorStudent: PropTypes.string.isRequired
 };
-
+const mapStateToProps = state => {
+  return {
+    requestErrorStudent: state.student.requestErrorStudent
+  };
+};
 const mapDispatchToProps = dispatch => {
   return {
     createStudentyJobOffer: (jobOfferID, companyID) =>
-      dispatch(createStudentyJobOffer(jobOfferID, companyID))
+      dispatch(createStudentyJobOffer(jobOfferID, companyID)),
+    clearRequest: activity => dispatch(clearRequest(activity))
   };
 };
 
-export default connect(null, mapDispatchToProps)(OfferCard);
+export default connect(mapStateToProps, mapDispatchToProps)(OfferCard);

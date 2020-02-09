@@ -82,7 +82,7 @@ class RequestsView extends Component {
                 user={Usuarios[request.studentID]}
                 jobOffer={JobOffers[request.jobOfferID]}
                 acceptRequest={() => this.acceptRequest(request.id)}
-                deleteRequest={this.deleteRequest}
+                deleteRequest={() => this.deleteRequest(request.id)}
                 setUserModal={() => this.setUserModal(request.studentID)}
               />
             ))}

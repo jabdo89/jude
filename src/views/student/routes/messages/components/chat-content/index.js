@@ -66,7 +66,7 @@ class ChatContent extends Component {
             <Box p={10} display="flex" alignItems="center">
               <Avatar mr={10} size={50} src={user.profileImg || '/static/img/general/avatar.png'} />
               <Typography mr="auto" variant="leadText">
-                {user.firstName} {user.lastName}
+                {user.companyName}
               </Typography>
               <Box display="flex" alignItems="center">
                 <ActionButton size="small" color="danger" variant="soft" mr={5}>

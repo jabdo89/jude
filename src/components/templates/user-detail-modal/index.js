@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { NotificationContainer } from 'react-notifications';
 import Modal from '@common/modal';
 import Button from '@common/button';
 import Avatar from '@common/avatar';
@@ -21,6 +22,7 @@ class DetailModal extends Component {
     const { isRequestModalOpen } = this.state;
     return (
       <Fragment>
+        <NotificationContainer />
         <Modal size="large" title="Student detail" active={active} closeButton={closeButton}>
           <Row>
             <Column basis="40">

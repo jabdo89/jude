@@ -51,12 +51,12 @@ export const createJobOfferyStudent = (jobOffer, user) => {
               lMessageTime: ''
             })
             .then(() => {
-              dispatch({ type: 'JOBOFFER_REQUESTED', jobOffer });
+              dispatch({ type: 'JOBOFFER_REQUESTED_COMPANY', jobOffer });
             })
             .catch(err => {
               dispatch({ type: 'JOBOFFER_REQUEST_ERROR', err });
             });
-        } else dispatch({ type: 'STUDENT_ALREADY_REQUESTED', jobOffer });
+        } else dispatch({ type: 'JOBOFFER_ALREADY_EXISTS_COMPANY', jobOffer });
       });
   };
 };
@@ -81,13 +81,23 @@ export const createStudentyJobOffer = (jobOffer, companyUID) => {
               lMessageTime: ''
             })
             .then(() => {
-              dispatch({ type: 'JOBOFFER_REQUESTED', jobOffer });
+              dispatch({ type: 'JOBOFFER_REQUESTED_STUDENT', jobOffer });
             })
             .catch(err => {
               dispatch({ type: 'JOBOFFER_REQUEST_ERROR', err });
             });
-        } else dispatch({ type: 'STUDENT_ALREADY_REQUESTED', jobOffer });
+        } else dispatch({ type: 'JOBOFFER_ALREADY_EXISTS_STUDENT', jobOffer });
       });
+  };
+};
+export const clearRequest = activity => {
+  return dispatch => {
+    dispatch({ type: 'REQUEST_RESET', activity });
+  };
+};
+export const clearRequestCompany = activity => {
+  return dispatch => {
+    dispatch({ type: 'REQUEST_RESET_COMPANY', activity });
   };
 };
 export const deleateJobOffer = jobOffer => {

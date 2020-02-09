@@ -45,6 +45,11 @@ class DataForm extends Component {
       major,
       showResumeModal
     } = this.state;
+    const script = document.createElement('script');
+    script.src =
+      'https://cdn2.hubspot.net/hubfs/1716276/embeddable_assessments/disc/disc_assessment_v1.1.0.js';
+    script.async = true;
+    document.body.appendChild(script);
     return (
       <Box mt={20} px={20}>
         <Typography mb={30} variant="leadText">

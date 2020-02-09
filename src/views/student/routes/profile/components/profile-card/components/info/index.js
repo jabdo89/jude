@@ -27,11 +27,10 @@ const Info = ({ firstName, lastName, username, description, major, semester }) =
       {description}
     </Typography>
     <Button fullWidth mt={20} color="secondary">
-      Complete psychometric test
+      <div id="disc_assessment_root" data-api-token="000498542cf46a7274f92eac112e8641"></div>
     </Button>
   </Fragment>
 );
-
 Info.propTypes = {
   firstName: PropTypes.string.isRequired,
   lastName: PropTypes.string.isRequired,

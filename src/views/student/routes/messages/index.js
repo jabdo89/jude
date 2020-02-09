@@ -26,7 +26,7 @@ class Messages extends Component {
 
   render() {
     let { Conversations } = this.props;
-    const { Usuarios } = this.props;
+    const { Usuarios, profile } = this.props;
     if (Conversations !== undefined) {
       Conversations = Conversations.sort((a, b) => b.lMessageTime - a.lMessageTime);
     }
@@ -40,16 +40,23 @@ class Messages extends Component {
             </NavbarActionPortal>
             <ListContainer>
               {Conversations &&
-                Conversations.map(({ companyID, seen, lastMessage, jobOfferName }, idx) => (
-                  <ConversationCard
-                    key={idx.id}
-                    openChat={() => this.setActualChat(idx, companyID)}
-                    user={Usuarios[companyID]}
-                    jobOfferName={jobOfferName}
-                    lastMessage={lastMessage}
-                    seen={seen}
-                  />
-                ))}
+                Conversations.map(
+                  ({ companyID, studentID, status, seen, lastMessage, jobOfferName }, idx) => {
+                    if (status === 'Interviewing' && studentID === profile.userID) {
+                      return (
+                        <ConversationCard
+                          key={idx.id}
+                          openChat={() => this.setActualChat(idx, companyID)}
+                          user={Usuarios[companyID]}
+                          jobOfferName={jobOfferName}
+                          lastMessage={lastMessage}
+                          seen={seen}
+                        />
+                      );
+                    }
+                    return null;
+                  }
+                )}
             </ListContainer>
           </Column>
           <Column basis="65" hideOnMobileIf={!actualChat}>
@@ -76,12 +83,14 @@ class Messages extends Component {
 
 Messages.defaultProps = {
   Conversations: undefined,
-  Usuarios: undefined
+  Usuarios: undefined,
+  profile: undefined
 };
 
 Messages.propTypes = {
   Conversations: PropTypes.arrayOf(PropTypes.object),
-  Usuarios: PropTypes.arrayOf(PropTypes.object)
+  Usuarios: PropTypes.arrayOf(PropTypes.object),
+  profile: PropTypes.arrayOf(PropTypes.object)
 };
 function mapStateToProps(state) {
   return {
@@ -92,5 +101,18 @@ function mapStateToProps(state) {
 }
 export default compose(
   connect(mapStateToProps),
-  firestoreConnect([{ collection: 'JobOffersyStudents' }])
+  firestoreConnect(props => {
+    if (props.profile.userID === undefined) return [];
+
+    return [
+      { collection: 'Usuarios', where: ['rol', '==', 'Company'] },
+      {
+        collection: 'JobOffersyStudents',
+        where: [
+          ['status', '==', 'Interviewing'],
+          ['studentID', '==', props.profile.userID]
+        ]
+      }
+    ];
+  })
 )(Messages);

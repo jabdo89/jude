@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { acceptStudentInterview, rejectStudentInterview } from '@actions/jobOfferActions';
 import Box from '@common/box';
 import confirmation from '@templates/confirmation';
 import FilterBar from './components/filter-bar';
@@ -10,47 +11,52 @@ import RequestCard from './components/request-card';
 import Container from './elements';
 
 class RequestsView extends Component {
-  acceptRequest = async () => {
+  acceptRequest = async jobOfferID => {
     if (
-      await confirmation('Are you sure?', 'The company will be notified about your confirmation', {
-        text: 'CONFIRM',
-        description: "Please, type 'CONFIRM' to confirm"
-      })
+      await confirmation(
+        'Are you sure?',
+        'Accepting this student, will begin the interviewing process',
+        {
+          text: 'CONFIRM',
+          description: "Please, type 'CONFIRM' to confirm"
+        }
+      )
     ) {
-      /*
-        Handle request acceptance here
-      */
+      this.props.acceptStudentInterview(jobOfferID);
     }
   };
 
-  deleteRequest = async () => {
+  deleteRequest = async jobOfferID => {
     if (
       await confirmation('Are you sure?', 'This will totally discard the selected offer', {
         text: 'DELETE',
         description: "Please, type 'DELETE' to confirm"
       })
     ) {
-      /*
-        Handle request deletion here
-      */
+      this.props.rejectStudentInterview(jobOfferID);
     }
   };
 
   render() {
-    const { Requests, JobOffers } = this.props;
+    const { Requests, JobOffers, profile } = this.props;
     return (
       <Box pb={30}>
         <FilterBar />
         <Container>
           {Requests &&
-            Requests.map(request => (
-              <RequestCard
-                key={request.id}
-                request={JobOffers[request.jobOfferID]}
-                acceptRequest={this.acceptRequest}
-                deleteRequest={this.deleteRequest}
-              />
-            ))}
+            Requests.map(request => {
+              if (request.status === 'requestedByCompany' && request.studentID === profile.userID) {
+                return (
+                  <RequestCard
+                    key={request.id}
+                    request={JobOffers[request.jobOfferID]}
+                    acceptRequest={() => this.acceptRequest(request.id)}
+                    deleteRequest={() => this.deleteRequest(request.id)}
+                  />
+                );
+              }
+              return null;
+            })}
         </Container>
       </Box>
     );
@@ -59,12 +65,16 @@ class RequestsView extends Component {
 
 RequestsView.defaultProps = {
   Requests: undefined,
-  JobOffers: undefined
+  JobOffers: undefined,
+  profile: undefined
 };
 
 RequestsView.propTypes = {
   Requests: PropTypes.arrayOf(PropTypes.object),
-  JobOffers: PropTypes.arrayOf(PropTypes.object)
+  JobOffers: PropTypes.arrayOf(PropTypes.object),
+  profile: PropTypes.arrayOf(PropTypes.object),
+  acceptStudentInterview: PropTypes.func.isRequired,
+  rejectStudentInterview: PropTypes.func.isRequired
 };
 const mapStateToProps = state => {
   return {
@@ -74,12 +84,29 @@ const mapStateToProps = state => {
     profile: state.firebase.profile
   };
 };
-
+const mapDispatchToProps = dispatch => {
+  return {
+    acceptStudentInterview: jobOfferID => dispatch(acceptStudentInterview(jobOfferID)),
+    rejectStudentInterview: jobOfferID => dispatch(rejectStudentInterview(jobOfferID))
+  };
+};
 export default compose(
-  connect(mapStateToProps),
-  firestoreConnect([
-    { collection: 'JobOffersyStudents' },
-    { collection: 'Usuarios' },
-    { collection: 'JobOffers' }
-  ])
+  connect(mapStateToProps, mapDispatchToProps),
+  firestoreConnect(props => {
+    if (props.profile.userID === undefined) return [];
+
+    return [
+      {
+        collection: 'JobOffers'
+      },
+      { collection: 'Usuarios', where: ['rol', '==', 'Student'] },
+      {
+        collection: 'JobOffersyStudents',
+        where: [
+          ['status', '==', 'requestedByCompany'],
+          ['studentID', '==', props.profile.userID]
+        ]
+      }
+    ];
+  })
 )(RequestsView);

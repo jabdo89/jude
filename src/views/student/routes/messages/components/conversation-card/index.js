@@ -15,9 +15,7 @@ const ConversationCard = ({ openChat, user, lastMessage, jobOfferName, seen }) =
         src={user.profileImg || '/static/img/general/avatar.png'}
       />
       <DataContainer>
-        <Typography color="lightDark">
-          {user.firstName} {user.lastName}
-        </Typography>
+        <Typography color="lightDark">{user.companyName}</Typography>
         <Typography mb={5} color="primary" fontSize="0.65rem">
           {jobOfferName}
         </Typography>
