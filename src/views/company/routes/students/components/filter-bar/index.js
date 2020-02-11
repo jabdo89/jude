@@ -7,7 +7,15 @@ import Typography from '@common/typography';
 import Box from '@common/box';
 import { BackButton, Container, Input, Select, Divider, FilterContainer } from './elements';
 
-const FilterBar = ({ isRecommendation, history, jobOfferName }) => (
+const FilterBar = ({
+  isRecommendation,
+  semesterFilterUpdate,
+  semesterValue,
+  majorFilterUpdate,
+  majorValue,
+  history,
+  jobOfferName
+}) => (
   <Container>
     {isRecommendation ? (
       <Box display="flex" alignItems="center" mr="auto">
@@ -36,17 +44,17 @@ const FilterBar = ({ isRecommendation, history, jobOfferName }) => (
         <FilterContainer>
           <Typography variant="muted">Semester</Typography>
           <Select
-            value=""
-            onChange={() => {
-              /* Replace with handler */
+            value={semesterValue}
+            onChange={event => {
+              semesterFilterUpdate(event.target.value);
             }}
           >
-            <option value="">any</option>
+            <option value="any">any</option>
             <option value="1">1º</option>
             <option value="2">2º</option>
             <option value="3">3º</option>
             <option value="4">4º</option>
-            <option value="5">5º</option>
+            <option value="5">5</option>
             <option value="6">6º</option>
             <option value="7">7º</option>
             <option value="8">8º</option>
@@ -58,12 +66,12 @@ const FilterBar = ({ isRecommendation, history, jobOfferName }) => (
         <FilterContainer>
           <Typography variant="muted">Major</Typography>
           <Select
-            value=""
-            onChange={() => {
-              /* Replace with handler */
+            value={majorValue}
+            onChange={event => {
+              majorFilterUpdate(event.target.value);
             }}
           >
-            <option value="">any</option>
+            <option value="any">any</option>
             <option value="ITC">ITC</option>
             <option value="INT">INT</option>
           </Select>
@@ -76,7 +84,11 @@ const FilterBar = ({ isRecommendation, history, jobOfferName }) => (
 FilterBar.propTypes = {
   isRecommendation: PropTypes.bool.isRequired,
   jobOfferName: PropTypes.string.isRequired,
-  history: PropTypes.object.isRequired
+  history: PropTypes.object.isRequired,
+  majorFilterUpdate: PropTypes.func.isRequired,
+  semesterFilterUpdate: PropTypes.func.isRequired,
+  majorValue: PropTypes.string.isRequired,
+  semesterValue: PropTypes.string.isRequired
 };
 
 export default withRouter(FilterBar);

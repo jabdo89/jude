@@ -19,16 +19,24 @@ class Company extends Component {
     this.state = {
       activeModal: false,
       studentIndex: 0,
-      refState: props.location.state
+      refState: props.location.state,
+      semesterFilter: 'any',
+      majorFilter: 'any'
     };
   }
 
   setStudent = studentIndex => this.setState({ studentIndex, activeModal: true });
 
+  updateMajorFilter = filter => this.setState({ majorFilter: filter });
+
   toggleModal = activeModal => this.setState({ activeModal });
 
+  updateSemesterFilter = filter => {
+    this.setState({ semesterFilter: filter });
+  };
+
   render() {
-    const { activeModal, studentIndex, refState } = this.state;
+    const { activeModal, studentIndex, refState, semesterFilter, majorFilter } = this.state;
     let { Usuarios } = this.props;
     if (refState) {
       Usuarios = refState.recommended;
@@ -43,19 +51,67 @@ class Company extends Component {
         />
       );
     } else action = null;
+    // console.log(semesterFilter);
     return (
       <Box pb={30}>
         <FilterBar
           hghhhj
           isRecommendation={!!refState}
           jobOfferName={refState && refState.jobOfferName}
+          semesterFilterUpdate={this.updateSemesterFilter}
+          majorFilterUpdate={this.updateMajorFilter}
+          semesterValue={semesterFilter}
+          majorValue={majorFilter}
         />
         <Container>
           {Usuarios &&
             Usuarios.map((user, index) => {
-              return (
-                <StudentCard key={user.id} setStudent={() => this.setStudent(index)} user={user} />
-              );
+              if (semesterFilter === 'any' && majorFilter === 'any') {
+                return (
+                  <StudentCard
+                    key={user.id}
+                    setStudent={() => this.setStudent(index)}
+                    user={user}
+                  />
+                );
+              }
+              if (semesterFilter !== 'any' && majorFilter === 'any') {
+                if (user.semester === semesterFilter) {
+                  return (
+                    <StudentCard
+                      key={user.id}
+                      setStudent={() => this.setStudent(index)}
+                      user={user}
+                    />
+                  );
+                }
+                return null;
+              }
+              if (semesterFilter === 'any' && majorFilter !== 'any') {
+                if (user.major === majorFilter) {
+                  return (
+                    <StudentCard
+                      key={user.id}
+                      setStudent={() => this.setStudent(index)}
+                      user={user}
+                    />
+                  );
+                }
+                return null;
+              }
+              if (semesterFilter !== 'any' && majorFilter !== 'any') {
+                if (user.major === majorFilter && user.semester === semesterFilter) {
+                  return (
+                    <StudentCard
+                      key={user.id}
+                      setStudent={() => this.setStudent(index)}
+                      user={user}
+                    />
+                  );
+                }
+                return null;
+              }
+              return null;
             })}
         </Container>
         {action}
