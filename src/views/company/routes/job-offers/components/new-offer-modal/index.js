@@ -24,7 +24,8 @@ const initialState = {
   },
   requirements: [],
   requirement: '',
-  studentsNeeded: ''
+  studentsNeeded: '',
+  major: ''
 };
 
 const weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
@@ -84,7 +85,8 @@ class NewOfferModal extends Component {
       scheduleDesc,
       requirement,
       requirements,
-      studentsNeeded
+      studentsNeeded,
+      major
     } = this.state;
     return (
       <Modal size="large" title="Add a new offer" active={active} closeButton={closeButton}>
@@ -104,6 +106,14 @@ class NewOfferModal extends Component {
             type="number"
             value={budget}
             name="budget"
+          />
+          <Input
+            label="Major required"
+            required
+            onChange={this.handleInputChange}
+            type="text"
+            value={major}
+            name="major"
           />
           <Input
             label="Students needed to cover the offer"

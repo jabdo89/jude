@@ -77,7 +77,8 @@ class NewOfferModal extends Component {
       scheduleDesc,
       requirement,
       requirements,
-      studentsNeeded
+      studentsNeeded,
+      major
     } = this.state;
     return (
       <Modal size="large" title="Edit offer" active={active} closeButton={closeButton}>
@@ -99,6 +100,15 @@ class NewOfferModal extends Component {
             value={budget}
             disabled
             name="budget"
+          />
+          <Input
+            label="Major required"
+            required
+            disabled
+            onChange={this.handleInputChange}
+            type="text"
+            value={major}
+            name="major"
           />
           <Input
             label="Students needed to cover the offer"
