@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import DashboardLayout from '@layouts/dashboard';
@@ -6,6 +6,7 @@ import TopBarProgress from 'react-topbar-progress-indicator';
 import theme from 'theme';
 import Company from './views/company';
 import Student from './views/student';
+import Admin from './views/admin';
 import Authentication from './views/authentication';
 
 TopBarProgress.config({
@@ -38,7 +39,7 @@ const App = ({ profile }) => {
   if (profile.rol === 'Admin') {
     return (
       <DashboardLayout admin>
-        <Fragment />
+        <Admin />
       </DashboardLayout>
     );
   }
