@@ -1,17 +1,15 @@
 import React from 'react';
 import { FiSearch } from 'react-icons/fi';
-import { Container, Input } from './elements';
+import { Container, Select } from './elements';
 
 const FilterBar = () => (
   <Container>
-    <Input
-      value=""
-      onChange={() => {
-        /* Replace with handler */
-      }}
-      leftIcon={<FiSearch />}
-      placeholder="Filter by job offer"
-    />
+    <Select value="" leftIcon={<FiSearch />} onChange={() => {}}>
+      <option value="">Select a conversation</option>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+    </Select>
   </Container>
 );
 

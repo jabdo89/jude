@@ -32,6 +32,12 @@ const TextAreaContent = styled.textarea`
     display: none;
   }
 
+  ${({ theme, disabled }) =>
+    disabled &&
+    `
+    background-color: ${theme.colors.light};
+  `}
+
   &:focus {
     transition: 0.3s;
     outline: none;

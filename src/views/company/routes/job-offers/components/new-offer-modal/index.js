@@ -23,7 +23,8 @@ const initialState = {
     endHour: ''
   },
   requirements: [],
-  requirement: ''
+  requirement: '',
+  studentsNeeded: ''
 };
 
 const weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
@@ -41,7 +42,7 @@ class NewOfferModal extends Component {
     }
   };
 
-  handleBudgetChange = event => {
+  handleNumberChange = event => {
     // Checks for non-negative values
     if (event.target.value >= 0) {
       this.handleInputChange(event);
@@ -76,7 +77,15 @@ class NewOfferModal extends Component {
   render() {
     // Add , jobOfferError to this.props
     const { active, closeButton } = this.props;
-    const { name, budget, description, scheduleDesc, requirement, requirements } = this.state;
+    const {
+      name,
+      budget,
+      description,
+      scheduleDesc,
+      requirement,
+      requirements,
+      studentsNeeded
+    } = this.state;
     return (
       <Modal size="large" title="Add a new offer" active={active} closeButton={closeButton}>
         <form onSubmit={this.handleSubmit}>
@@ -91,10 +100,18 @@ class NewOfferModal extends Component {
           <Input
             label="Monthly budget for the offer"
             required
-            onChange={this.handleBudgetChange}
+            onChange={this.handleNumberChange}
             type="number"
             value={budget}
             name="budget"
+          />
+          <Input
+            label="Students needed to cover the offer"
+            required
+            onChange={this.handleNumberChange}
+            type="number"
+            value={studentsNeeded}
+            name="studentsNeeded"
           />
           <Textarea
             label="Offer description"
@@ -121,7 +138,7 @@ class NewOfferModal extends Component {
               ))}
             </Select>
             <Select
-              label="Week starts at"
+              label="Week ends at"
               required
               onChange={this.handleScheduleDesc}
               value={scheduleDesc.weekEnd}

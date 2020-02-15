@@ -1,11 +1,11 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { FiSearch } from 'react-icons/fi';
+// import { FiSearch } from 'react-icons/fi';
 import { withRouter } from 'react-router-dom';
 import { MdArrowBack } from 'react-icons/md';
 import Typography from '@common/typography';
 import Box from '@common/box';
-import { BackButton, Container, Input, Select, Divider, FilterContainer } from './elements';
+import { BackButton, Container, /* Input, */ Select, Divider, FilterContainer } from './elements';
 
 const FilterBar = ({
   isRecommendation,
@@ -33,14 +33,13 @@ const FilterBar = ({
       </Box>
     ) : (
       <Fragment>
-        <Input
+        {/* <Input
           value=""
           onChange={() => {
-            /* Replace with handler */
           }}
           leftIcon={<FiSearch />}
           placeholder="Search"
-        />
+        /> */}
         <FilterContainer>
           <Typography variant="muted">Semester</Typography>
           <Select

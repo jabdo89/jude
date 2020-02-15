@@ -27,6 +27,7 @@ class TextArea extends Component {
       name,
       rows,
       className,
+      disabled,
       ...props
     } = this.props;
     return (
@@ -46,6 +47,7 @@ class TextArea extends Component {
           placeholder={placeholder}
           id={id}
           ref={this.box}
+          disabled={disabled}
           onKeyUp={this.handleKeyUp}
           onChange={onChange}
           rows={rows}
@@ -61,7 +63,8 @@ TextArea.defaultProps = {
   placeholder: null,
   label: null,
   required: null,
-  id: '',
+  disabled: undefined,
+  id: undefined,
   name: '',
   rows: '3',
   className: ''
@@ -76,6 +79,7 @@ TextArea.propTypes = {
   placeholder: PropTypes.string,
   label: PropTypes.string,
   required: PropTypes.bool,
+  disabled: PropTypes.bool,
   rows: PropTypes.string,
   className: PropTypes.string
 };
