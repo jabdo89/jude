@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import shortId from 'shortid';
 import Modal from '@common/modal';
 import Typography from '@common/typography';
 import Box from '@common/box';
@@ -7,7 +8,9 @@ import Button from '@common/button';
 import Textarea from '@common/textarea';
 import Dropzone from '@templates/dropzone';
 import { FaUser, FaEnvelope, FaBars, FaRegUser, FaGraduationCap, FaHashtag } from 'react-icons/fa';
+import { FiX } from 'react-icons/fi';
 import Input from '@common/input';
+import Skill from './elements';
 
 class DataForm extends Component {
   constructor(props) {
@@ -20,7 +23,9 @@ class DataForm extends Component {
       semester: props.user.semester.toString(),
       description: props.user.description,
       major: props.user.major,
-      showResumeModal: false
+      showResumeModal: false,
+      skills: [],
+      skill: ''
     };
   }
 
@@ -34,6 +39,25 @@ class DataForm extends Component {
 
   handleInputChange = ({ target: { name, value } }) => this.setState({ [name]: value });
 
+  addSkill = event => {
+    const { skills, skill } = this.state;
+    if (event.key === 'Enter' && skill) {
+      event.preventDefault();
+      this.setState({
+        skills: [...skills, skill],
+        skill: ''
+      });
+    }
+  };
+
+  removeSkill = idx =>
+    this.setState(({ skills }) => {
+      skills.splice(idx, 1);
+      return {
+        skills
+      };
+    });
+
   render() {
     const {
       username,
@@ -43,7 +67,9 @@ class DataForm extends Component {
       semester,
       description,
       major,
-      showResumeModal
+      showResumeModal,
+      skills,
+      skill
     } = this.state;
     const script = document.createElement('script');
     script.src =
@@ -112,6 +138,22 @@ class DataForm extends Component {
           rows="5"
           leftIcon={<FaBars />}
         />
+        <Input
+          label="Skills (press enter to add)"
+          onChange={this.handleInputChange}
+          onKeyPress={this.addSkill}
+          type="text"
+          value={skill}
+          name="skill"
+        />
+        <Box mt={10} flexWrap="wrap" display="flex">
+          {skills.map((req, idx) => (
+            <Skill key={shortId.generate()} mr={5} color="secondary" variant="outlined" mb={5}>
+              {req}
+              <FiX onClick={() => this.removeSkill(idx)} />
+            </Skill>
+          ))}
+        </Box>
         <Box mt={20} display="flex" justifyContent="flex-end">
           <Button onClick={this.toggleResumeModal} variant="soft" color="secondary">
             Change resume
