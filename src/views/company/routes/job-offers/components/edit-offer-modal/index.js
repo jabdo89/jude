@@ -21,7 +21,8 @@ class NewOfferModal extends Component {
       description: props.offerToEdit.description,
       scheduleDesc: props.offerToEdit.scheduleDesc,
       requirements: props.offerToEdit.requirements,
-      requirement: ''
+      requirement: '',
+      studentsNeeded: ''
     };
   }
 
@@ -36,7 +37,7 @@ class NewOfferModal extends Component {
     }
   };
 
-  handleBudgetChange = event => {
+  handleNumberChange = event => {
     // Checks for non-negative values
     if (event.target.value >= 0) {
       this.handleInputChange(event);
@@ -69,7 +70,16 @@ class NewOfferModal extends Component {
 
   render() {
     const { active, closeButton } = this.props;
-    const { name, budget, description, scheduleDesc, requirement, requirements } = this.state;
+    const {
+      name,
+      budget,
+      description,
+      scheduleDesc,
+      requirement,
+      requirements,
+      studentsNeeded,
+      major
+    } = this.state;
     return (
       <Modal size="large" title="Edit offer" active={active} closeButton={closeButton}>
         <form onSubmit={this.handleSubmit}>
@@ -79,15 +89,35 @@ class NewOfferModal extends Component {
             onChange={this.handleInputChange}
             type="text"
             value={name}
+            disabled
             name="name"
           />
           <Input
             label="Monthly budget for the offer"
             required
-            onChange={this.handleBudgetChange}
+            onChange={this.handleNumberChange}
             type="number"
             value={budget}
+            disabled
             name="budget"
+          />
+          <Input
+            label="Major required"
+            required
+            disabled
+            onChange={this.handleInputChange}
+            type="text"
+            value={major}
+            name="major"
+          />
+          <Input
+            label="Students needed to cover the offer"
+            required
+            onChange={this.handleNumberChange}
+            type="number"
+            value={studentsNeeded}
+            disabled
+            name="studentsNeeded"
           />
           <Textarea
             label="Offer description"
@@ -95,6 +125,7 @@ class NewOfferModal extends Component {
             onChange={this.handleInputChange}
             type="text"
             value={description}
+            disabled
             name="description"
           />
           <Row>
@@ -114,7 +145,7 @@ class NewOfferModal extends Component {
               ))}
             </Select>
             <Select
-              label="Week starts at"
+              label="Week ends at"
               required
               onChange={this.handleScheduleDesc}
               value={scheduleDesc.weekEnd}
@@ -170,7 +201,7 @@ class NewOfferModal extends Component {
             ))}
           </Box>
           <Button mt={20} size="large" color="secondary" ml="auto">
-            Create
+            Edit
           </Button>
         </form>
       </Modal>

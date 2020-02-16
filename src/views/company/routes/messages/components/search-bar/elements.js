@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import CommonInput from '@common/input';
+import CommonSelect from '@common/select';
 
 const Container = styled.div`
   display: flex;
@@ -13,13 +13,13 @@ const Container = styled.div`
   `}
 `;
 
-const Input = styled(CommonInput)`
+const Select = styled(CommonSelect)`
   width: auto;
   margin-top: 0;
   margin-right: 20px;
   flex-grow: 1;
 
-  input {
+  select {
     border: none;
     background-color: transparent;
   }
@@ -28,7 +28,7 @@ const Input = styled(CommonInput)`
     margin-bottom: 2px;
   }
 
-  input {
+  select {
     font-size: 12px;
   }
 
@@ -37,7 +37,7 @@ const Input = styled(CommonInput)`
   `};
 
   &:focus-within {
-    input {
+    select {
       border: none;
       box-shadow: none;
     }
@@ -50,4 +50,4 @@ const NewContainer = styled.div`
   }
 `;
 
-export { Input, Container, NewContainer };
+export { Select, Container, NewContainer };

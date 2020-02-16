@@ -26,7 +26,7 @@ import { Form, Input, Select, Column } from './elements';
 
 class Login extends Component {
   state = {
-    step: 2,
+    step: 1,
     email: '',
     firstName: '',
     lastName: '',

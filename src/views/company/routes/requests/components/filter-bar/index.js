@@ -1,18 +1,18 @@
 import React from 'react';
-import { FiSearch } from 'react-icons/fi';
+// import { FiSearch } from 'react-icons/fi';
 import Typography from '@common/typography';
-import { Container, Input, Select, FilterContainer } from './elements';
+import { Container, /* Input, */ Select, FilterContainer } from './elements';
 
 const FilterBar = jobOffers => (
   <Container>
-    <Input
+    {/* <Input
       value=""
       onChange={() => {
-        /* Replace with handler */
+
       }}
       leftIcon={<FiSearch />}
       placeholder="Search"
-    />
+    /> */}
     <FilterContainer>
       <Typography variant="muted">Offer</Typography>
       <Select

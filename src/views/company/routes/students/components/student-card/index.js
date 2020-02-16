@@ -1,8 +1,10 @@
 import React from 'react';
+import shortId from 'shortid';
 import PropTypes from 'prop-types';
 import { CardBody } from '@common/card';
 import Avatar from '@common/avatar';
 import Box from '@common/box';
+import Pill from '@common/pill';
 import Typography from '@common/typography';
 import { Card, BookIcon, CardTop, Divider, DescriptionContainer } from './elements';
 
@@ -35,6 +37,24 @@ const StudentCard = ({ user, setStudent }) => (
       <Divider />
       <DescriptionContainer>
         <Typography variant="muted">{trimText(user.description)}</Typography>
+        <Typography color="primary" mt={20} mb={5} fontWeight="bold">
+          Skills
+        </Typography>
+        <Box flexWrap="wrap" display="flex">
+          {user.skills &&
+            user.skills.map(skill => (
+              <Pill
+                key={shortId.generate()}
+                mr={5}
+                color="secondary"
+                variant="outlined"
+                size="small"
+                mb={5}
+              >
+                {skill}
+              </Pill>
+            ))}
+        </Box>
       </DescriptionContainer>
     </CardBody>
   </Card>
@@ -48,7 +68,8 @@ StudentCard.propTypes = {
     profileImg: PropTypes.string,
     semester: PropTypes.number.isRequired,
     description: PropTypes.string.isRequired,
-    major: PropTypes.string.isRequired
+    major: PropTypes.string.isRequired,
+    skills: PropTypes.arrayOf(PropTypes.string).isRequired
   }).isRequired,
   setStudent: PropTypes.func.isRequired
 };

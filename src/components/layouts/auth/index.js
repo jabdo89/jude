@@ -18,7 +18,7 @@ const AuthLayout = ({ children }) => (
     <LeftContainer>
       <Background src="/static/img/login/jude_homescreen_backgroung.png" alt="logo" />
       <TargetIcon src="/static/img/login/target.png" alt="target" />
-      <ConnectingWord color="lighter">Connect Students With Companies</ConnectingWord>
+      <ConnectingWord color="lighter">Connecting Students With Companies</ConnectingWord>
       <WelcomeWord color="lighter">WELCOME BACK!</WelcomeWord>
       <EnterWord color="lighter">Authenticate yourself to continue</EnterWord>
       <LogoBig src="/static/img/brand/jude_logo.png" alt="logo" />

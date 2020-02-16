@@ -9,7 +9,7 @@ import faker from 'faker';
 import { MdSchool } from 'react-icons/md';
 import { withRouter } from 'react-router-dom';
 import Box from '@common/box';
-import { FaRegCalendarAlt, FaRegClock } from 'react-icons/fa';
+import { FaRegCalendarAlt, FaRegClock, FaGraduationCap } from 'react-icons/fa';
 import Pill from '@common/pill';
 import { FiEdit3, FiX } from 'react-icons/fi';
 import Typography from '@common/typography';
@@ -114,6 +114,14 @@ class OfferCard extends Component {
                   From {offer.scheduleDesc.startHour} hrs. to {offer.scheduleDesc.endHour} hrs.
                 </TypographyWithIcon>
                 <Typography color="primary" mt={20} mb={5} fontWeight="bold">
+                  Major required
+                </Typography>
+                <TypographyWithIcon variant="muted">
+                  <FaGraduationCap />
+                  {/* ITC is just a placeholder, please remove */}
+                  {offer.major || 'ITC'}
+                </TypographyWithIcon>
+                <Typography color="primary" mt={20} mb={5} fontWeight="bold">
                   Requirements
                 </Typography>
                 <Box flexWrap="wrap" display="flex">
@@ -158,6 +166,7 @@ OfferCard.propTypes = {
     companyLogoUrl: PropTypes.string,
     name: PropTypes.string,
     budget: PropTypes.string,
+    major: PropTypes.string,
     description: PropTypes.string,
     scheduleDesc: PropTypes.object,
     requirements: PropTypes.arrayOf(PropTypes.string)

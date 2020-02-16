@@ -21,8 +21,9 @@ class RequestModal extends Component {
     });
 
   handleSubmit = () => {
-    const { user } = this.props;
+    const { user, toggleRequestModal } = this.props;
     this.props.createJobOfferyStudent(this.state.request, user);
+    toggleRequestModal();
   };
 
   render() {

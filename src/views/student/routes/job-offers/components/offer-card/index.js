@@ -9,7 +9,7 @@ import Avatar from '@common/avatar';
 import shortId from 'shortid';
 import Box from '@common/box';
 import Button from '@common/button';
-import { FaRegCalendarAlt, FaRegClock } from 'react-icons/fa';
+import { FaRegCalendarAlt, FaRegClock, FaGraduationCap } from 'react-icons/fa';
 import Pill from '@common/pill';
 import Typography from '@common/typography';
 import {
@@ -23,6 +23,7 @@ import {
   RightIcon
 } from './elements';
 
+const MAX_LENGTH = 200;
 class OfferCard extends Component {
   state = {
     fullText: false
@@ -36,7 +37,7 @@ class OfferCard extends Component {
 
   toggleFullText = () => this.setState(({ fullText }) => ({ fullText: !fullText }));
 
-  trimText = text => `${text.slice(0, 200)}...`;
+  trimText = text => `${text.slice(0, MAX_LENGTH)}...`;
 
   render() {
     const { offer, requestErrorStudent } = this.props;
@@ -82,9 +83,11 @@ class OfferCard extends Component {
             <Typography variant="muted">
               {fullText ? offer.description : this.trimText(offer.description)}
             </Typography>
-            <ShowMore onClick={this.toggleFullText} ml="auto" mt={5} variant="link" size="small">
-              {fullText ? 'Show less' : 'Show more'}
-            </ShowMore>
+            {offer.description.length > MAX_LENGTH && (
+              <ShowMore onClick={this.toggleFullText} ml="auto" mt={5} variant="link" size="small">
+                {fullText ? 'Show less' : 'Show more'}
+              </ShowMore>
+            )}
             <Typography color="primary" mt={20} mb={5} fontWeight="bold">
               Schedule
             </Typography>
@@ -95,6 +98,14 @@ class OfferCard extends Component {
             <TypographyWithIcon mt={5} variant="muted">
               <FaRegClock />
               From {offer.scheduleDesc.startHour} hrs. to {offer.scheduleDesc.endHour} hrs.
+            </TypographyWithIcon>
+            <Typography color="primary" mt={20} mb={5} fontWeight="bold">
+              Major required
+            </Typography>
+            <TypographyWithIcon variant="muted">
+              <FaGraduationCap />
+              {/* ITC is just a placeholder, please remove */}
+              {offer.major || 'ITC'}
             </TypographyWithIcon>
             <Typography color="primary" mt={20} mb={5} fontWeight="bold">
               Requirements
@@ -133,6 +144,7 @@ OfferCard.propTypes = {
     companyLogoUrl: PropTypes.string,
     name: PropTypes.string,
     budget: PropTypes.string,
+    major: PropTypes.string,
     description: PropTypes.string,
     scheduleDesc: PropTypes.object,
     companyName: PropTypes.string,
