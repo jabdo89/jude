@@ -27,7 +27,6 @@ class Messages extends Component {
   render() {
     let { Conversations } = this.props;
     const { Usuarios, JobOffers } = this.props;
-    // console.log(Usuarios);
     if (Conversations !== undefined) {
       Conversations = Conversations.sort((a, b) => b.lMessageTime - a.lMessageTime);
     }

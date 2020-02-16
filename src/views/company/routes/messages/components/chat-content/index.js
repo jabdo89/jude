@@ -6,7 +6,9 @@ import {
   sendMessage,
   getMessages,
   watchTaskRemovedEvent,
-  watchTaskAddedEvent
+  watchTaskAddedEvent,
+  hireStudentInterview,
+  rejectStudentInterviewWChat
 } from '@actions/jobOfferActions';
 import { connect } from 'react-redux';
 import { MdSend, MdClear, MdCancel, MdDone } from 'react-icons/md';
@@ -57,6 +59,17 @@ class ChatContent extends Component {
     this.setState({ message: '' });
   };
 
+  handleHire = () => {
+    const { chat } = this.props;
+    this.props.hireStudentInterview(this.state, chat.id);
+  };
+
+  handleReject = () => {
+    const { chat, closeChat } = this.props;
+    closeChat();
+    this.props.rejectStudentInterviewWChat(chat.id);
+  };
+
   render() {
     const { user, closeChat, messages, profile } = this.props;
     const { message } = this.state;
@@ -71,10 +84,22 @@ class ChatContent extends Component {
                 {user.firstName} {user.lastName}
               </Typography>
               <Box display="flex" alignItems="center">
-                <ActionButton size="small" color="primary" variant="soft" mr={5}>
+                <ActionButton
+                  size="small"
+                  color="primary"
+                  variant="soft"
+                  mr={5}
+                  onClick={this.handleHire}
+                >
                   Hire <MdDone />
                 </ActionButton>
-                <ActionButton size="small" color="danger" variant="soft" mr={5}>
+                <ActionButton
+                  size="small"
+                  color="danger"
+                  variant="soft"
+                  mr={5}
+                  onClick={this.handleReject}
+                >
                   Reject <MdCancel />
                 </ActionButton>
               </Box>
@@ -132,7 +157,9 @@ ChatContent.propTypes = {
   messages: PropTypes.arrayOf(PropTypes.object),
   closeChat: PropTypes.func.isRequired,
   getMessages: PropTypes.func.isRequired,
-  sendMessage: PropTypes.func.isRequired
+  sendMessage: PropTypes.func.isRequired,
+  hireStudentInterview: PropTypes.func.isRequired,
+  rejectStudentInterviewWChat: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {
@@ -146,7 +173,9 @@ const mapDispatchToProps = dispatch => {
     getMessages: convID => dispatch(getMessages(convID)),
     sendMessage: (activity, convID) => dispatch(sendMessage(activity, convID)),
     watchTaskAddedEvent: convID => dispatch(watchTaskAddedEvent(convID)),
-    watchTaskRemovedEvent: convID => dispatch(watchTaskRemovedEvent(convID))
+    // watchTaskRemovedEvent: convID => dispatch(watchTaskRemovedEvent(convID)),
+    rejectStudentInterviewWChat: convID => dispatch(rejectStudentInterviewWChat(convID)),
+    hireStudentInterview: convID => dispatch(hireStudentInterview(convID))
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(ChatContent);

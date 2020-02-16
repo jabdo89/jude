@@ -70,22 +70,27 @@ class RequestsView extends Component {
 
   render() {
     const { selectedUser, activeModal } = this.state;
-    const { Requests, Usuarios, JobOffers } = this.props;
+    const { Requests, Usuarios, JobOffers, profile, JobOffersArray } = this.props;
     return (
       <Box pb={30}>
-        <FilterBar />
+        <FilterBar jobOffers={JobOffersArray} />
         <Container>
           {Requests &&
-            Requests.map(request => (
-              <RequestCard
-                key={request.id}
-                user={Usuarios[request.studentID]}
-                jobOffer={JobOffers[request.jobOfferID]}
-                acceptRequest={() => this.acceptRequest(request.id)}
-                deleteRequest={() => this.deleteRequest(request.id)}
-                setUserModal={() => this.setUserModal(request.studentID)}
-              />
-            ))}
+            Requests.map(request => {
+              if (profile.userId === request.companyId && request.status === 'requestedByStudent') {
+                return (
+                  <RequestCard
+                    key={request.id}
+                    user={Usuarios[request.studentID]}
+                    jobOffer={JobOffers[request.jobOfferID]}
+                    acceptRequest={() => this.acceptRequest(request.id)}
+                    deleteRequest={() => this.deleteRequest(request.id)}
+                    setUserModal={() => this.setUserModal(request.studentID)}
+                  />
+                );
+              }
+              return null;
+            })}
           {activeModal && (
             <UserDetailModal
               user={selectedUser}
@@ -102,7 +107,9 @@ class RequestsView extends Component {
 RequestsView.defaultProps = {
   Requests: undefined,
   Usuarios: undefined,
-  JobOffers: undefined
+  JobOffers: undefined,
+  profile: undefined,
+  JobOffersArray: null
 };
 
 RequestsView.propTypes = {
@@ -110,13 +117,16 @@ RequestsView.propTypes = {
   Usuarios: PropTypes.arrayOf(PropTypes.object),
   JobOffers: PropTypes.arrayOf(PropTypes.object),
   acceptStudentInterview: PropTypes.func.isRequired,
-  rejectStudentInterview: PropTypes.func.isRequired
+  rejectStudentInterview: PropTypes.func.isRequired,
+  profile: PropTypes.object,
+  JobOffersArray: PropTypes.object
 };
 
 const mapStateToProps = state => {
   return {
     Usuarios: state.firestore.data.Usuarios,
     JobOffers: state.firestore.data.JobOffers,
+    JobOffersArray: state.firestore.ordered.JobOffers,
     Requests: state.firestore.ordered.JobOffersyStudents,
     profile: state.firebase.profile
   };

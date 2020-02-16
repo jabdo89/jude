@@ -3,7 +3,7 @@ import { FiSearch } from 'react-icons/fi';
 import Typography from '@common/typography';
 import { Container, Input, Select, FilterContainer } from './elements';
 
-const FilterBar = () => (
+const FilterBar = jobOffers => (
   <Container>
     <Input
       value=""
@@ -21,10 +21,13 @@ const FilterBar = () => (
           /* Replace with handler */
         }}
       >
-        <option value="">Any offer</option>
-        <option value="1">Offer 1</option>
-        <option value="2">Offer 2</option>
-        <option value="3">Offer 3</option>
+        <option value="any">Any offer</option>
+        {jobOffers.jobOffers &&
+          jobOffers.jobOffers.map(({ id, name }) => (
+            <option key={id} value={name}>
+              {name}
+            </option>
+          ))}
       </Select>
     </FilterContainer>
   </Container>

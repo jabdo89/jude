@@ -208,6 +208,32 @@ export const rejectStudentInterview = jobOfferID => {
       .delete();
   };
 };
+
+export const hireStudentInterview = jobOfferID => {
+  return (dispatch, getState, getFirebase) => {
+    const firebase = getFirebase();
+    const db = firebase.firestore();
+    db.collection('JobOffersyStudents')
+      .doc(jobOfferID)
+      .update({ status: 'Hired' });
+  };
+};
+
+export const rejectStudentInterviewWChat = jobOfferID => {
+  return (dispatch, getState, getFirebase) => {
+    const firebase = getFirebase();
+    const db = firebase.firestore();
+    db.collection('JobOffersyStudents')
+      .doc(jobOfferID)
+      .delete()
+      .then(() =>
+        firebase
+          .database()
+          .ref(`/messages/${jobOfferID}`)
+          .remove()
+      );
+  };
+};
 // Action for Student Appling for JobOffers
 
 // Action for Company Recomending StudentaJob
