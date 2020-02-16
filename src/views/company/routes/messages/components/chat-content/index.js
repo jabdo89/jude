@@ -173,7 +173,7 @@ const mapDispatchToProps = dispatch => {
     getMessages: convID => dispatch(getMessages(convID)),
     sendMessage: (activity, convID) => dispatch(sendMessage(activity, convID)),
     watchTaskAddedEvent: convID => dispatch(watchTaskAddedEvent(convID)),
-    // watchTaskRemovedEvent: convID => dispatch(watchTaskRemovedEvent(convID)),
+    watchTaskRemovedEvent: convID => dispatch(watchTaskRemovedEvent(convID)),
     rejectStudentInterviewWChat: convID => dispatch(rejectStudentInterviewWChat(convID)),
     hireStudentInterview: convID => dispatch(hireStudentInterview(convID))
   };
