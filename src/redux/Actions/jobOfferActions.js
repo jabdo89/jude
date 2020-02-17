@@ -19,8 +19,9 @@ export const createJobOffer = jobOffer => {
         company: authID,
         companyName: profile.companyName,
         hired: 0,
+        needed: jobOffer.studentsNeeded,
         requested: 0,
-        interviewing: 0
+        interviewed: 0
       })
       .then(() => {
         dispatch({ type: 'JOBOFFER_CREATED', jobOffer });
@@ -65,20 +66,31 @@ export const createStudentyJobOffer = (jobOffer, companyUID) => {
     const authID = getState().firebase.auth.uid;
     const firebase = getFirebase();
     const db = firebase.firestore();
+    let { info } = firebase;
+    let numerRequested;
     db.collection('JobOffersyStudents')
       .where('jobOfferID', '==', jobOffer)
       .where('studentID', '==', authID)
       .get()
       .then(snapshot => {
         if (snapshot.empty) {
-          db.collection('JobOffersyStudents')
-            .add({
-              companyID: companyUID,
-              jobOfferID: jobOffer,
-              studentID: authID,
-              status: 'requestedByStudent',
-              lastMessage: '',
-              lMessageTime: ''
+          db.collection('JobOffersyStudents').add({
+            companyID: companyUID,
+            jobOfferID: jobOffer,
+            studentID: authID,
+            status: 'requestedByStudent',
+            lastMessage: '',
+            lMessageTime: ''
+          });
+          db.collection('JobOffers')
+            .doc(jobOffer)
+            .get()
+            .then(snapshot2 => {
+              info = snapshot2.data();
+              numerRequested = info.requested;
+              db.collection('JobOffers')
+                .doc(jobOffer)
+                .update({ requested: numerRequested + 1 });
             })
             .then(() => {
               dispatch({ type: 'JOBOFFER_REQUESTED_STUDENT', jobOffer });
@@ -140,7 +152,7 @@ export const sendMessage = (message, convID) => {
         id: uuidv4(),
         message: message.message,
         timestamp: new Date().getTime(),
-        sender: profile.email
+        sender: profile.userID
       });
     db.collection('JobOffersyStudents')
       .doc(convID)
@@ -190,13 +202,25 @@ export const watchTaskRemovedEvent = chatID => {
   };
 };
 
-export const acceptStudentInterview = jobOfferID => {
+export const acceptStudentInterview = (sJID, jobOfferID) => {
   return (dispatch, getState, getFirebase) => {
     const firebase = getFirebase();
     const db = firebase.firestore();
+    let numerInterviewed;
+    let { info } = firebase;
     db.collection('JobOffersyStudents')
-      .doc(jobOfferID)
+      .doc(sJID)
       .update({ status: 'Interviewing' });
+    db.collection('JobOffers')
+      .doc(jobOfferID)
+      .get()
+      .then(snapshot => {
+        info = snapshot.data();
+        numerInterviewed = info.interviewed;
+        db.collection('JobOffers')
+          .doc(jobOfferID)
+          .update({ interviewed: numerInterviewed + 1 });
+      });
   };
 };
 export const rejectStudentInterview = jobOfferID => {
@@ -208,8 +232,81 @@ export const rejectStudentInterview = jobOfferID => {
       .delete();
   };
 };
-// Action for Student Appling for JobOffers
 
-// Action for Company Recomending StudentaJob
+export const hireStudentInterview = (jobStudentID, jobOfferID) => {
+  return (dispatch, getState, getFirebase) => {
+    const firebase = getFirebase();
+    const db = firebase.firestore();
+    let numerHired;
+    let numerNeeded;
+    let { info } = firebase;
+    db.collection('JobOffersyStudents')
+      .doc(jobStudentID)
+      .update({ status: 'Hired' })
+      .then(
+        db
+          .collection('JobOffers')
+          .doc(jobOfferID)
+          .get()
+          .then(snapshot => {
+            info = snapshot.data();
+            numerHired = info.hired;
+            numerNeeded = info.needed;
+            db.collection('JobOffers')
+              .doc(jobOfferID)
+              .update({ hired: numerHired + 1, needed: numerNeeded - 1 });
+          })
+      );
+  };
+};
 
-// DeleteJobOffer
+export const rejectStudentInterviewWChat = jobOfferID => {
+  return (dispatch, getState, getFirebase) => {
+    const firebase = getFirebase();
+    const db = firebase.firestore();
+    db.collection('JobOffersyStudents')
+      .doc(jobOfferID)
+      .delete()
+      .then(() =>
+        firebase
+          .database()
+          .ref(`/messages/${jobOfferID}`)
+          .remove()
+      );
+  };
+};
+
+export const editProfile = newProfile => {
+  return (dispatch, getState, getFirebase) => {
+    const firebase = getFirebase();
+    const db = firebase.firestore();
+    const state = getState().firebase;
+    const { profile } = state;
+    db.collection('Usuarios')
+      .doc(profile.userID)
+      .update({
+        firstName: newProfile.firstName,
+        lastName: newProfile.lastName,
+        major: newProfile.major,
+        semester: newProfile.semester,
+        skills: newProfile.skills,
+        email: newProfile.email
+      });
+  };
+};
+
+export const editProfileCompany = newProfile => {
+  return (dispatch, getState, getFirebase) => {
+    const firebase = getFirebase();
+    const db = firebase.firestore();
+    const state = getState().firebase;
+    const { profile } = state;
+    db.collection('Usuarios')
+      .doc(profile.userID)
+      .update({
+        email: newProfile.email,
+        website: newProfile.website,
+        description: newProfile.description
+      });
+  };
+};

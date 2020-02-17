@@ -2,6 +2,9 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { FiMenu, FiBell } from 'react-icons/fi';
 import { withRouter } from 'react-router-dom';
+import { firestoreConnect } from 'react-redux-firebase';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
 import Typography from '@common/typography';
 import Box from '@common/box';
 import {
@@ -35,8 +38,13 @@ class Navbar extends Component {
   render() {
     const { isMenuOpen, isNotificationsOpen } = this.state;
     const {
-      location: { pathname }
+      location: { pathname },
+      Notifications
     } = this.props;
+    let NotificationsCount;
+    if (Notifications !== undefined) {
+      NotificationsCount = Notifications.length;
+    }
     return (
       <Fragment>
         <Container shrink={false}>
@@ -64,7 +72,7 @@ class Navbar extends Component {
             <Divider />
             <NotificationButton onClick={this.toggleNotifications}>
               <FiBell />
-              <Qty>2</Qty>
+              <Qty>{NotificationsCount}</Qty>
             </NotificationButton>
             <MenuButton onClick={this.toggleMenu}>
               <FiMenu />
@@ -75,6 +83,7 @@ class Navbar extends Component {
         <NotificationsMenu
           active={isNotificationsOpen}
           toggleNotifications={this.toggleNotifications}
+          notifications={Notifications}
         />
       </Fragment>
     );
@@ -85,4 +94,25 @@ Navbar.propTypes = {
   location: PropTypes.object.isRequired
 };
 
-export default withRouter(Navbar);
+const mapStateToProps = state => {
+  return {
+    Notifications: state.firestore.ordered.Notifications,
+    profile: state.firebase.profile
+  };
+};
+
+export default withRouter(
+  compose(
+    connect(mapStateToProps),
+    firestoreConnect(props => {
+      if (props.profile.userID === undefined) return [];
+
+      return [
+        {
+          collection: 'Notifications',
+          where: ['userID', '==', props.profile.userID]
+        }
+      ];
+    })
+  )(Navbar)
+);

@@ -27,7 +27,8 @@ const Info = ({ firstName, lastName, username, description, major, semester }) =
       {description}
     </Typography>
     <Button fullWidth mt={20} color="secondary">
-      <div id="disc_assessment_root" data-api-token="000498542cf46a7274f92eac112e8641"></div>
+      {' '}
+      Take Personality Test
     </Button>
   </Fragment>
 );

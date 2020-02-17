@@ -1,9 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 // import { FiSearch } from 'react-icons/fi';
 import Typography from '@common/typography';
 import { Container, /* Input, */ Select, FilterContainer } from './elements';
 
-const FilterBar = () => (
+const FilterBar = ({ jobOffers, jobOfferFilter, updateJobOfferFilter }) => (
   <Container>
     {/* <Input
       value=""
@@ -16,18 +17,27 @@ const FilterBar = () => (
     <FilterContainer>
       <Typography variant="muted">Offer</Typography>
       <Select
-        value=""
-        onChange={() => {
-          /* Replace with handler */
+        value={jobOfferFilter}
+        onChange={event => {
+          updateJobOfferFilter(event.target.value);
         }}
       >
-        <option value="">Any offer</option>
-        <option value="1">Offer 1</option>
-        <option value="2">Offer 2</option>
-        <option value="3">Offer 3</option>
+        <option value="any">Any offer</option>
+        {jobOffers &&
+          jobOffers.map(({ id, name }) => (
+            <option key={id} value={id}>
+              {name}
+            </option>
+          ))}
       </Select>
     </FilterContainer>
   </Container>
 );
+
+FilterBar.propTypes = {
+  updateJobOfferFilter: PropTypes.func.isRequired,
+  jobOfferFilter: PropTypes.string.isRequired,
+  jobOffers: PropTypes.array.isRequired
+};
 
 export default FilterBar;

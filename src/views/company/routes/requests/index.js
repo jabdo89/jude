@@ -17,7 +17,8 @@ faker.locale = 'es_MX';
 class RequestsView extends Component {
   state = {
     activeModal: false,
-    selectedUser: {}
+    selectedUser: {},
+    jobOfferFilter: 'any'
   };
 
   setUserModal = id => {
@@ -45,7 +46,7 @@ class RequestsView extends Component {
     }
   };
 
-  acceptRequest = async jobOfferID => {
+  acceptRequest = async (sJID, jobOfferID) => {
     if (
       await confirmation(
         'Are you sure?',
@@ -53,7 +54,7 @@ class RequestsView extends Component {
         { text: 'CONFIRM', description: "Please, type 'CONFIRM' to confirm" }
       )
     ) {
-      this.props.acceptStudentInterview(jobOfferID);
+      this.props.acceptStudentInterview(sJID, jobOfferID);
     }
   };
 
@@ -68,24 +69,51 @@ class RequestsView extends Component {
     }
   };
 
+  updateJobOfferFilter = filter => {
+    this.setState({ jobOfferFilter: filter });
+  };
+
   render() {
-    const { selectedUser, activeModal } = this.state;
-    const { Requests, Usuarios, JobOffers } = this.props;
+    const { selectedUser, activeModal, jobOfferFilter } = this.state;
+    const { Requests, Usuarios, JobOffers, profile, JobOffersArray } = this.props;
     return (
       <Box pb={30}>
-        <FilterBar />
+        <FilterBar
+          jobOffers={JobOffersArray}
+          jobOfferFilter={jobOfferFilter}
+          updateJobOfferFilter={this.updateJobOfferFilter}
+        />
         <Container>
           {Requests &&
-            Requests.map(request => (
-              <RequestCard
-                key={request.id}
-                user={Usuarios[request.studentID]}
-                jobOffer={JobOffers[request.jobOfferID]}
-                acceptRequest={() => this.acceptRequest(request.id)}
-                deleteRequest={() => this.deleteRequest(request.id)}
-                setUserModal={() => this.setUserModal(request.studentID)}
-              />
-            ))}
+            Requests.map(request => {
+              if (profile.userId === request.companyId && request.status === 'requestedByStudent') {
+                if (jobOfferFilter === 'any') {
+                  return (
+                    <RequestCard
+                      key={request.id}
+                      user={Usuarios[request.studentID]}
+                      jobOffer={JobOffers[request.jobOfferID]}
+                      acceptRequest={() => this.acceptRequest(request.id, request.jobOfferID)}
+                      deleteRequest={() => this.deleteRequest(request.id)}
+                      setUserModal={() => this.setUserModal(request.studentID)}
+                    />
+                  );
+                }
+              }
+              if (jobOfferFilter === request.jobOfferID) {
+                return (
+                  <RequestCard
+                    key={request.id}
+                    user={Usuarios[request.studentID]}
+                    jobOffer={JobOffers[request.jobOfferID]}
+                    acceptRequest={() => this.acceptRequest(request.id, request.jobOfferID)}
+                    deleteRequest={() => this.deleteRequest(request.id)}
+                    setUserModal={() => this.setUserModal(request.studentID)}
+                  />
+                );
+              }
+              return null;
+            })}
           {activeModal && (
             <UserDetailModal
               user={selectedUser}
@@ -102,7 +130,9 @@ class RequestsView extends Component {
 RequestsView.defaultProps = {
   Requests: undefined,
   Usuarios: undefined,
-  JobOffers: undefined
+  JobOffers: undefined,
+  profile: undefined,
+  JobOffersArray: null
 };
 
 RequestsView.propTypes = {
@@ -110,20 +140,24 @@ RequestsView.propTypes = {
   Usuarios: PropTypes.arrayOf(PropTypes.object),
   JobOffers: PropTypes.arrayOf(PropTypes.object),
   acceptStudentInterview: PropTypes.func.isRequired,
-  rejectStudentInterview: PropTypes.func.isRequired
+  rejectStudentInterview: PropTypes.func.isRequired,
+  profile: PropTypes.object,
+  JobOffersArray: PropTypes.object
 };
 
 const mapStateToProps = state => {
   return {
     Usuarios: state.firestore.data.Usuarios,
     JobOffers: state.firestore.data.JobOffers,
+    JobOffersArray: state.firestore.ordered.JobOffers,
     Requests: state.firestore.ordered.JobOffersyStudents,
     profile: state.firebase.profile
   };
 };
 const mapDispatchToProps = dispatch => {
   return {
-    acceptStudentInterview: jobOfferID => dispatch(acceptStudentInterview(jobOfferID)),
+    acceptStudentInterview: (sJID, jobOfferID) =>
+      dispatch(acceptStudentInterview(sJID, jobOfferID)),
     rejectStudentInterview: jobOfferID => dispatch(rejectStudentInterview(jobOfferID))
   };
 };

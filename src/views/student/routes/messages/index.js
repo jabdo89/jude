@@ -6,7 +6,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import Typography from '@common/typography';
 import NavbarActionPortal from '@templates/navbar-action-portal';
-import SearchBar from './components/search-bar';
+// import SearchBar from './components/search-bar';
 import ConversationCard from './components/conversation-card';
 import ChatContent from './components/chat-content';
 import { Container, Column, ListContainer } from './elements';
@@ -35,9 +35,7 @@ class Messages extends Component {
       return (
         <Container>
           <Column basis="35" pl={20} bg="lighter" hideOnMobileIf={actualChat}>
-            <NavbarActionPortal>
-              <SearchBar />
-            </NavbarActionPortal>
+            <NavbarActionPortal>{/* <SearchBar /> */}</NavbarActionPortal>
             <ListContainer>
               {Conversations &&
                 Conversations.map(

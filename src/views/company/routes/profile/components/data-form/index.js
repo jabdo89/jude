@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { editProfileCompany } from '@actions/jobOfferActions';
+import { connect } from 'react-redux';
 import Typography from '@common/typography';
 import Box from '@common/box';
 import Button from '@common/button';
@@ -19,6 +21,10 @@ class DataForm extends Component {
   }
 
   handleInputChange = ({ target: { name, value } }) => this.setState({ [name]: value });
+
+  editProfile = () => {
+    this.props.editProfileCompany(this.state);
+  };
 
   render() {
     const { companyName, email, description, website } = this.state;
@@ -58,7 +64,7 @@ class DataForm extends Component {
           leftIcon={<FaBars />}
         />
         <Box mt={20} display="flex" justifyContent="flex-end">
-          <Button ml={10} variant="soft" color="primary">
+          <Button ml={10} variant="soft" color="primary" onClick={this.editProfile}>
             Save
           </Button>
         </Box>
@@ -77,7 +83,14 @@ DataForm.propTypes = {
     description: PropTypes.string.isRequired,
     major: PropTypes.string.isRequired,
     resume: PropTypes.string.isRequired
-  }).isRequired
+  }).isRequired,
+  editProfileCompany: PropTypes.func.isRequired
 };
 
-export default DataForm;
+const mapDispatchToProps = dispatch => {
+  return {
+    editProfileCompany: profile => dispatch(editProfileCompany(profile))
+  };
+};
+
+export default connect(null, mapDispatchToProps)(DataForm);

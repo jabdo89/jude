@@ -14,7 +14,8 @@ import { Container, Column, ListContainer } from './elements';
 class Messages extends Component {
   state = {
     actualChat: null,
-    currentUser: null
+    currentUser: null,
+    jobOfferFilter: ''
   };
 
   setActualChat = (idx, studentID) => {
@@ -24,33 +25,60 @@ class Messages extends Component {
     this.setState({ currentUser: Usuarios[studentID] });
   };
 
+  updatejobOfferFilter = filter => {
+    this.setState({ jobOfferFilter: filter });
+  };
+
   render() {
     let { Conversations } = this.props;
-    const { Usuarios, JobOffers } = this.props;
-    // console.log(Usuarios);
+    const { Usuarios, JobOffers, JobOffersArray } = this.props;
     if (Conversations !== undefined) {
       Conversations = Conversations.sort((a, b) => b.lMessageTime - a.lMessageTime);
     }
-    const { actualChat, currentUser } = this.state;
+    const { actualChat, currentUser, jobOfferFilter } = this.state;
     if (Conversations !== undefined && Usuarios !== undefined) {
       return (
         <Container>
           <Column basis="35" pl={20} bg="lighter" hideOnMobileIf={actualChat}>
             <NavbarActionPortal>
-              <SearchBar />
+              <SearchBar
+                jobOffers={JobOffersArray}
+                updateJobOfferFilter={this.updatejobOfferFilter}
+                jobOfferFilter={jobOfferFilter}
+              />
             </NavbarActionPortal>
             <ListContainer>
               {Conversations &&
-                Conversations.map(({ studentID, seen, lastMessage, jobOfferID }, idx) => (
-                  <ConversationCard
-                    key={idx.id}
-                    openChat={() => this.setActualChat(idx, studentID)}
-                    user={Usuarios[studentID]}
-                    jobOfferName={JobOffers[jobOfferID]}
-                    lastMessage={lastMessage}
-                    seen={seen}
-                  />
-                ))}
+                Conversations.map(({ studentID, seen, lastMessage, jobOfferID, status }, idx) => {
+                  if (status === 'Interviewing' || status === 'Hired') {
+                    if (jobOfferFilter === '') {
+                      return (
+                        <ConversationCard
+                          key={idx.id}
+                          openChat={() => this.setActualChat(idx, studentID)}
+                          user={Usuarios[studentID]}
+                          jobOfferName={JobOffers[jobOfferID]}
+                          lastMessage={lastMessage}
+                          seen={seen}
+                        />
+                      );
+                    }
+                    if (jobOfferFilter === jobOfferID) {
+                      return (
+                        <ConversationCard
+                          key={idx.id}
+                          openChat={() => this.setActualChat(idx, studentID)}
+                          user={Usuarios[studentID]}
+                          jobOfferName={JobOffers[jobOfferID]}
+                          lastMessage={lastMessage}
+                          seen={seen}
+                        />
+                      );
+                    }
+                    return null;
+                  }
+                  return null;
+                })}
             </ListContainer>
           </Column>
           <Column basis="65" hideOnMobileIf={!actualChat}>
@@ -78,19 +106,22 @@ class Messages extends Component {
 Messages.defaultProps = {
   Conversations: undefined,
   Usuarios: undefined,
-  JobOffers: undefined
+  JobOffers: undefined,
+  JobOffersArray: undefined
 };
 
 Messages.propTypes = {
   Conversations: PropTypes.arrayOf(PropTypes.object),
   Usuarios: PropTypes.arrayOf(PropTypes.object),
-  JobOffers: PropTypes.arrayOf(PropTypes.object)
+  JobOffers: PropTypes.arrayOf(PropTypes.object),
+  JobOffersArray: PropTypes.arrayOf(PropTypes.object)
 };
 function mapStateToProps(state) {
   return {
     Conversations: state.firestore.ordered.JobOffersyStudents,
     Usuarios: state.firestore.data.Usuarios,
     JobOffers: state.firestore.data.JobOffers,
+    JobOffersArray: state.firestore.ordered.JobOffers,
     profile: state.firebase.profile
   };
 }
@@ -107,8 +138,7 @@ export default compose(
       },
       { collection: 'Usuarios', where: ['rol', '==', 'Student'] },
       {
-        collection: 'JobOffersyStudents',
-        where: ['status', '==', 'Interviewing']
+        collection: 'JobOffersyStudents'
       }
     ];
   })

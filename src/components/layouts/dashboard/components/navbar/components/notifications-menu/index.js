@@ -6,25 +6,7 @@ import Button from '@common/button';
 import { Container, PseudoContainer, Content, TitleSection, Clear } from './elements';
 import Notification from './components/notification';
 
-const getType = () => {
-  const rand = Math.random();
-
-  if (rand < 0.25) {
-    return 'warning';
-  }
-
-  if (rand < 0.5) {
-    return 'info';
-  }
-
-  if (rand < 0.75) {
-    return 'success';
-  }
-
-  return 'primary';
-};
-
-const NotificationsMenu = ({ active, toggleNotifications }) => (
+const NotificationsMenu = ({ active, toggleNotifications, notifications }) => (
   <Container show={active}>
     <PseudoContainer onClick={toggleNotifications}>
       <Content>
@@ -36,64 +18,27 @@ const NotificationsMenu = ({ active, toggleNotifications }) => (
             Clear all <Clear />
           </Button>
         </Box>
-        <Notification
-          type={getType()}
-          title="Notification 1"
-          description="This is a notification"
-        />
-        <Notification
-          type={getType()}
-          title="Notification 2"
-          description="This is a notification"
-        />
-        <Notification
-          type={getType()}
-          title="Notification 3"
-          description="This is a notification"
-        />
-        <Notification
-          type={getType()}
-          title="Notification 4"
-          description="This is a notification"
-        />
-        <Notification
-          type={getType()}
-          title="Notification 5"
-          description="This is a notification"
-        />
-        <Notification
-          type={getType()}
-          title="Notification 6"
-          description="This is a notification"
-        />
-        <Notification
-          type={getType()}
-          title="Notification 7"
-          description="This is a notification"
-        />
-        <Notification
-          type={getType()}
-          title="Notification 8"
-          description="This is a notification"
-        />
-        <Notification
-          type={getType()}
-          title="Notification 9"
-          description="This is a notification"
-        />
-        <Notification
-          type={getType()}
-          title="Notification 10"
-          description="This is a notification"
-        />
+        {notifications &&
+          notifications.map(notification => (
+            <Notification
+              type={notification.type}
+              title={notification.type}
+              JobOffer={notification.JobOffer}
+            />
+          ))}
       </Content>
     </PseudoContainer>
   </Container>
 );
 
+NotificationsMenu.defaultProps = {
+  notifications: undefined
+};
+
 NotificationsMenu.propTypes = {
   active: PropTypes.bool.isRequired,
-  toggleNotifications: PropTypes.func.isRequired
+  toggleNotifications: PropTypes.func.isRequired,
+  notifications: PropTypes.arrayOf(PropTypes.object)
 };
 
 export default NotificationsMenu;
