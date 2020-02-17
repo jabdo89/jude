@@ -57,7 +57,7 @@ const LogoBig = styled.img`
 `;
 
 const UDEWord = styled(Typography)`
-  font-size: calc(1.8vw + 1.8vh + 0.9vmin);
+  font-size: 38px;
 `;
 
 const LeftContainer = styled.div`
