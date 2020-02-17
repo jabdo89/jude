@@ -31,7 +31,7 @@ class Messages extends Component {
 
   render() {
     let { Conversations } = this.props;
-    const { Usuarios, JobOffers, JobOffersArray } = this.props;
+    const { Usuarios, JobOffers, JobOffersArray, profile } = this.props;
     if (Conversations !== undefined) {
       Conversations = Conversations.sort((a, b) => b.lMessageTime - a.lMessageTime);
     }
@@ -49,36 +49,41 @@ class Messages extends Component {
             </NavbarActionPortal>
             <ListContainer>
               {Conversations &&
-                Conversations.map(({ studentID, seen, lastMessage, jobOfferID, status }, idx) => {
-                  if (status === 'Interviewing' || status === 'Hired') {
-                    if (jobOfferFilter === '') {
-                      return (
-                        <ConversationCard
-                          key={idx.id}
-                          openChat={() => this.setActualChat(idx, studentID)}
-                          user={Usuarios[studentID]}
-                          jobOfferName={JobOffers[jobOfferID]}
-                          lastMessage={lastMessage}
-                          seen={seen}
-                        />
-                      );
-                    }
-                    if (jobOfferFilter === jobOfferID) {
-                      return (
-                        <ConversationCard
-                          key={idx.id}
-                          openChat={() => this.setActualChat(idx, studentID)}
-                          user={Usuarios[studentID]}
-                          jobOfferName={JobOffers[jobOfferID]}
-                          lastMessage={lastMessage}
-                          seen={seen}
-                        />
-                      );
+                Conversations.map(
+                  ({ studentID, seen, lastMessage, jobOfferID, status, companyID }, idx) => {
+                    if (
+                      status === 'Interviewing' ||
+                      (status === 'Hired' && profile.userID === companyID)
+                    ) {
+                      if (jobOfferFilter === '') {
+                        return (
+                          <ConversationCard
+                            key={idx.id}
+                            openChat={() => this.setActualChat(idx, studentID)}
+                            user={Usuarios[studentID]}
+                            jobOfferName={JobOffers[jobOfferID]}
+                            lastMessage={lastMessage}
+                            seen={seen}
+                          />
+                        );
+                      }
+                      if (jobOfferFilter === jobOfferID) {
+                        return (
+                          <ConversationCard
+                            key={idx.id}
+                            openChat={() => this.setActualChat(idx, studentID)}
+                            user={Usuarios[studentID]}
+                            jobOfferName={JobOffers[jobOfferID]}
+                            lastMessage={lastMessage}
+                            seen={seen}
+                          />
+                        );
+                      }
+                      return null;
                     }
                     return null;
                   }
-                  return null;
-                })}
+                )}
             </ListContainer>
           </Column>
           <Column basis="65" hideOnMobileIf={!actualChat}>
@@ -107,14 +112,16 @@ Messages.defaultProps = {
   Conversations: undefined,
   Usuarios: undefined,
   JobOffers: undefined,
-  JobOffersArray: undefined
+  JobOffersArray: undefined,
+  profile: undefined
 };
 
 Messages.propTypes = {
   Conversations: PropTypes.arrayOf(PropTypes.object),
   Usuarios: PropTypes.arrayOf(PropTypes.object),
   JobOffers: PropTypes.arrayOf(PropTypes.object),
-  JobOffersArray: PropTypes.arrayOf(PropTypes.object)
+  JobOffersArray: PropTypes.arrayOf(PropTypes.object),
+  profile: PropTypes.object
 };
 function mapStateToProps(state) {
   return {

@@ -24,13 +24,12 @@ const StudentCard = ({ user, setStudent }) => (
     </CardTop>
     <CardBody>
       <Box display="flex">
-        <Avatar mr={10} size={60} src={user.profileImg} />
+        <Avatar mr={10} size={60} src={user.profileImg || '/static/img/general/avatar.png'} />
         <Box display="flex" flexDirection="column" justifyContent="center">
           <Typography variant="heading">{`${user.firstName} ${user.lastName}`}</Typography>
           <Typography variant="muted">{user.semester}º semester</Typography>
           <Typography fontSize="0.875rem" color="secondary">
-            {/* REMOVE DEFAULT ITESM AFTER ADDED DATA */}
-            {user.school || 'ITESM'}
+            {user.school}
           </Typography>
         </Box>
       </Box>

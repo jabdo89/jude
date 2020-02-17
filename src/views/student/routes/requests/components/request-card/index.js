@@ -7,25 +7,13 @@ import Pill from '@common/pill';
 import Button from '@common/button';
 import { FiCheck, FiX } from 'react-icons/fi';
 import Avatar from '@common/avatar';
-import { Container, Span, StagePill } from './elements';
+import { Container, Span } from './elements';
 
-const getColor = stage => {
-  if (stage === 'interviewing') {
-    return 'secondary';
-  }
-
-  if (stage === 'wating for interview') {
-    return 'warning';
-  }
-
-  return 'primary';
-};
-
-const RequestCard = ({ request, acceptRequest, deleteRequest }) => (
+const RequestCard = ({ request, acceptRequest, deleteRequest, company }) => (
   <Card scaleOnHover scale={1.011}>
     <Container>
       <Box display="flex" alignItems="center" mr="auto">
-        <Avatar mr={15} size={42} src={request.companyLogoUrl} />
+        <Avatar mr={15} size={42} src={company.profileImg || '/static/img/general/avatar.png'} />
         <Box>
           <Typography fontWeight="bold">{request.name}</Typography>
           <Box display="flex" flexDirection="column" justifyContent="center">
@@ -52,12 +40,12 @@ const RequestCard = ({ request, acceptRequest, deleteRequest }) => (
             <FiX />
           </Button>
         </Box>
-        <Box display="flex" flexDirection="column" mt={10} alignItems="center">
+        {/* <Box display="flex" flexDirection="column" mt={10} alignItems="center">
           <Typography fontSize="10px">Status with company</Typography>
           <StagePill size="small" variant="outlined" color={getColor(request.stage)}>
             {request.stage}
           </StagePill>
-        </Box>
+        </Box> */}
       </Box>
     </Container>
   </Card>
@@ -88,7 +76,8 @@ RequestCard.propTypes = {
     studentProfileImg: PropTypes.string
   }).isRequired,
   acceptRequest: PropTypes.func.isRequired,
-  deleteRequest: PropTypes.func.isRequired
+  deleteRequest: PropTypes.func.isRequired,
+  company: PropTypes.object.isRequired
 };
 
 export default RequestCard;

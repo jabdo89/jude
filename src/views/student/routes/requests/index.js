@@ -38,7 +38,7 @@ class RequestsView extends Component {
   };
 
   render() {
-    const { Requests, JobOffers, profile } = this.props;
+    const { Requests, JobOffers, profile, Usuarios } = this.props;
     return (
       <Box pb={30}>
         {/* <FilterBar /> */}
@@ -52,6 +52,7 @@ class RequestsView extends Component {
                     request={JobOffers[request.jobOfferID]}
                     acceptRequest={() => this.acceptRequest(request.id, request.jobOfferID)}
                     deleteRequest={() => this.deleteRequest(request.id)}
+                    company={Usuarios[request.companyID]}
                   />
                 );
               }
@@ -66,7 +67,8 @@ class RequestsView extends Component {
 RequestsView.defaultProps = {
   Requests: undefined,
   JobOffers: undefined,
-  profile: undefined
+  profile: undefined,
+  Usuarios: undefined
 };
 
 RequestsView.propTypes = {
@@ -74,7 +76,8 @@ RequestsView.propTypes = {
   JobOffers: PropTypes.arrayOf(PropTypes.object),
   profile: PropTypes.arrayOf(PropTypes.object),
   acceptStudentInterview: PropTypes.func.isRequired,
-  rejectStudentInterview: PropTypes.func.isRequired
+  rejectStudentInterview: PropTypes.func.isRequired,
+  Usuarios: PropTypes.objectOf(PropTypes.object)
 };
 const mapStateToProps = state => {
   return {
@@ -100,7 +103,7 @@ export default compose(
       {
         collection: 'JobOffers'
       },
-      { collection: 'Usuarios', where: ['rol', '==', 'Student'] },
+      { collection: 'Usuarios' },
       {
         collection: 'JobOffersyStudents',
         where: [

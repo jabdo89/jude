@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { FiX } from 'react-icons/fi';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { editJobOffer } from '@actions/jobOfferActions';
 import shortId from 'shortid';
 import Modal from '@common/modal';
 import Box from '@common/box';
@@ -16,6 +18,7 @@ class NewOfferModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      id: props.offerToEdit.id,
       name: props.offerToEdit.name,
       budget: props.offerToEdit.budget.replace(',', ''),
       description: props.offerToEdit.description,
@@ -53,9 +56,7 @@ class NewOfferModal extends Component {
     const { closeButton: closeModal } = this.props;
     event.preventDefault();
 
-    /*
-     Handle job offer creation here
-    */
+    this.props.editJobOffer(this.state);
 
     closeModal();
   };
@@ -212,13 +213,21 @@ class NewOfferModal extends Component {
 NewOfferModal.propTypes = {
   active: PropTypes.bool.isRequired,
   closeButton: PropTypes.func.isRequired,
+  editJobOffer: PropTypes.func.isRequired,
   offerToEdit: PropTypes.shape({
     name: PropTypes.string,
     budget: PropTypes.string,
     description: PropTypes.string,
     scheduleDesc: PropTypes.object,
+    id: PropTypes.string,
     requirements: PropTypes.arrayOf(PropTypes.string)
   }).isRequired
 };
 
-export default NewOfferModal;
+const mapDispatchToProps = dispatch => {
+  return {
+    editJobOffer: newJobOffer => dispatch(editJobOffer(newJobOffer))
+  };
+};
+
+export default connect(null, mapDispatchToProps)(NewOfferModal);

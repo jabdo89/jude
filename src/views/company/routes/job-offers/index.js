@@ -4,6 +4,7 @@ import faker from 'faker';
 import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
+import { deleteJobOffer } from '@actions/jobOfferActions';
 import confirmation from '@templates/confirmation';
 import Box from '@common/box';
 import Container from './elements';
@@ -34,7 +35,7 @@ class JobOffers extends Component {
     }
   };
 
-  deleteOffer = async () => {
+  deleteOffer = async jobOffer => {
     if (
       await confirmation(
         'Are you sure?',
@@ -42,14 +43,12 @@ class JobOffers extends Component {
         { text: 'DELETE', description: "Please, type 'DELETE' to confirm" }
       )
     ) {
-      /*
-        Handle offer deletion here
-      */
+      this.props.deleteJobOffer(jobOffer);
     }
   };
 
   render() {
-    const { Offers } = this.props;
+    const { Offers, profile } = this.props;
     const { isNewOfferOpen, isEditOfferOpen, offerToEdit } = this.state;
     return (
       <Box pb={30}>
@@ -59,8 +58,9 @@ class JobOffers extends Component {
             <OfferCard
               key={offer.id}
               setEditOffer={() => this.toggleEditOfferModal(idx)}
-              deleteOffer={() => this.deleteOffer(idx)}
+              deleteOffer={() => this.deleteOffer(offer.id)}
               offer={offer}
+              profile={profile}
             />
           ))}
         </Container>
@@ -78,11 +78,14 @@ class JobOffers extends Component {
 }
 
 JobOffers.defaultProps = {
-  Offers: undefined
+  Offers: undefined,
+  profile: undefined
 };
 
 JobOffers.propTypes = {
-  Offers: PropTypes.arrayOf(PropTypes.object)
+  Offers: PropTypes.arrayOf(PropTypes.object),
+  deleteJobOffer: PropTypes.func.isRequired,
+  profile: PropTypes.object
 };
 
 const mapStateToProps = state => {
@@ -92,8 +95,14 @@ const mapStateToProps = state => {
   };
 };
 
+const mapDispatchToProps = dispatch => {
+  return {
+    deleteJobOffer: jobOfferID => dispatch(deleteJobOffer(jobOfferID))
+  };
+};
+
 export default compose(
-  connect(mapStateToProps),
+  connect(mapStateToProps, mapDispatchToProps),
   firestoreConnect(props => {
     if (props.profile.userID === undefined) return [];
 

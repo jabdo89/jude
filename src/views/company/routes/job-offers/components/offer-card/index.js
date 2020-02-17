@@ -59,7 +59,7 @@ class OfferCard extends Component {
   };
 
   render() {
-    const { offer, setEditOffer, deleteOffer } = this.props;
+    const { offer, setEditOffer, deleteOffer, profile } = this.props;
     return (
       <Card scaleOnHover>
         <CardTop>
@@ -86,7 +86,11 @@ class OfferCard extends Component {
         </CardTop>
         <OfferBody>
           <Box display="flex">
-            <Avatar mr={10} size={60} src={offer.companyLogoUrl} />
+            <Avatar
+              mr={10}
+              size={60}
+              src={profile.profileImg || '/static/img/general/avatar.png'}
+            />
             <Box display="flex" flexDirection="column" justifyContent="center">
               <Typography variant="heading">{offer.name}</Typography>
               <Pill color="secondary" variant="soft" size="small" mt={5}>
@@ -173,7 +177,8 @@ OfferCard.propTypes = {
   }).isRequired,
   setEditOffer: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
-  deleteOffer: PropTypes.func.isRequired
+  deleteOffer: PropTypes.func.isRequired,
+  profile: PropTypes.object.isRequired
 };
 
 export default withRouter(OfferCard);

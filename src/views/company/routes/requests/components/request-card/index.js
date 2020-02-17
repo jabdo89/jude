@@ -12,7 +12,7 @@ const RequestCard = ({ user, jobOffer, acceptRequest, deleteRequest, setUserModa
   <Card scaleOnHover scale={1.011}>
     <Container>
       <Box display="flex" alignItems="center" mr="auto">
-        <Avatar mr={15} size={42} src={user.profileImg} />
+        <Avatar mr={15} size={42} src={user.profileImg || '/static/img/general/avatar.png'} />
         <Box>
           <Box display="flex" alignItems="center">
             <Typography>

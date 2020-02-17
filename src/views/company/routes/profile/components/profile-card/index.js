@@ -1,6 +1,9 @@
 /* eslint-disable jsx-a11y/mouse-events-have-key-events */
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import firebase from 'firebase';
+import { connect } from 'react-redux';
+import { updateProfilePic } from '@actions/authActions';
 import { Card, CardBody } from '@common/card';
 import Modal from '@common/modal';
 import toast from '@common/toast';
@@ -9,31 +12,61 @@ import Dropzone from '@templates/dropzone';
 import Info from './components/info';
 import { ImageContainer, Image, ProfileImgLoader, PhotoButton, CameraIcon } from './elements';
 
-const simulateUpload = () =>
-  new Promise(resolve => {
-    setTimeout(() => {
-      resolve();
-    }, 3000);
-  });
-
 class ProfileCard extends Component {
   state = {
     showEdit: false,
     showProfileModal: false,
-    uploadingProfileImg: false
+    uploadingProfileImg: false,
+    // eslint-disable-next-line react/no-unused-state
+    url: '',
+    // eslint-disable-next-line react/no-unused-state
+    progress: ''
   };
+
+  simulateUpload = image =>
+    new Promise(resolve => {
+      const { user } = this.props;
+      const storage = firebase.storage();
+      const uploadTaskPDF = storage.ref(`curriculums/${user.email}`).put(image);
+      uploadTaskPDF.on(
+        'state_changed',
+        snapshot => {
+          // progress function ...
+          const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+          // eslint-disable-next-line react/no-unused-state
+          this.setState({ progress });
+        },
+        error => {
+          // Error function ...
+          console.error(error);
+        },
+        () => {
+          // complete function ...
+          storage
+            .ref('curriculums')
+            .child(user.email)
+            .getDownloadURL()
+            .then(url => {
+              // eslint-disable-next-line react/no-unused-state
+              this.setState({ url });
+              this.props.updateProfilePic(url, user.userID);
+              resolve();
+            });
+        }
+      );
+    });
 
   toggleModal = () =>
     this.setState(({ showProfileModal }) => ({
       showProfileModal: !showProfileModal
     }));
 
-  uploadImage = async () => {
+  uploadImage = async image => {
     this.setState({
       uploadingProfileImg: true
     });
 
-    await simulateUpload();
+    await this.simulateUpload(image);
 
     this.setState({
       uploadingProfileImg: false
@@ -111,13 +144,22 @@ class ProfileCard extends Component {
 ProfileCard.propTypes = {
   user: PropTypes.shape({
     id: PropTypes.string,
+    userID: PropTypes.string,
+    email: PropTypes.string,
     companyName: PropTypes.string.isRequired,
     profileImg: PropTypes.string,
     semester: PropTypes.number.isRequired,
     description: PropTypes.string.isRequired,
     major: PropTypes.string.isRequired,
     resume: PropTypes.string.isRequired
-  }).isRequired
+  }).isRequired,
+  updateProfilePic: PropTypes.func.isRequired
 };
 
-export default ProfileCard;
+const mapDispatchToProps = dispatch => {
+  return {
+    updateProfilePic: (url, user) => dispatch(updateProfilePic(url, user))
+  };
+};
+
+export default connect(null, mapDispatchToProps)(ProfileCard);

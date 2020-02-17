@@ -40,7 +40,16 @@ class OfferCard extends Component {
   trimText = text => `${text.slice(0, MAX_LENGTH)}...`;
 
   render() {
-    const { offer, requestErrorStudent } = this.props;
+    const { offer, requestErrorStudent, Usuarios } = this.props;
+    let curr;
+    let profileImg;
+    if (Usuarios !== undefined) {
+      curr = Usuarios[offer.company];
+      if (curr !== undefined) {
+        // eslint-disable-next-line prefer-destructuring
+        profileImg = curr.profileImg;
+      }
+    }
     const { fullText } = this.state;
     if (requestErrorStudent === 'REQUESTED_SUCCESFULLY') {
       NotificationManager.success('You will be notified if accepted', 'Requested Succesfully!');
@@ -67,7 +76,7 @@ class OfferCard extends Component {
         </CardTop>
         <OfferBody>
           <Box display="flex">
-            <Avatar mr={10} size={60} src={offer.companyLogoUrl} />
+            <Avatar mr={10} size={60} src={profileImg || '/static/img/general/avatar.png'} />
             <Box display="flex" flexDirection="column" justifyContent="center">
               <Typography variant="heading">{offer.name}</Typography>
               <Pill color="secondary" variant="soft" size="small" mt={5}>
@@ -104,8 +113,7 @@ class OfferCard extends Component {
             </Typography>
             <TypographyWithIcon variant="muted">
               <FaGraduationCap />
-              {/* ITC is just a placeholder, please remove */}
-              {offer.major || 'ITC'}
+              {offer.major}
             </TypographyWithIcon>
             <Typography color="primary" mt={20} mb={5} fontWeight="bold">
               Requirements
@@ -152,11 +160,13 @@ OfferCard.propTypes = {
   }).isRequired,
   createStudentyJobOffer: PropTypes.func.isRequired,
   clearRequest: PropTypes.func.isRequired,
-  requestErrorStudent: PropTypes.string.isRequired
+  requestErrorStudent: PropTypes.string.isRequired,
+  Usuarios: PropTypes.objectOf(PropTypes.object).isRequired
 };
 const mapStateToProps = state => {
   return {
-    requestErrorStudent: state.student.requestErrorStudent
+    requestErrorStudent: state.student.requestErrorStudent,
+    Usuarios: state.firestore.data.Usuarios
   };
 };
 const mapDispatchToProps = dispatch => {

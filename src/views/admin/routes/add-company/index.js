@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+import { createCompany } from '@actions/authActions';
+import PropTypes from 'prop-types';
+import firebase from 'firebase';
+import { connect } from 'react-redux';
 import Box from '@common/box';
 import Input from '@common/input';
 import { FaEnvelope, FaBars, FaBuilding, FaExternalLinkAlt } from 'react-icons/fa';
@@ -22,7 +26,8 @@ class AddCompany extends Component {
       },
       description: '',
       email: '',
-      showCropModal: false
+      showCropModal: false,
+      url: ''
     };
   }
 
@@ -39,6 +44,35 @@ class AddCompany extends Component {
     this.setState({
       companyPhoto: { file, blobUrl }
     });
+  };
+
+  signUpCompany = () => {
+    const storage = firebase.storage();
+    const { companyPhoto, email } = this.state;
+    const uploadTaskPDF = storage.ref(`curriculums/${email}`).put(companyPhoto.file);
+    uploadTaskPDF.on(
+      'state_changed',
+      snapshot => {
+        // progress function ...
+        const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+        this.setState({ progress });
+      },
+      error => {
+        // Error function ...
+        console.error(error);
+      },
+      () => {
+        // complete function ...
+        storage
+          .ref('curriculums')
+          .child(email)
+          .getDownloadURL()
+          .then(url => {
+            this.setState({ url });
+            this.props.createCompany(this.state);
+          });
+      }
+    );
   };
 
   render() {
@@ -90,7 +124,7 @@ class AddCompany extends Component {
           leftIcon={<FaBars />}
         />
         <Box mt={20} display="flex" justifyContent="flex-end">
-          <Button ml={10} variant="soft" color="primary">
+          <Button ml={10} variant="soft" color="primary" onClick={this.signUpCompany}>
             Add
           </Button>
         </Box>
@@ -114,4 +148,14 @@ class AddCompany extends Component {
   }
 }
 
-export default AddCompany;
+AddCompany.propTypes = {
+  createCompany: PropTypes.func.isRequired
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    createCompany: company => dispatch(createCompany(company))
+  };
+};
+
+export default connect(null, mapDispatchToProps)(AddCompany);

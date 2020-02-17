@@ -6,7 +6,7 @@ import Button from '@common/button';
 import Avatar from '@common/avatar';
 import Typography from '@common/typography';
 import { Row, Column, ActionsContainer, DownloadIcon, RightIcon } from './elements';
-import Chart from './components/chart';
+// import Chart from './components/chart';
 import RequestModal from './components/request-modal/index';
 
 class DetailModal extends Component {
@@ -26,7 +26,12 @@ class DetailModal extends Component {
         <Modal size="large" title="Student detail" active={active} closeButton={closeButton}>
           <Row>
             <Column basis="40">
-              <Avatar ml="auto" mr="auto" size="120" src={user.profileImg} />
+              <Avatar
+                ml="auto"
+                mr="auto"
+                size="120"
+                src={user.profileImg || '/static/img/general/avatar.png'}
+              />
               <Typography mt={20} variant="headingTitle" textAlign="center">
                 {`${user.firstName} ${user.lastName}`}
               </Typography>
@@ -34,8 +39,7 @@ class DetailModal extends Component {
                 {user.semester}º semester
               </Typography>
               <Typography fontSize="13px" color="primary" textAlign="center">
-                {/* REMOVE DEFAULT ITESM AFTER ADDED DATA */}
-                {user.school || 'ITESM'}
+                {user.school}
               </Typography>
               <Typography my={20} variant="leadText" color="primary">
                 About
@@ -56,9 +60,9 @@ class DetailModal extends Component {
                 </Button>
               </ActionsContainer>
             </Column>
-            <Column basis="60">
+            {/* <Column basis="60">
               <Chart />
-            </Column>
+            </Column> */}
           </Row>
         </Modal>
         <RequestModal

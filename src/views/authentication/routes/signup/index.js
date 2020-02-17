@@ -38,6 +38,7 @@ class Login extends Component {
     description: '',
     showCropModal: false,
     url: '',
+    urlPDF: '',
     progress: 0,
     resume: null,
     image: {
@@ -63,31 +64,85 @@ class Login extends Component {
       toast.secondary('Resume required', 'You need to upload your resume to signup');
       return;
     }
-    const uploadTask = storage.ref(`images/${email}`).put(image.file);
-    uploadTask.on(
-      'state_changed',
-      snapshot => {
-        // progress function ...
-        const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
-        this.setState({ progress });
-      },
-      error => {
-        // Error function ...
-        console.error(error);
-      },
-      () => {
-        // complete function ...
-        storage
-          .ref('images')
-          .child(email)
-          .getDownloadURL()
-          .then(url => {
-            this.setState({ url });
-            const { studentSignUp: localeSignUp } = this.props;
-            localeSignUp(this.state);
-          });
-      }
-    );
+    if (image.file !== null) {
+      const uploadTask = storage.ref(`images/${email}`).put(image.file);
+      uploadTask.on(
+        'state_changed',
+        snapshot => {
+          // progress function ...
+          const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+          this.setState({ progress });
+        },
+        error => {
+          // Error function ...
+          console.error(error);
+        },
+        () => {
+          // complete function ...
+          storage
+            .ref('images')
+            .child(email)
+            .getDownloadURL()
+            .then(url => {
+              this.setState({ url });
+
+              const uploadTaskPDF = storage.ref(`curriculums/${email}`).put(resume);
+              uploadTaskPDF.on(
+                'state_changed',
+                snapshot => {
+                  // progress function ...
+                  const progress = Math.round(
+                    (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+                  );
+                  this.setState({ progress });
+                },
+                error => {
+                  // Error function ...
+                  console.error(error);
+                },
+                () => {
+                  // complete function ...
+                  storage
+                    .ref('curriculums')
+                    .child(email)
+                    .getDownloadURL()
+                    .then(urlPDF => {
+                      this.setState({ urlPDF });
+                      const { studentSignUp: localeSignUp } = this.props;
+                      localeSignUp(this.state);
+                    });
+                }
+              );
+            });
+        }
+      );
+    } else {
+      const uploadTaskPDF = storage.ref(`curriculums/${email}`).put(resume);
+      uploadTaskPDF.on(
+        'state_changed',
+        snapshot => {
+          // progress function ...
+          const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+          this.setState({ progress });
+        },
+        error => {
+          // Error function ...
+          console.error(error);
+        },
+        () => {
+          // complete function ...
+          storage
+            .ref('curriculums')
+            .child(email)
+            .getDownloadURL()
+            .then(urlPDF => {
+              this.setState({ urlPDF });
+              const { studentSignUp: localeSignUp } = this.props;
+              localeSignUp(this.state);
+            });
+        }
+      );
+    }
   };
 
   setPdf = pdfFile =>
@@ -174,14 +229,17 @@ class Login extends Component {
               </Box>
               <Box mb={10} display="flex">
                 <Column basis="65">
-                  <Input
+                  <Select
                     leftIcon={<FaGraduationCap />}
-                    placeholder="Major"
                     value={mayor}
                     onChange={this.handleChange}
                     name="mayor"
-                    mr={5}
-                  />
+                    mb={5}
+                  >
+                    <option value="">Major</option>
+                    <option value="Computer Science">Computer Science</option>
+                    <option value="Business and Technology">Business and Technology</option>
+                  </Select>
                 </Column>
                 <Column basis="35">
                   <Input

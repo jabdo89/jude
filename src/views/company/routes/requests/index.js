@@ -86,7 +86,7 @@ class RequestsView extends Component {
         <Container>
           {Requests &&
             Requests.map(request => {
-              if (profile.userId === request.companyId && request.status === 'requestedByStudent') {
+              if (profile.userID === request.companyID && request.status === 'requestedByStudent') {
                 if (jobOfferFilter === 'any') {
                   return (
                     <RequestCard

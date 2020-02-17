@@ -20,11 +20,11 @@ class ProfileData extends Component {
     return (
       <Fragment>
         <Profile onClick={this.toggleMenu}>
-          <Avatar size="36" src="/static/img/general/avatar.png" />
+          <Avatar size="36" src={profile.profileImg || '/static/img/general/avatar.png'} />
           <Text>
             Welcome,
             <Break />
-            <Name>{profile.firstName}</Name>
+            <Name>{profile.firstName || profile.companyName}</Name>
           </Text>
           <DownIcon />
         </Profile>

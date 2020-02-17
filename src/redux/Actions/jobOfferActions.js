@@ -11,7 +11,6 @@ export const createJobOffer = jobOffer => {
       .add({
         scheduleDesc: jobOffer.scheduleDesc,
         requirements: jobOffer.requirements,
-        companyLogoUrl: profile.companyLogoUrl,
         name: jobOffer.name,
         budget: jobOffer.budget,
         description: jobOffer.description,
@@ -308,5 +307,28 @@ export const editProfileCompany = newProfile => {
         website: newProfile.website,
         description: newProfile.description
       });
+  };
+};
+
+export const editJobOffer = newJobOffer => {
+  return (dispatch, getState, getFirebase) => {
+    const firebase = getFirebase();
+    const db = firebase.firestore();
+    db.collection('JobOffers')
+      .doc(newJobOffer.id)
+      .update({
+        scheduleDesc: newJobOffer.scheduleDesc,
+        requirements: newJobOffer.requirements
+      });
+  };
+};
+
+export const deleteJobOffer = newJobOffer => {
+  return (dispatch, getState, getFirebase) => {
+    const firebase = getFirebase();
+    const db = firebase.firestore();
+    db.collection('JobOffers')
+      .doc(newJobOffer)
+      .delete();
   };
 };
