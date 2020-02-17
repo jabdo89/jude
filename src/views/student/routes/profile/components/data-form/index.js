@@ -9,7 +9,7 @@ import Box from '@common/box';
 import Button from '@common/button';
 import Textarea from '@common/textarea';
 import Dropzone from '@templates/dropzone';
-import { FaUser, FaEnvelope, FaBars, FaRegUser, FaGraduationCap, FaHashtag } from 'react-icons/fa';
+import { FaEnvelope, FaBars, FaRegUser, FaGraduationCap, FaHashtag } from 'react-icons/fa';
 import { FiX } from 'react-icons/fi';
 import Input from '@common/input';
 import Skill from './elements';
@@ -66,7 +66,7 @@ class DataForm extends Component {
 
   render() {
     const {
-      username,
+      // username,
       firstName,
       lastName,
       email,
@@ -82,13 +82,13 @@ class DataForm extends Component {
         <Typography mb={30} variant="leadText">
           Edit your data
         </Typography>
-        <Input
+        {/* <Input
           label="Username"
           name="username"
           onChange={this.handleInputChange}
           value={username}
           leftIcon={<FaUser />}
-        />
+        /> */}
         <Box display="flex">
           <Input
             label="First name"

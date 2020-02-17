@@ -289,7 +289,24 @@ export const editProfile = newProfile => {
         lastName: newProfile.lastName,
         major: newProfile.major,
         semester: newProfile.semester,
-        skills: newProfile.skills
+        skills: newProfile.skills,
+        email: newProfile.email
+      });
+  };
+};
+
+export const editProfileCompany = newProfile => {
+  return (dispatch, getState, getFirebase) => {
+    const firebase = getFirebase();
+    const db = firebase.firestore();
+    const state = getState().firebase;
+    const { profile } = state;
+    db.collection('Usuarios')
+      .doc(profile.userID)
+      .update({
+        email: newProfile.email,
+        website: newProfile.website,
+        description: newProfile.description
       });
   };
 };

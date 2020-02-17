@@ -55,7 +55,6 @@ class Company extends Component {
     return (
       <Box pb={30}>
         <FilterBar
-          hghhhj
           isRecommendation={!!refState}
           jobOfferName={refState && refState.jobOfferName}
           semesterFilterUpdate={this.updateSemesterFilter}

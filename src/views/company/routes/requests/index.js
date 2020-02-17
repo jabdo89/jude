@@ -17,7 +17,8 @@ faker.locale = 'es_MX';
 class RequestsView extends Component {
   state = {
     activeModal: false,
-    selectedUser: {}
+    selectedUser: {},
+    jobOfferFilter: 'any'
   };
 
   setUserModal = id => {
@@ -68,16 +69,38 @@ class RequestsView extends Component {
     }
   };
 
+  updateJobOfferFilter = filter => {
+    this.setState({ jobOfferFilter: filter });
+  };
+
   render() {
-    const { selectedUser, activeModal } = this.state;
+    const { selectedUser, activeModal, jobOfferFilter } = this.state;
     const { Requests, Usuarios, JobOffers, profile, JobOffersArray } = this.props;
     return (
       <Box pb={30}>
-        <FilterBar jobOffers={JobOffersArray} />
+        <FilterBar
+          jobOffers={JobOffersArray}
+          jobOfferFilter={jobOfferFilter}
+          updateJobOfferFilter={this.updateJobOfferFilter}
+        />
         <Container>
           {Requests &&
             Requests.map(request => {
               if (profile.userId === request.companyId && request.status === 'requestedByStudent') {
+                if (jobOfferFilter === 'any') {
+                  return (
+                    <RequestCard
+                      key={request.id}
+                      user={Usuarios[request.studentID]}
+                      jobOffer={JobOffers[request.jobOfferID]}
+                      acceptRequest={() => this.acceptRequest(request.id, request.jobOfferID)}
+                      deleteRequest={() => this.deleteRequest(request.id)}
+                      setUserModal={() => this.setUserModal(request.studentID)}
+                    />
+                  );
+                }
+              }
+              if (jobOfferFilter === request.jobOfferID) {
                 return (
                   <RequestCard
                     key={request.id}
