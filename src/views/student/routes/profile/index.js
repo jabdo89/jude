@@ -5,10 +5,17 @@ import ProfileCard from './components/profile-card';
 import { Container, Column } from './elements';
 import DataForm from './components/data-form';
 
+const script = document.createElement('script');
+script.src =
+  'https://cdn2.hubspot.net/hubfs/1716276/embeddable_assessments/disc/disc_assessment_v1.1.0.js';
+script.async = true;
+document.body.appendChild(script);
+
 const Profile = ({ User }) => (
   <Container>
     <Column basis="60">
       <DataForm user={User} />
+      {/* <div id="disc_assessment_root" data-api-token="d81a03d1163f14098a3d897db7b80dbe"></div> */}
     </Column>
     <Column basis="40">
       <ProfileCard user={User} />

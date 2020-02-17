@@ -6,23 +6,23 @@ import { connect } from 'react-redux';
 import { acceptStudentInterview, rejectStudentInterview } from '@actions/jobOfferActions';
 import Box from '@common/box';
 import confirmation from '@templates/confirmation';
-import FilterBar from './components/filter-bar';
+// import FilterBar from './components/filter-bar';
 import RequestCard from './components/request-card';
 import Container from './elements';
 
 class RequestsView extends Component {
-  acceptRequest = async jobOfferID => {
+  acceptRequest = async (sJID, jobOfferID) => {
     if (
       await confirmation(
         'Are you sure?',
-        'Accepting this student, will begin the interviewing process',
+        'Accepting this offer, will begin the interviewing process',
         {
           text: 'CONFIRM',
           description: "Please, type 'CONFIRM' to confirm"
         }
       )
     ) {
-      this.props.acceptStudentInterview(jobOfferID);
+      this.props.acceptStudentInterview(sJID, jobOfferID);
     }
   };
 
@@ -41,7 +41,7 @@ class RequestsView extends Component {
     const { Requests, JobOffers, profile } = this.props;
     return (
       <Box pb={30}>
-        <FilterBar />
+        {/* <FilterBar /> */}
         <Container>
           {Requests &&
             Requests.map(request => {
@@ -50,7 +50,7 @@ class RequestsView extends Component {
                   <RequestCard
                     key={request.id}
                     request={JobOffers[request.jobOfferID]}
-                    acceptRequest={() => this.acceptRequest(request.id)}
+                    acceptRequest={() => this.acceptRequest(request.id, request.jobOfferID)}
                     deleteRequest={() => this.deleteRequest(request.id)}
                   />
                 );
@@ -86,7 +86,8 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = dispatch => {
   return {
-    acceptStudentInterview: jobOfferID => dispatch(acceptStudentInterview(jobOfferID)),
+    acceptStudentInterview: (sJID, jobOfferID) =>
+      dispatch(acceptStudentInterview(sJID, jobOfferID)),
     rejectStudentInterview: jobOfferID => dispatch(rejectStudentInterview(jobOfferID))
   };
 };

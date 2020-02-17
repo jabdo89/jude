@@ -45,7 +45,7 @@ class RequestsView extends Component {
     }
   };
 
-  acceptRequest = async jobOfferID => {
+  acceptRequest = async (sJID, jobOfferID) => {
     if (
       await confirmation(
         'Are you sure?',
@@ -53,7 +53,7 @@ class RequestsView extends Component {
         { text: 'CONFIRM', description: "Please, type 'CONFIRM' to confirm" }
       )
     ) {
-      this.props.acceptStudentInterview(jobOfferID);
+      this.props.acceptStudentInterview(sJID, jobOfferID);
     }
   };
 
@@ -83,7 +83,7 @@ class RequestsView extends Component {
                     key={request.id}
                     user={Usuarios[request.studentID]}
                     jobOffer={JobOffers[request.jobOfferID]}
-                    acceptRequest={() => this.acceptRequest(request.id)}
+                    acceptRequest={() => this.acceptRequest(request.id, request.jobOfferID)}
                     deleteRequest={() => this.deleteRequest(request.id)}
                     setUserModal={() => this.setUserModal(request.studentID)}
                   />
@@ -133,7 +133,8 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = dispatch => {
   return {
-    acceptStudentInterview: jobOfferID => dispatch(acceptStudentInterview(jobOfferID)),
+    acceptStudentInterview: (sJID, jobOfferID) =>
+      dispatch(acceptStudentInterview(sJID, jobOfferID)),
     rejectStudentInterview: jobOfferID => dispatch(rejectStudentInterview(jobOfferID))
   };
 };

@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { editProfile } from '@actions/jobOfferActions';
 import shortId from 'shortid';
 import Modal from '@common/modal';
 import Typography from '@common/typography';
@@ -24,7 +26,7 @@ class DataForm extends Component {
       description: props.user.description,
       major: props.user.major,
       showResumeModal: false,
-      skills: [],
+      skills: props.user.skills,
       skill: ''
     };
   }
@@ -58,6 +60,10 @@ class DataForm extends Component {
       };
     });
 
+  editProfile = () => {
+    this.props.editProfile(this.state);
+  };
+
   render() {
     const {
       username,
@@ -71,11 +77,6 @@ class DataForm extends Component {
       skills,
       skill
     } = this.state;
-    const script = document.createElement('script');
-    script.src =
-      'https://cdn2.hubspot.net/hubfs/1716276/embeddable_assessments/disc/disc_assessment_v1.1.0.js';
-    script.async = true;
-    document.body.appendChild(script);
     return (
       <Box mt={20} px={20}>
         <Typography mb={30} variant="leadText">
@@ -147,18 +148,19 @@ class DataForm extends Component {
           name="skill"
         />
         <Box mt={10} flexWrap="wrap" display="flex">
-          {skills.map((req, idx) => (
-            <Skill key={shortId.generate()} mr={5} color="secondary" variant="outlined" mb={5}>
-              {req}
-              <FiX onClick={() => this.removeSkill(idx)} />
-            </Skill>
-          ))}
+          {skills &&
+            skills.map((req, idx) => (
+              <Skill key={shortId.generate()} mr={5} color="secondary" variant="outlined" mb={5}>
+                {req}
+                <FiX onClick={() => this.removeSkill(idx)} />
+              </Skill>
+            ))}
         </Box>
         <Box mt={20} display="flex" justifyContent="flex-end">
           <Button onClick={this.toggleResumeModal} variant="soft" color="secondary">
             Change resume
           </Button>
-          <Button ml={10} variant="soft" color="primary">
+          <Button ml={10} variant="soft" color="primary" onClick={this.editProfile}>
             Save
           </Button>
         </Box>
@@ -192,8 +194,16 @@ DataForm.propTypes = {
     semester: PropTypes.number.isRequired,
     description: PropTypes.string.isRequired,
     major: PropTypes.string.isRequired,
-    resume: PropTypes.string.isRequired
-  }).isRequired
+    resume: PropTypes.string.isRequired,
+    skills: PropTypes.array.isRequired
+  }).isRequired,
+  editProfile: PropTypes.func.isRequired
 };
 
-export default DataForm;
+const mapDispatchToProps = dispatch => {
+  return {
+    editProfile: profile => dispatch(editProfile(profile))
+  };
+};
+
+export default connect(null, mapDispatchToProps)(DataForm);

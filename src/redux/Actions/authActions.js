@@ -47,6 +47,7 @@ export const studentSignUp = newUser => {
                   firstName: newUser.firstName,
                   lastName: newUser.lastName,
                   major: newUser.mayor,
+                  skills: [],
                   semester: newUser.semester,
                   description: newUser.description
                 });

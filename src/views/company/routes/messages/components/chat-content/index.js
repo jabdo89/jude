@@ -60,8 +60,9 @@ class ChatContent extends Component {
   };
 
   handleHire = () => {
-    const { chat } = this.props;
-    this.props.hireStudentInterview(this.state, chat.id);
+    const { chat, closeChat } = this.props;
+    closeChat();
+    this.props.hireStudentInterview(chat.id, chat.jobOfferID);
   };
 
   handleReject = () => {
@@ -71,9 +72,33 @@ class ChatContent extends Component {
   };
 
   render() {
-    const { user, closeChat, messages, profile } = this.props;
+    const { user, closeChat, messages, profile, chat } = this.props;
     const { message } = this.state;
-
+    let action;
+    if (chat.status === 'Interviewing') {
+      action = (
+        <Box display="flex" alignItems="center">
+          <ActionButton
+            size="small"
+            color="primary"
+            variant="soft"
+            mr={5}
+            onClick={this.handleHire}
+          >
+            Hire <MdDone />
+          </ActionButton>
+          <ActionButton
+            size="small"
+            color="danger"
+            variant="soft"
+            mr={5}
+            onClick={this.handleReject}
+          >
+            Reject <MdCancel />
+          </ActionButton>
+        </Box>
+      );
+    }
     if (user !== null) {
       return (
         <Container>
@@ -83,26 +108,7 @@ class ChatContent extends Component {
               <Typography mr="auto" variant="leadText">
                 {user.firstName} {user.lastName}
               </Typography>
-              <Box display="flex" alignItems="center">
-                <ActionButton
-                  size="small"
-                  color="primary"
-                  variant="soft"
-                  mr={5}
-                  onClick={this.handleHire}
-                >
-                  Hire <MdDone />
-                </ActionButton>
-                <ActionButton
-                  size="small"
-                  color="danger"
-                  variant="soft"
-                  mr={5}
-                  onClick={this.handleReject}
-                >
-                  Reject <MdCancel />
-                </ActionButton>
-              </Box>
+              {action}
               <Tooltip tag="Close chat">
                 <CloseButton onClick={closeChat} variant="link" color="danger">
                   <MdClear />
@@ -121,7 +127,7 @@ class ChatContent extends Component {
                     message={message}
                     sentAt={timestamp}
                     seenAt={message}
-                    isYours={profile.email === sender}
+                    isYours={profile.userID === sender}
                   />
                 ))}
             </MessagesContainer>
@@ -150,7 +156,9 @@ ChatContent.defaultProps = {
 
 ChatContent.propTypes = {
   chat: PropTypes.shape({
-    id: PropTypes.string
+    id: PropTypes.string,
+    status: PropTypes.string,
+    jobOfferID: PropTypes.string
   }).isRequired,
   user: PropTypes.object,
   profile: PropTypes.object,
@@ -175,7 +183,7 @@ const mapDispatchToProps = dispatch => {
     watchTaskAddedEvent: convID => dispatch(watchTaskAddedEvent(convID)),
     watchTaskRemovedEvent: convID => dispatch(watchTaskRemovedEvent(convID)),
     rejectStudentInterviewWChat: convID => dispatch(rejectStudentInterviewWChat(convID)),
-    hireStudentInterview: convID => dispatch(hireStudentInterview(convID))
+    hireStudentInterview: (convID, JobOfferID) => dispatch(hireStudentInterview(convID, JobOfferID))
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(ChatContent);

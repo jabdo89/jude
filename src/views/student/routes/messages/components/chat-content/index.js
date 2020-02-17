@@ -9,7 +9,8 @@ import {
 } from '@actions/jobOfferActions';
 import Typography from '@common/typography';
 import Box from '@common/box';
-import { MdSend, MdClear, MdCancel } from 'react-icons/md';
+import { MdSend, MdClear } from 'react-icons/md';
+// , MdCancel
 import Avatar from '@common/avatar';
 import Input from '@common/input';
 import Tooltip from '@common/tooltip';
@@ -21,7 +22,7 @@ import {
   MessagesContainer,
   Scroll,
   CloseButton,
-  ActionButton,
+  // ActionButton,
   Form
 } from './elements';
 
@@ -68,11 +69,11 @@ class ChatContent extends Component {
               <Typography mr="auto" variant="leadText">
                 {user.companyName}
               </Typography>
-              <Box display="flex" alignItems="center">
+              {/* <Box display="flex" alignItems="center">
                 <ActionButton size="small" color="danger" variant="soft" mr={5}>
                   Reject <MdCancel />
                 </ActionButton>
-              </Box>
+              </Box> */}
               <Tooltip tag="Close chat">
                 <CloseButton onClick={closeChat} variant="link" color="danger">
                   <MdClear />
@@ -91,7 +92,7 @@ class ChatContent extends Component {
                     message={message}
                     sentAt={timestamp}
                     seenAt={message}
-                    isYours={profile.email === sender}
+                    isYours={profile.userID === sender}
                   />
                 ))}
             </MessagesContainer>
