@@ -3,11 +3,12 @@ const admin = require('firebase-admin');
 
 admin.initializeApp();
 
-exports.recommendStudent = functions.https.onCall((data, context) => {
-  let studentMap = [];
-  console.log(data.students);
-  console.log(data.offer);
-  return studentMap;
+// , context
+exports.recommendStudent = functions.https.onCall(data => {
+  // let studentMap = [];
+  // console.log(data.students);
+  // console.log(data.offer);
+  return data;
 });
 
 // // Create and Deploy Your First Cloud Functions
