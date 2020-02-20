@@ -56,7 +56,6 @@ class OfferCard extends Component {
     const functions = firebase.functions();
     const recommendedAlgo = functions.httpsCallable('recommendStudent');
     const recommended = recommendedAlgo({ offer, students });
-
     push({
       pathname: '/students',
       state: {

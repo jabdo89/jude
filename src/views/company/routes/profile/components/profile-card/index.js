@@ -27,7 +27,7 @@ class ProfileCard extends Component {
     new Promise(resolve => {
       const { user } = this.props;
       const storage = firebase.storage();
-      const uploadTaskPDF = storage.ref(`curriculums/${user.email}`).put(image);
+      const uploadTaskPDF = storage.ref(`images/${user.email}`).put(image);
       uploadTaskPDF.on(
         'state_changed',
         snapshot => {
@@ -43,7 +43,7 @@ class ProfileCard extends Component {
         () => {
           // complete function ...
           storage
-            .ref('curriculums')
+            .ref('images')
             .child(user.email)
             .getDownloadURL()
             .then(url => {
