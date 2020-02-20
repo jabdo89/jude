@@ -11,7 +11,7 @@ import RequestCard from './components/request-card';
 import Container from './elements';
 
 class RequestsView extends Component {
-  acceptRequest = async (sJID, jobOfferID) => {
+  acceptRequest = async (sJID, request) => {
     if (
       await confirmation(
         'Are you sure?',
@@ -22,18 +22,18 @@ class RequestsView extends Component {
         }
       )
     ) {
-      this.props.acceptStudentInterview(sJID, jobOfferID);
+      this.props.acceptStudentInterview(sJID, request);
     }
   };
 
-  deleteRequest = async jobOfferID => {
+  deleteRequest = async (jobOfferID, request) => {
     if (
       await confirmation('Are you sure?', 'This will totally discard the selected offer', {
         text: 'DELETE',
         description: "Please, type 'DELETE' to confirm"
       })
     ) {
-      this.props.rejectStudentInterview(jobOfferID);
+      this.props.rejectStudentInterview(jobOfferID, request);
     }
   };
 
@@ -50,8 +50,8 @@ class RequestsView extends Component {
                   <RequestCard
                     key={request.id}
                     request={JobOffers[request.jobOfferID]}
-                    acceptRequest={() => this.acceptRequest(request.id, request.jobOfferID)}
-                    deleteRequest={() => this.deleteRequest(request.id)}
+                    acceptRequest={() => this.acceptRequest(request.id, request)}
+                    deleteRequest={() => this.deleteRequest(request.id, request)}
                     company={Usuarios[request.companyID]}
                   />
                 );
@@ -91,7 +91,8 @@ const mapDispatchToProps = dispatch => {
   return {
     acceptStudentInterview: (sJID, jobOfferID) =>
       dispatch(acceptStudentInterview(sJID, jobOfferID)),
-    rejectStudentInterview: jobOfferID => dispatch(rejectStudentInterview(jobOfferID))
+    rejectStudentInterview: (jobOfferID, request) =>
+      dispatch(rejectStudentInterview(jobOfferID, request))
   };
 };
 export default compose(

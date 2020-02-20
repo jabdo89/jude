@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import { FiUsers, FiLayers, FiMessageCircle, FiStar, FiUser } from 'react-icons/fi';
 import { AsideLine, Option, Icon } from './elements';
@@ -42,7 +43,7 @@ const CompanyRoutes = ({ location: { pathname }, username }) => (
         <AsideLine />
       </Option>
     </Link>
-    <Link to={`/@${username}`}>
+    <Link to={`/@${username.companyName}`}>
       <Option active={pathname.includes('@')}>
         <Icon>
           <FiUser />
@@ -55,12 +56,18 @@ const CompanyRoutes = ({ location: { pathname }, username }) => (
 );
 
 CompanyRoutes.defaultProps = {
-  username: 'abdo'
+  username: undefined
 };
 
 CompanyRoutes.propTypes = {
   location: PropTypes.object.isRequired,
-  username: PropTypes.string
+  username: PropTypes.object
 };
 
-export default withRouter(CompanyRoutes);
+const mapStateToProps = state => {
+  return {
+    username: state.firebase.profile,
+    messages: state.company
+  };
+};
+export default withRouter(connect(mapStateToProps)(CompanyRoutes));

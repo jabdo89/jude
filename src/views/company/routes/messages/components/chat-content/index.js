@@ -62,13 +62,13 @@ class ChatContent extends Component {
   handleHire = () => {
     const { chat, closeChat } = this.props;
     closeChat();
-    this.props.hireStudentInterview(chat.id, chat.jobOfferID);
+    this.props.hireStudentInterview(chat.id, chat.jobOfferID, chat.studentID);
   };
 
   handleReject = () => {
     const { chat, closeChat } = this.props;
     closeChat();
-    this.props.rejectStudentInterviewWChat(chat.id);
+    this.props.rejectStudentInterviewWChat(chat.id, chat.jobOfferID, chat.studentID);
   };
 
   render() {
@@ -158,7 +158,8 @@ ChatContent.propTypes = {
   chat: PropTypes.shape({
     id: PropTypes.string,
     status: PropTypes.string,
-    jobOfferID: PropTypes.string
+    jobOfferID: PropTypes.string,
+    studentID: PropTypes.string
   }).isRequired,
   user: PropTypes.object,
   profile: PropTypes.object,
@@ -182,8 +183,10 @@ const mapDispatchToProps = dispatch => {
     sendMessage: (activity, convID) => dispatch(sendMessage(activity, convID)),
     watchTaskAddedEvent: convID => dispatch(watchTaskAddedEvent(convID)),
     watchTaskRemovedEvent: convID => dispatch(watchTaskRemovedEvent(convID)),
-    rejectStudentInterviewWChat: convID => dispatch(rejectStudentInterviewWChat(convID)),
-    hireStudentInterview: (convID, JobOfferID) => dispatch(hireStudentInterview(convID, JobOfferID))
+    rejectStudentInterviewWChat: (convID, JobOfferID, studentID) =>
+      dispatch(rejectStudentInterviewWChat(convID, JobOfferID, studentID)),
+    hireStudentInterview: (convID, JobOfferID, studentID) =>
+      dispatch(hireStudentInterview(convID, JobOfferID, studentID))
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(ChatContent);

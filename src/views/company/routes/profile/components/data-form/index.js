@@ -46,6 +46,7 @@ class DataForm extends Component {
           name="email"
           onChange={this.handleInputChange}
           value={email}
+          disabled
           leftIcon={<FaEnvelope />}
         />
         <Input

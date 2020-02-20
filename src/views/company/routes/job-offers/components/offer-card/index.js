@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import firebase from 'firebase';
+import { connect } from 'react-redux';
+import { firestoreConnect } from 'react-redux-firebase';
+import { compose } from 'redux';
 import { Card, CardBody, CardFooter } from '@common/card';
 import Avatar from '@common/avatar';
 import Button from '@common/button';
 import Tooltip from '@common/tooltip';
 import shortId from 'shortid';
-import faker from 'faker';
+// import faker from 'faker';
 import { MdSchool } from 'react-icons/md';
 import { withRouter } from 'react-router-dom';
 import Box from '@common/box';
@@ -28,26 +32,30 @@ import {
 } from './elements';
 
 // Remove after placing api call
-const getRecommendedByAlgoritmoMamado = qty =>
-  new Array(qty).fill().map(() => ({
-    id: faker.random.uuid(),
-    firstName: faker.name.firstName(),
-    lastName: faker.name.lastName(),
-    profileImg: faker.image.avatar(),
-    semester: Math.round(Math.random() * 9) + 1,
-    description: faker.lorem.paragraph(),
-    major: Math.random() > 0.5 ? 'ITC' : 'INT',
-    resume: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf'
-  }));
+// const getRecommendedByAlgoritmoMamado = qty =>
+//   new Array(qty).fill().map(() => ({
+//     id: faker.random.uuid(),
+//     firstName: faker.name.firstName(),
+//     lastName: faker.name.lastName(),
+//     profileImg: faker.image.avatar(),
+//     semester: Math.round(Math.random() * 9) + 1,
+//     description: faker.lorem.paragraph(),
+//     major: Math.random() > 0.5 ? 'ITC' : 'INT',
+//     resume: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf'
+//   }));
 
 class OfferCard extends Component {
   showRecommendedStudents = () => {
     const {
       history: { push },
-      offer: { name }
+      offer: { name },
+      offer,
+      students
     } = this.props;
     // Replace with an api call or something mamadísimo
-    const recommended = getRecommendedByAlgoritmoMamado(5);
+    const functions = firebase.functions();
+    const recommendedAlgo = functions.httpsCallable('recommendStudent');
+    const recommended = recommendedAlgo({ offer, students });
 
     push({
       pathname: '/students',
@@ -121,9 +129,20 @@ class OfferCard extends Component {
                   Major required
                 </Typography>
                 <TypographyWithIcon variant="muted">
-                  <FaGraduationCap />
-                  {/* ITC is just a placeholder, please remove */}
-                  {offer.major || 'ITC'}
+                  {offer.major &&
+                    offer.major.map(requirement => (
+                      <Pill
+                        key={shortId.generate()}
+                        mr={5}
+                        color="secondary"
+                        variant="outlined"
+                        size="small"
+                        mb={5}
+                      >
+                        <FaGraduationCap />
+                        {requirement}
+                      </Pill>
+                    ))}
                 </TypographyWithIcon>
                 <Typography color="primary" mt={20} mb={5} fontWeight="bold">
                   Requirements
@@ -164,6 +183,10 @@ class OfferCard extends Component {
   }
 }
 
+OfferCard.defaultProps = {
+  students: undefined
+};
+
 OfferCard.propTypes = {
   offer: PropTypes.shape({
     id: PropTypes.string,
@@ -178,7 +201,24 @@ OfferCard.propTypes = {
   setEditOffer: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   deleteOffer: PropTypes.func.isRequired,
-  profile: PropTypes.object.isRequired
+  profile: PropTypes.object.isRequired,
+  students: PropTypes.arrayOf(PropTypes.object)
 };
 
-export default withRouter(OfferCard);
+const mapStateToProps = state => {
+  return {
+    students: state.firestore.ordered.Usuarios
+  };
+};
+
+export default withRouter(
+  compose(
+    connect(mapStateToProps),
+    firestoreConnect([
+      {
+        collection: 'Usuarios',
+        where: ['rol', '==', 'Student']
+      }
+    ])
+  )(OfferCard)
+);

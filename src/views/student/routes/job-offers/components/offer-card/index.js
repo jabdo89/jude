@@ -112,8 +112,20 @@ class OfferCard extends Component {
               Major required
             </Typography>
             <TypographyWithIcon variant="muted">
-              <FaGraduationCap />
-              {offer.major}
+              {offer.major &&
+                offer.major.map(requirement => (
+                  <Pill
+                    key={shortId.generate()}
+                    mr={5}
+                    color="secondary"
+                    variant="outlined"
+                    size="small"
+                    mb={5}
+                  >
+                    <FaGraduationCap />
+                    {requirement}
+                  </Pill>
+                ))}
             </TypographyWithIcon>
             <Typography color="primary" mt={20} mb={5} fontWeight="bold">
               Requirements

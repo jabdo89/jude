@@ -11,6 +11,7 @@ export const createJobOffer = jobOffer => {
       .add({
         scheduleDesc: jobOffer.scheduleDesc,
         requirements: jobOffer.requirements,
+        major: jobOffer.majors,
         name: jobOffer.name,
         budget: jobOffer.budget,
         description: jobOffer.description,
@@ -30,7 +31,7 @@ export const createJobOffer = jobOffer => {
       });
   };
 };
-export const createJobOfferyStudent = (jobOffer, user) => {
+export const createJobOfferyStudent = (jobOffer, user, jobOfferObj) => {
   return (dispatch, getState, getFirebase) => {
     const authID = getState().firebase.auth.uid;
     const firebase = getFirebase();
@@ -41,14 +42,19 @@ export const createJobOfferyStudent = (jobOffer, user) => {
       .get()
       .then(snapshot => {
         if (snapshot.empty) {
-          db.collection('JobOffersyStudents')
+          db.collection('JobOffersyStudents').add({
+            companyID: authID,
+            jobOfferID: jobOffer,
+            studentID: user.id,
+            status: 'requestedByCompany',
+            lastMessage: '',
+            lMessageTime: ''
+          });
+          db.collection('Notifications')
             .add({
-              companyID: authID,
-              jobOfferID: jobOffer,
-              studentID: user.id,
-              status: 'requestedByCompany',
-              lastMessage: '',
-              lMessageTime: ''
+              JobOffer: jobOfferObj.name,
+              type: 'New Request',
+              userID: user.id
             })
             .then(() => {
               dispatch({ type: 'JOBOFFER_REQUESTED_COMPANY', jobOffer });
@@ -201,38 +207,95 @@ export const watchTaskRemovedEvent = chatID => {
   };
 };
 
-export const acceptStudentInterview = (sJID, jobOfferID) => {
+export const acceptStudentInterview = (sJID, request) => {
   return (dispatch, getState, getFirebase) => {
     const firebase = getFirebase();
     const db = firebase.firestore();
+    const state = getState().firebase;
+    let userID;
+    if (state.profile.rol === 'Company') {
+      userID = request.studentID;
+    } else {
+      userID = request.companyID;
+    }
     let numerInterviewed;
     let { info } = firebase;
+    let { user } = firebase;
     db.collection('JobOffersyStudents')
       .doc(sJID)
       .update({ status: 'Interviewing' });
     db.collection('JobOffers')
-      .doc(jobOfferID)
+      .doc(request.jobOfferID)
       .get()
       .then(snapshot => {
         info = snapshot.data();
         numerInterviewed = info.interviewed;
         db.collection('JobOffers')
-          .doc(jobOfferID)
+          .doc(request.jobOfferID)
           .update({ interviewed: numerInterviewed + 1 });
+        db.collection('Usuarios')
+          .doc(request.studentID)
+          .get()
+          .then(snapshot2 => {
+            user = snapshot2.data();
+            let notificationName;
+            if (state.profile.rol === 'Company') {
+              notificationName = info.name;
+            } else {
+              notificationName = `${user.firstName} ${user.lastName}`;
+            }
+            db.collection('Notifications').add({
+              JobOffer: notificationName,
+              type: 'Confirmed Request',
+              userID
+            });
+          });
       });
   };
 };
-export const rejectStudentInterview = jobOfferID => {
+export const rejectStudentInterview = (jobOfferID, request) => {
   return (dispatch, getState, getFirebase) => {
     const firebase = getFirebase();
     const db = firebase.firestore();
+    const state = getState().firebase;
+    let { user } = firebase;
+    let { info } = firebase;
+    let userID;
+    if (state.profile.rol === 'Company') {
+      userID = request.studentID;
+    } else {
+      userID = request.companyID;
+    }
     db.collection('JobOffersyStudents')
       .doc(jobOfferID)
       .delete();
+    db.collection('JobOffers')
+      .doc(request.jobOfferID)
+      .get()
+      .then(snapshot => {
+        info = snapshot.data();
+        db.collection('Usuarios')
+          .doc(request.studentID)
+          .get()
+          .then(snapshot2 => {
+            user = snapshot2.data();
+            let notificationName;
+            if (state.profile.rol === 'Company') {
+              notificationName = info.name;
+            } else {
+              notificationName = `${user.firstName} ${user.lastName}`;
+            }
+            db.collection('Notifications').add({
+              JobOffer: notificationName,
+              type: 'Request Denied',
+              userID
+            });
+          });
+      });
   };
 };
 
-export const hireStudentInterview = (jobStudentID, jobOfferID) => {
+export const hireStudentInterview = (jobStudentID, jobOfferID, studentID) => {
   return (dispatch, getState, getFirebase) => {
     const firebase = getFirebase();
     const db = firebase.firestore();
@@ -254,24 +317,41 @@ export const hireStudentInterview = (jobStudentID, jobOfferID) => {
             db.collection('JobOffers')
               .doc(jobOfferID)
               .update({ hired: numerHired + 1, needed: numerNeeded - 1 });
+            db.collection('Notifications').add({
+              JobOffer: info.name,
+              type: 'Hired',
+              userID: studentID
+            });
           })
       );
   };
 };
 
-export const rejectStudentInterviewWChat = jobOfferID => {
+export const rejectStudentInterviewWChat = (jobStudentID, jobOfferID, studentID) => {
   return (dispatch, getState, getFirebase) => {
     const firebase = getFirebase();
     const db = firebase.firestore();
+    let { info } = firebase;
     db.collection('JobOffersyStudents')
-      .doc(jobOfferID)
+      .doc(jobStudentID)
       .delete()
       .then(() =>
         firebase
           .database()
-          .ref(`/messages/${jobOfferID}`)
+          .ref(`/messages/${jobStudentID}`)
           .remove()
       );
+    db.collection('JobOffers')
+      .doc(jobOfferID)
+      .get()
+      .then(snapshot => {
+        info = snapshot.data();
+        db.collection('Notifications').add({
+          JobOffer: info.name,
+          type: 'Interview Denied',
+          userID: studentID
+        });
+      });
   };
 };
 

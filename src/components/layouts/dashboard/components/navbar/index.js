@@ -91,7 +91,8 @@ class Navbar extends Component {
 }
 
 Navbar.propTypes = {
-  location: PropTypes.object.isRequired
+  location: PropTypes.object.isRequired,
+  Notifications: PropTypes.arrayOf(PropTypes.object).isRequired
 };
 
 const mapStateToProps = state => {

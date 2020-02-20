@@ -46,7 +46,7 @@ class DataForm extends Component {
     if (event.key === 'Enter' && skill) {
       event.preventDefault();
       this.setState({
-        skills: [...skills, skill],
+        skills: [...skills, skill.toUpperCase()],
         skill: ''
       });
     }
@@ -111,6 +111,7 @@ class DataForm extends Component {
           name="email"
           onChange={this.handleInputChange}
           value={email}
+          disabled
           leftIcon={<FaEnvelope />}
         />
         <Box display="flex">
@@ -119,6 +120,7 @@ class DataForm extends Component {
             name="major"
             onChange={this.handleInputChange}
             value={major}
+            disabled
             leftIcon={<FaGraduationCap />}
             mr={10}
           />

@@ -25,10 +25,22 @@ const initialState = {
   requirements: [],
   requirement: '',
   studentsNeeded: '',
+  majors: [],
   major: ''
 };
 
-const weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+const weekDays = [
+  'Flexible',
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday',
+  'Sunday'
+];
+
+const careers = ['Computer Science', 'Business & Technology'];
 class NewOfferModal extends Component {
   state = initialState;
 
@@ -37,10 +49,23 @@ class NewOfferModal extends Component {
     if (event.key === 'Enter' && requirement) {
       event.preventDefault();
       this.setState({
-        requirements: [...requirements, requirement],
+        requirements: [...requirements, requirement.toUpperCase()],
         requirement: ''
       });
     }
+  };
+
+  addMajor = event => {
+    event.preventDefault();
+    this.setState({ [event.target.name]: event.target.value }, () => {
+      const { majors, major } = this.state;
+      if (major !== ' ') {
+        this.setState({
+          majors: [...majors, major],
+          major: ''
+        });
+      }
+    });
   };
 
   handleNumberChange = event => {
@@ -75,6 +100,14 @@ class NewOfferModal extends Component {
       };
     });
 
+  removeMajor = idx =>
+    this.setState(({ majors }) => {
+      majors.splice(idx, 1);
+      return {
+        majors
+      };
+    });
+
   render() {
     // Add , jobOfferError to this.props
     const { active, closeButton } = this.props;
@@ -86,7 +119,8 @@ class NewOfferModal extends Component {
       requirement,
       requirements,
       studentsNeeded,
-      major
+      major,
+      majors
     } = this.state;
     return (
       <Modal size="large" title="Add a new offer" active={active} closeButton={closeButton}>
@@ -107,14 +141,34 @@ class NewOfferModal extends Component {
             value={budget}
             name="budget"
           />
-          <Input
-            label="Major required"
-            required
-            onChange={this.handleInputChange}
-            type="text"
+          <Select
+            label="Majors required (Press enter to add)"
+            onChange={this.addMajor}
             value={major}
             name="major"
-          />
+            mr={5}
+          >
+            <option value="" hidden></option>
+            {careers.map(day => (
+              <option key={day} value={day}>
+                {day}
+              </option>
+            ))}
+          </Select>
+          <Box mt={10} flexWrap="wrap" display="flex">
+            {majors.map((req, idx) => (
+              <Requirement
+                key={shortId.generate()}
+                mr={1}
+                color="secondary"
+                variant="outlined"
+                mb={1}
+              >
+                {req}
+                <FiX onClick={() => this.removeMajor(idx)} />
+              </Requirement>
+            ))}
+          </Box>
           <Input
             label="Students needed to cover the offer"
             required

@@ -46,7 +46,7 @@ class RequestsView extends Component {
     }
   };
 
-  acceptRequest = async (sJID, jobOfferID) => {
+  acceptRequest = async (sJID, request) => {
     if (
       await confirmation(
         'Are you sure?',
@@ -54,18 +54,18 @@ class RequestsView extends Component {
         { text: 'CONFIRM', description: "Please, type 'CONFIRM' to confirm" }
       )
     ) {
-      this.props.acceptStudentInterview(sJID, jobOfferID);
+      this.props.acceptStudentInterview(sJID, request);
     }
   };
 
-  deleteRequest = async jobOfferID => {
+  deleteRequest = async (jobOfferID, request) => {
     if (
       await confirmation('Are you sure?', 'This will totally discard the selected student', {
         text: 'DELETE',
         description: "Please, type 'DELETE' to confirm"
       })
     ) {
-      this.props.rejectStudentInterview(jobOfferID);
+      this.props.rejectStudentInterview(jobOfferID, request);
     }
   };
 
@@ -93,8 +93,8 @@ class RequestsView extends Component {
                       key={request.id}
                       user={Usuarios[request.studentID]}
                       jobOffer={JobOffers[request.jobOfferID]}
-                      acceptRequest={() => this.acceptRequest(request.id, request.jobOfferID)}
-                      deleteRequest={() => this.deleteRequest(request.id)}
+                      acceptRequest={() => this.acceptRequest(request.id, request)}
+                      deleteRequest={() => this.deleteRequest(request.id, request)}
                       setUserModal={() => this.setUserModal(request.studentID)}
                     />
                   );
@@ -106,7 +106,7 @@ class RequestsView extends Component {
                     key={request.id}
                     user={Usuarios[request.studentID]}
                     jobOffer={JobOffers[request.jobOfferID]}
-                    acceptRequest={() => this.acceptRequest(request.id, request.jobOfferID)}
+                    acceptRequest={() => this.acceptRequest(request.id, request)}
                     deleteRequest={() => this.deleteRequest(request.id)}
                     setUserModal={() => this.setUserModal(request.studentID)}
                   />
@@ -158,7 +158,8 @@ const mapDispatchToProps = dispatch => {
   return {
     acceptStudentInterview: (sJID, jobOfferID) =>
       dispatch(acceptStudentInterview(sJID, jobOfferID)),
-    rejectStudentInterview: jobOfferID => dispatch(rejectStudentInterview(jobOfferID))
+    rejectStudentInterview: (jobOfferID, request) =>
+      dispatch(rejectStudentInterview(jobOfferID, request))
   };
 };
 

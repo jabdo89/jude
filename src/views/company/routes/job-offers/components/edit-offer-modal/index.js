@@ -34,7 +34,7 @@ class NewOfferModal extends Component {
     if (event.key === 'Enter' && requirement) {
       event.preventDefault();
       this.setState({
-        requirements: [...requirements, requirement],
+        requirements: [...requirements, requirement.toUpperCase()],
         requirement: ''
       });
     }

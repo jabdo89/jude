@@ -41,6 +41,20 @@ class JobOffers extends Component {
     return false;
   };
 
+  checkMajor = offer => {
+    const { profile } = this.props;
+    let i;
+    if (offer === undefined) {
+      return true;
+    }
+    for (i = 0; i < offer.length; i++) {
+      if (offer[i] === profile.major) {
+        return true;
+      }
+    }
+    return false;
+  };
+
   render() {
     const { Offers } = this.props;
     const { budgetFilter, requirementFilter } = this.state;
@@ -58,7 +72,8 @@ class JobOffers extends Component {
             Offers.map(offer => {
               if (
                 offer.budget >= parseInt(budgetFilter, 10) &&
-                this.checkRequirement(offer.requirements)
+                this.checkRequirement(offer.requirements) &&
+                this.checkMajor(offer.major)
               ) {
                 return <OfferCard key={offer.id} offer={offer} />;
               }
@@ -71,11 +86,13 @@ class JobOffers extends Component {
 }
 
 JobOffers.defaultProps = {
-  Offers: undefined
+  Offers: undefined,
+  profile: undefined
 };
 
 JobOffers.propTypes = {
-  Offers: PropTypes.arrayOf(PropTypes.object)
+  Offers: PropTypes.arrayOf(PropTypes.object),
+  profile: PropTypes.object
 };
 
 const mapStateToProps = state => {

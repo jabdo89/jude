@@ -23,6 +23,11 @@ const Profile = Loadable({
   loading: TopBarProgress
 });
 
+const Test = Loadable({
+  loader: () => import('./routes/test'),
+  loading: TopBarProgress
+});
+
 const Company = () => (
   <Switch>
     <Route path="/job-offers">
@@ -36,6 +41,9 @@ const Company = () => (
     </Route>
     <Route path="/@:username">
       <Profile />
+    </Route>
+    <Route path="/personalityTest">
+      <Test />
     </Route>
     <Redirect to="/job-offers" />
   </Switch>

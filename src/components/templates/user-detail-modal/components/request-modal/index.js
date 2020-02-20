@@ -21,8 +21,9 @@ class RequestModal extends Component {
     });
 
   handleSubmit = () => {
-    const { user, toggleRequestModal } = this.props;
-    this.props.createJobOfferyStudent(this.state.request, user);
+    const { user, toggleRequestModal, OffersObj } = this.props;
+    const { request } = this.state;
+    this.props.createJobOfferyStudent(this.state.request, user, OffersObj[request]);
     toggleRequestModal();
   };
 
@@ -67,7 +68,8 @@ class RequestModal extends Component {
 }
 
 RequestModal.defaultProps = {
-  Offers: undefined
+  Offers: undefined,
+  OffersObj: undefined
 };
 
 RequestModal.propTypes = {
@@ -77,12 +79,14 @@ RequestModal.propTypes = {
   toggleRequestModal: PropTypes.func.isRequired,
   createJobOfferyStudent: PropTypes.func.isRequired,
   requestErrorCompany: PropTypes.string.isRequired,
-  clearRequestCompany: PropTypes.func.isRequired
+  clearRequestCompany: PropTypes.func.isRequired,
+  OffersObj: PropTypes.object
 };
 
 const mapStateToProps = state => {
   return {
     Offers: state.firestore.ordered.JobOffers,
+    OffersObj: state.firestore.data.JobOffers,
     uid: state.firebase.auth.uid,
     requestErrorCompany: state.student.requestErrorCompany
   };
@@ -90,8 +94,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    createJobOfferyStudent: (jobOfferStudent, user) =>
-      dispatch(createJobOfferyStudent(jobOfferStudent, user)),
+    createJobOfferyStudent: (jobOfferStudent, user, jobOffer) =>
+      dispatch(createJobOfferyStudent(jobOfferStudent, user, jobOffer)),
     clearRequestCompany: activity => dispatch(clearRequestCompany(activity))
   };
 };

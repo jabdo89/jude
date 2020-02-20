@@ -17,6 +17,12 @@ const getIcon = type => {
   if (type === 'Confirmed Request') {
     return <MdDone />;
   }
+  if (type === 'Hired! Congratulations!') {
+    return <MdDone />;
+  }
+  if (type === 'Interview Denied') {
+    return <MdBlock />;
+  }
 
   return null;
 };
@@ -33,6 +39,12 @@ const getType = type => {
   if (type === 'Confirmed Request') {
     return 'success';
   }
+  if (type === 'Hired! Congratulations!') {
+    return 'success';
+  }
+  if (type === 'Interview Denied') {
+    return 'danger';
+  }
 
   return null;
 };
@@ -48,6 +60,12 @@ const getDesc = (jobOffer, type) => {
 
   if (type === 'Confirmed Request') {
     return `Look for ${jobOffer} in messages `;
+  }
+  if (type === 'Hired! Congratulations!') {
+    return `Congratulations on being accepted to ${jobOffer}`;
+  }
+  if (type === 'Interview Denied') {
+    return `Unfortunetly your interview for ${jobOffer} was denied`;
   }
 
   return null;
