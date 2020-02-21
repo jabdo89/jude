@@ -1,6 +1,7 @@
 import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import AuthLayout from '@layouts/auth';
+import { isMobile } from 'react-device-detect';
 import TopBarProgress from 'react-topbar-progress-indicator';
 import Loadable from 'react-loadable';
 
@@ -15,7 +16,7 @@ const Signup = Loadable({
 });
 
 const Public = () => (
-  <AuthLayout>
+  <AuthLayout isMobile={isMobile}>
     <Switch>
       <Route path="/login">
         <Login />

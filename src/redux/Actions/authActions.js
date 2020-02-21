@@ -141,3 +141,15 @@ export const updateProfilePic = (url, userID) => {
       });
   };
 };
+
+export const updateCurriculum = (url, userID) => {
+  return (dispatch, getState, getFirebase) => {
+    const firebase = getFirebase();
+    const db = firebase.firestore();
+    db.collection('Usuarios')
+      .doc(userID)
+      .update({
+        resume: url
+      });
+  };
+};

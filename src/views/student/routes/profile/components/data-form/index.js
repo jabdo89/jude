@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import firebase from 'firebase';
 import { connect } from 'react-redux';
+import { updateCurriculum } from '@actions/authActions';
 import { editProfile } from '@actions/jobOfferActions';
 import shortId from 'shortid';
 import Modal from '@common/modal';
@@ -27,16 +29,56 @@ class DataForm extends Component {
       major: props.user.major,
       showResumeModal: false,
       skills: props.user.skills,
-      skill: ''
+      skill: '',
+      resume: '',
+      url: ''
     };
   }
+
+  updateResume = () => {
+    const { user } = this.props;
+    const { resume } = this.state;
+    const storage = firebase.storage();
+    const uploadTaskPDF = storage.ref(`curriculums/${user.email}`).put(resume);
+    uploadTaskPDF.on(
+      'state_changed',
+      snapshot => {
+        // progress function ...
+        const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+        // eslint-disable-next-line react/no-unused-state
+        this.setState({ progress });
+      },
+      error => {
+        // Error function ...
+        console.error(error);
+      },
+      () => {
+        // complete function ...
+        storage
+          .ref('curriculums')
+          .child(user.email)
+          .getDownloadURL()
+          .then(url => {
+            // eslint-disable-next-line react/no-unused-state
+            this.setState({ url });
+            this.props.updateCurriculum(url, user.userID);
+            this.setState({
+              resume: '',
+              showResumeModal: false
+            });
+          });
+      }
+    );
+  };
 
   toggleResumeModal = () =>
     this.setState(({ showResumeModal }) => ({ showResumeModal: !showResumeModal }));
 
   // eslint-disable-next-line no-unused-vars
   setFile = file => {
-    // handleFile
+    this.setState({
+      resume: file
+    });
   };
 
   handleInputChange = ({ target: { name, value } }) => this.setState({ [name]: value });
@@ -75,7 +117,8 @@ class DataForm extends Component {
       major,
       showResumeModal,
       skills,
-      skill
+      skill,
+      resume
     } = this.state;
     return (
       <Box mt={20} px={20}>
@@ -168,7 +211,7 @@ class DataForm extends Component {
         </Box>
         <Modal
           active={showResumeModal}
-          title="Cambiar foto de perfil"
+          title="Change Curriculum"
           closeButton={this.toggleResumeModal}
           primaryColor="primary"
         >
@@ -178,8 +221,12 @@ class DataForm extends Component {
             acceptMessage="Drop here"
             rejectMessage="Only PDF is supported"
             setFile={this.setFile}
+            file={resume}
             maxSize={5000000}
           />
+          <Button onClick={this.updateResume} variant="hard" color="primary">
+            Change resume
+          </Button>
         </Modal>
       </Box>
     );
@@ -191,6 +238,7 @@ DataForm.propTypes = {
     id: PropTypes.string,
     username: PropTypes.string.isRequired,
     firstName: PropTypes.string.isRequired,
+    userID: PropTypes.string,
     email: PropTypes.string.isRequired,
     lastName: PropTypes.string.isRequired,
     semester: PropTypes.number.isRequired,
@@ -199,12 +247,14 @@ DataForm.propTypes = {
     resume: PropTypes.string.isRequired,
     skills: PropTypes.array.isRequired
   }).isRequired,
-  editProfile: PropTypes.func.isRequired
+  editProfile: PropTypes.func.isRequired,
+  updateCurriculum: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    editProfile: profile => dispatch(editProfile(profile))
+    editProfile: profile => dispatch(editProfile(profile)),
+    updateCurriculum: (url, user) => dispatch(updateCurriculum(url, user))
   };
 };
 

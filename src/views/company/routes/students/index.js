@@ -42,7 +42,7 @@ class Company extends Component {
       Usuarios = refState.recommended;
     }
     let action;
-    if (Usuarios !== undefined) {
+    if (Usuarios !== undefined && Usuarios[studentIndex] !== undefined) {
       action = (
         <UserDetailModal
           user={Usuarios[studentIndex]}
@@ -65,7 +65,7 @@ class Company extends Component {
         <Container>
           {Usuarios &&
             Usuarios.map((user, index) => {
-              if (semesterFilter === 'any' && majorFilter === 'any') {
+              if (semesterFilter === 'any' && majorFilter === 'any' && user.rol === 'Student') {
                 return (
                   <StudentCard
                     key={user.id}
@@ -74,7 +74,7 @@ class Company extends Component {
                   />
                 );
               }
-              if (semesterFilter !== 'any' && majorFilter === 'any') {
+              if (semesterFilter !== 'any' && majorFilter === 'any' && user.rol === 'Student') {
                 if (user.semester === semesterFilter) {
                   return (
                     <StudentCard
@@ -87,7 +87,7 @@ class Company extends Component {
                 return null;
               }
               if (semesterFilter === 'any' && majorFilter !== 'any') {
-                if (user.major === majorFilter) {
+                if (user.major === majorFilter && user.rol === 'Student') {
                   return (
                     <StudentCard
                       key={user.id}
@@ -99,7 +99,11 @@ class Company extends Component {
                 return null;
               }
               if (semesterFilter !== 'any' && majorFilter !== 'any') {
-                if (user.major === majorFilter && user.semester === semesterFilter) {
+                if (
+                  user.major === majorFilter &&
+                  user.semester === semesterFilter &&
+                  user.rol === 'Student'
+                ) {
                   return (
                     <StudentCard
                       key={user.id}

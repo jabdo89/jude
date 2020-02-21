@@ -6,7 +6,7 @@ import Typography from '@common/typography';
 import Avatar from '@common/avatar';
 import Bubble from './elements';
 
-const Message = ({ otherProfileImg, isYours, message, sentAt, seenAt }) => (
+const Message = ({ otherProfileImg, isYours, message, sentAt, seenAt, yourImage }) => (
   <Box display="flex" justifyContent={isYours ? 'flex-end' : 'flex-start'}>
     {!isYours && <Avatar mt={5} mr={5} src={otherProfileImg || '/static/img/general/avatar.png'} />}
 
@@ -26,14 +26,7 @@ const Message = ({ otherProfileImg, isYours, message, sentAt, seenAt }) => (
         )}
       </Box>
     </Box>
-    {isYours && (
-      <Avatar
-        mt={5}
-        ml={5}
-        // eslint-disable-next-line react/jsx-curly-brace-presence
-        src={/* Place authenticated user profileImg here  || */ '/static/img/general/avatar.png'}
-      />
-    )}
+    {isYours && <Avatar mt={5} ml={5} src={yourImage || '/static/img/general/avatar.png'} />}
   </Box>
 );
 
@@ -42,7 +35,8 @@ Message.propTypes = {
   message: PropTypes.string.isRequired,
   isYours: PropTypes.bool.isRequired,
   sentAt: PropTypes.any.isRequired,
-  seenAt: PropTypes.any.isRequired
+  seenAt: PropTypes.any.isRequired,
+  yourImage: PropTypes.string.isRequired
 };
 
 export default Message;

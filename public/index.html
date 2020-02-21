@@ -36,5 +36,19 @@
         console.log('Here is the personality JSON response:', response);
       };
     </script>
+
+    <script src="/__/firebase/7.8.2/firebase-app.js"></script>
+
+    <!-- Add the Performance Monitoring library -->
+    <script src="/__/firebase/7.8.2/firebase-performance.js"></script>
+    <script src="/__/firebase/init.js"></script>
+
+    <script src="/__/firebase/7.9.0/firebase-analytics.js"></script>
+
+    <!-- Initialize Performance Monitoring and get a reference to the service -->
+    <script>
+      var perf = firebase.performance();
+      // ...
+    </script>
   </body>
 </html>

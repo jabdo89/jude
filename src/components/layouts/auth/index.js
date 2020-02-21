@@ -13,7 +13,7 @@ import {
   LogoContainer
 } from './elements';
 
-const AuthLayout = ({ children }) => (
+const AuthLayout = ({ children, isMobile }) => (
   <Fragment>
     <LeftContainer>
       <Background src="/static/img/login/jude_homescreen_backgroung.png" alt="logo" />
@@ -23,16 +23,19 @@ const AuthLayout = ({ children }) => (
       <EnterWord color="lighter">Authenticate yourself to continue</EnterWord>
       <LogoBig src="/static/img/brand/jude_logo.png" alt="logo" />
     </LeftContainer>
-    <LogoContainer>
-      <LogoMain src="/static/img/brand/jude_logo.png" alt="logo" />
-      <UDEWord color="primary">UDE</UDEWord>
-    </LogoContainer>
+    {isMobile ? null : (
+      <LogoContainer>
+        <LogoMain src="/static/img/brand/jude_logo.png" alt="logo" />
+        <UDEWord color="primary">UDE</UDEWord>
+      </LogoContainer>
+    )}
     {children}
   </Fragment>
 );
 
 AuthLayout.propTypes = {
-  children: PropTypes.any.isRequired
+  children: PropTypes.any.isRequired,
+  isMobile: PropTypes.bool.isRequired
 };
 
 export default AuthLayout;

@@ -88,6 +88,7 @@ class ChatContent extends Component {
                 messages.map(({ id, message, timestamp, sender }) => (
                   <Message
                     otherProfileImg={user.profileImg}
+                    yourImage={profile.profileImg}
                     key={id}
                     message={message}
                     sentAt={timestamp}

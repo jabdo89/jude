@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { FiMenu, FiBell } from 'react-icons/fi';
+import { FiBell } from 'react-icons/fi';
 import { withRouter } from 'react-router-dom';
 import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
@@ -11,7 +11,6 @@ import {
   Container,
   Routes,
   Content,
-  MenuButton,
   Route,
   Divider,
   NotificationButton,
@@ -74,9 +73,9 @@ class Navbar extends Component {
               <FiBell />
               <Qty>{NotificationsCount}</Qty>
             </NotificationButton>
-            <MenuButton onClick={this.toggleMenu}>
+            {/* <MenuButton onClick={this.toggleMenu}>
               <FiMenu />
-            </MenuButton>
+            </MenuButton> */}
           </Content>
         </Container>
         <ResponsiveMenu active={isMenuOpen} closeModal={this.toggleMenu} />
