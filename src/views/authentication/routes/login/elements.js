@@ -3,7 +3,7 @@ import CommonInput from '@common/input';
 
 const Form = styled.form`
   margin-left: 45%;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;

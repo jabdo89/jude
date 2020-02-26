@@ -9,7 +9,6 @@ const Container = styled.div`
   bottom: 0;
   z-index: 1;
   background: ${props => props.theme.colors.default};
-  overflow-y: scroll;
   ::-webkit-scrollbar {
     display: none;
   }
