@@ -5,7 +5,7 @@ import Modal from '@common/modal';
 import Button from '@common/button';
 import Avatar from '@common/avatar';
 import Typography from '@common/typography';
-import { Row, Column, ActionsContainer, DownloadIcon, RightIcon } from './elements';
+import { Row, Column, ActionsContainer, DownloadIcon, RightIcon, Pending } from './elements';
 // import Chart from './components/chart';
 import RequestModal from './components/request-modal/index';
 
@@ -60,9 +60,22 @@ class DetailModal extends Component {
                 </Button>
               </ActionsContainer>
             </Column>
-            {/* <Column basis="60">
-              <Chart />
-            </Column> */}
+            <Column basis="60">
+              <Pending>
+                <Typography
+                  fontSize="14px"
+                  mb={20}
+                  color="white"
+                  pt="30%"
+                  pb="30%"
+                  pl="10%"
+                  display="flex"
+                  justifyContent="center"
+                >
+                  Personality Test Coming Soon!
+                </Typography>
+              </Pending>
+            </Column>
           </Row>
         </Modal>
         <RequestModal

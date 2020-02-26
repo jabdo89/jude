@@ -27,7 +27,8 @@ class AddCompany extends Component {
       description: '',
       email: '',
       showCropModal: false,
-      url: ''
+      url: '',
+      password: ''
     };
   }
 
@@ -76,7 +77,15 @@ class AddCompany extends Component {
   };
 
   render() {
-    const { companyName, email, website, description, companyPhoto, showCropModal } = this.state;
+    const {
+      companyName,
+      email,
+      website,
+      description,
+      companyPhoto,
+      showCropModal,
+      password
+    } = this.state;
     return (
       <Box mt={20} px={20}>
         <Typography mb={30} variant="leadText">
@@ -122,6 +131,13 @@ class AddCompany extends Component {
           name="description"
           rows="5"
           leftIcon={<FaBars />}
+        />
+        <Input
+          label="Password"
+          name="password"
+          onChange={this.handleInputChange}
+          value={password}
+          leftIcon={<FaBuilding />}
         />
         <Box mt={20} display="flex" justifyContent="flex-end">
           <Button ml={10} variant="soft" color="primary" onClick={this.signUpCompany}>

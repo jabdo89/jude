@@ -67,6 +67,9 @@ class JobOffers extends Component {
           requirementFilterUpdate={this.updateRequirementFilter}
           requirementValue={requirementFilter}
         />
+        <Box pb={30}>
+          By requesting a JobOffer you let them know you are interested in interviewing.
+        </Box>
         <Container>
           {Offers &&
             Offers.map(offer => {

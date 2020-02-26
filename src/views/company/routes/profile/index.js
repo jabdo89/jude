@@ -1,12 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { NotificationContainer } from 'react-notifications';
 import ProfileCard from './components/profile-card';
 import { Container, Column } from './elements';
 import DataForm from './components/data-form';
 
 const Profile = ({ User }) => (
   <Container>
+    <NotificationContainer />
     <Column basis="60">
       <DataForm user={User} />
     </Column>

@@ -35,11 +35,24 @@ class Company extends Component {
     this.setState({ semesterFilter: filter });
   };
 
+  checkRecomended = (usuario, recommendedArray) => {
+    for (let i = 0; i < 5; i++) {
+      // console.log(recommendedArray[i].userID.userID);
+      if (usuario.userID === recommendedArray[i].userID.userID) {
+        return true;
+      }
+    }
+    return false;
+  };
+
   render() {
     const { activeModal, studentIndex, refState, semesterFilter, majorFilter } = this.state;
     let { Usuarios } = this.props;
+    // let recommendedArray;
     if (refState) {
-      Usuarios = refState.recommended;
+      // console.log(refState.recommended);
+      // recommendedArray = refState.recommended;
+      Usuarios = refState.recommended.data.slice(0, 5);
     }
     let action;
     if (Usuarios !== undefined && Usuarios[studentIndex] !== undefined) {
@@ -65,17 +78,8 @@ class Company extends Component {
         <Container>
           {Usuarios &&
             Usuarios.map((user, index) => {
-              if (semesterFilter === 'any' && majorFilter === 'any' && user.rol === 'Student') {
-                return (
-                  <StudentCard
-                    key={user.id}
-                    setStudent={() => this.setStudent(index)}
-                    user={user}
-                  />
-                );
-              }
-              if (semesterFilter !== 'any' && majorFilter === 'any' && user.rol === 'Student') {
-                if (user.semester === semesterFilter) {
+              if (!refState) {
+                if (semesterFilter === 'any' && majorFilter === 'any' && user.rol === 'Student') {
                   return (
                     <StudentCard
                       key={user.id}
@@ -84,37 +88,66 @@ class Company extends Component {
                     />
                   );
                 }
-                return null;
-              }
-              if (semesterFilter === 'any' && majorFilter !== 'any') {
-                if (user.major === majorFilter && user.rol === 'Student') {
-                  return (
-                    <StudentCard
-                      key={user.id}
-                      setStudent={() => this.setStudent(index)}
-                      user={user}
-                    />
-                  );
+                if (semesterFilter !== 'any' && majorFilter === 'any' && user.rol === 'Student') {
+                  if (user.semester === semesterFilter) {
+                    return (
+                      <StudentCard
+                        key={user.id}
+                        setStudent={() => this.setStudent(index)}
+                        user={user}
+                      />
+                    );
+                  }
+                  return null;
+                }
+                if (semesterFilter === 'any' && majorFilter !== 'any') {
+                  if (user.major === majorFilter && user.rol === 'Student') {
+                    return (
+                      <StudentCard
+                        key={user.id}
+                        setStudent={() => this.setStudent(index)}
+                        user={user}
+                      />
+                    );
+                  }
+                  return null;
+                }
+                if (semesterFilter !== 'any' && majorFilter !== 'any') {
+                  if (
+                    user.major === majorFilter &&
+                    user.semester === semesterFilter &&
+                    user.rol === 'Student'
+                  ) {
+                    return (
+                      <StudentCard
+                        key={user.id}
+                        setStudent={() => this.setStudent(index)}
+                        user={user}
+                      />
+                    );
+                  }
+                  return null;
                 }
                 return null;
               }
-              if (semesterFilter !== 'any' && majorFilter !== 'any') {
-                if (
-                  user.major === majorFilter &&
-                  user.semester === semesterFilter &&
-                  user.rol === 'Student'
-                ) {
-                  return (
-                    <StudentCard
-                      key={user.id}
-                      setStudent={() => this.setStudent(index)}
-                      user={user}
-                    />
-                  );
-                }
-                return null;
-              }
-              return null;
+              // if (this.checkRecomended(user.id, recommendedArray.data)) {
+              //   console.log(user);
+              //   return (
+              //     <StudentCard
+              //       key={user.id}
+              //       setStudent={() => this.setStudent(index)}
+              //       user={user}
+              //     />
+              //   );
+              // }
+              // return null;
+              return (
+                <StudentCard
+                  key={user.id}
+                  setStudent={() => this.setStudent(index)}
+                  user={user.userID}
+                />
+              );
             })}
         </Container>
         {action}

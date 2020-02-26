@@ -1,9 +1,16 @@
+/* eslint-disable no-shadow */
 /* eslint-disable jsx-a11y/mouse-events-have-key-events */
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import firebase from 'firebase';
 import { connect } from 'react-redux';
-import { updateProfilePic } from '@actions/authActions';
+import { NotificationManager } from 'react-notifications';
+import 'react-notifications/lib/notifications.css';
+import {
+  updateProfilePic,
+  companyChangePassword,
+  clearCompanyPassword
+} from '@actions/authActions';
 import { Card, CardBody } from '@common/card';
 import Modal from '@common/modal';
 import toast from '@common/toast';
@@ -82,9 +89,26 @@ class ProfileCard extends Component {
 
   toggleEdit = showEdit => this.setState({ showEdit });
 
+  sendPasswordChangeEmail = email => {
+    this.props.companyChangePassword(email);
+  };
+
   render() {
     const { showEdit, uploadingProfileImg, showProfileModal } = this.state;
-    const { user } = this.props;
+    const { user, companyChangePasswordValue } = this.props;
+
+    if (companyChangePasswordValue === 'Company Password Changed Succesfully') {
+      NotificationManager.success(
+        'Check your emails to change your password',
+        'Email sent Succesfully!'
+      );
+      this.props.clearCompanyPassword(this.state);
+    }
+    if (companyChangePasswordValue === 'Company Password Error') {
+      NotificationManager.warning('Please try again :(', 'Error on Request');
+      this.props.clearCompanyPassword(this.state);
+    }
+
     return (
       <Fragment>
         <Card mt={80}>
@@ -118,6 +142,7 @@ class ProfileCard extends Component {
               companyName={user.companyName}
               major={user.major}
               semester={user.semester}
+              changePassword={() => this.sendPasswordChangeEmail(user.email)}
             />
           </CardBody>
         </Card>
@@ -153,13 +178,24 @@ ProfileCard.propTypes = {
     major: PropTypes.string.isRequired,
     resume: PropTypes.string.isRequired
   }).isRequired,
-  updateProfilePic: PropTypes.func.isRequired
+  updateProfilePic: PropTypes.func.isRequired,
+  companyChangePassword: PropTypes.func.isRequired,
+  clearCompanyPassword: PropTypes.func.isRequired,
+  companyChangePasswordValue: PropTypes.string.isRequired
+};
+
+const mapStateToProps = state => {
+  return {
+    companyChangePasswordValue: state.auth.companyChangePassword
+  };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    updateProfilePic: (url, user) => dispatch(updateProfilePic(url, user))
+    updateProfilePic: (url, user) => dispatch(updateProfilePic(url, user)),
+    companyChangePassword: email => dispatch(companyChangePassword(email)),
+    clearCompanyPassword: email => dispatch(clearCompanyPassword(email))
   };
 };
 
-export default connect(null, mapDispatchToProps)(ProfileCard);
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileCard);

@@ -82,7 +82,6 @@ export const createCompany = newCompany => {
   return (dispatch, getState, getFirebase) => {
     const firebase = getFirebase();
     const db = firebase.firestore();
-    const password = '123456';
     let url;
     if (newCompany.url === undefined) {
       url = '';
@@ -97,7 +96,7 @@ export const createCompany = newCompany => {
         if (snapshot.empty) {
           firebase
             .auth()
-            .createUserWithEmailAndPassword(newCompany.email, password)
+            .createUserWithEmailAndPassword(newCompany.email, newCompany.password)
             .then(resp => {
               return db
                 .collection('Usuarios')
@@ -151,5 +150,27 @@ export const updateCurriculum = (url, userID) => {
       .update({
         resume: url
       });
+  };
+};
+
+export const companyChangePassword = email => {
+  return (dispatch, getState, getFirebase) => {
+    const firebase = getFirebase();
+    firebase
+      .auth()
+      .sendPasswordResetEmail(email)
+      .then(() => {
+        dispatch({ type: 'COMPANY_PASSWORD_CHANGE' });
+      })
+      .catch(err => {
+        console.error(err);
+        dispatch({ type: 'COMPANY_PASSWORD_ERR', err });
+      });
+  };
+};
+
+export const clearCompanyPassword = activity => {
+  return dispatch => {
+    dispatch({ type: 'COMPANY_PASSWORD_RESET', activity });
   };
 };

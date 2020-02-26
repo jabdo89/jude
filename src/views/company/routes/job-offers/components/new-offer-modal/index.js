@@ -40,6 +40,21 @@ const weekDays = [
   'Sunday'
 ];
 
+const months = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December'
+];
+
 const careers = ['Computer Science', 'Business & Technology'];
 class NewOfferModal extends Component {
   state = initialState;
@@ -217,23 +232,36 @@ class NewOfferModal extends Component {
             </Select>
           </Row>
           <Row>
-            <Input
+            <Select
               label="From"
               required
               onChange={this.handleScheduleDesc}
               value={scheduleDesc.startHour}
               name="startHour"
-              type="time"
               mr={5}
-            />
-            <Input
+            >
+              <option value="" hidden></option>
+              {months.map(day => (
+                <option key={day} value={day}>
+                  {day}
+                </option>
+              ))}
+            </Select>
+            <Select
               label="To"
               required
               onChange={this.handleScheduleDesc}
               value={scheduleDesc.endHour}
-              type="time"
               name="endHour"
-            />
+              mr={5}
+            >
+              <option value="" hidden></option>
+              {months.map(day => (
+                <option key={day} value={day}>
+                  {day}
+                </option>
+              ))}
+            </Select>
           </Row>
           <Input
             label="Requirements (press enter to add)"

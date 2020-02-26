@@ -12,6 +12,13 @@ const Row = styled.div`
   `}
 `;
 
+const Pending = styled.div`
+  height: 100%;
+  background-color: gray;
+  position: relative;
+  padding: 20%;
+`;
+
 const Column = styled(Box)`
   flex-basis: ${props => props.basis}%;
   margin-right: 20px;
@@ -51,4 +58,4 @@ const FooterButton = styled(Button)`
   }
 `;
 
-export { Row, Column, ActionsContainer, DownloadIcon, FooterButton, RightIcon };
+export { Row, Column, ActionsContainer, Pending, DownloadIcon, FooterButton, RightIcon };
