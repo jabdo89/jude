@@ -31,21 +31,8 @@ import {
   ActionButton
 } from './elements';
 
-// Remove after placing api call
-// const getRecommendedByAlgoritmoMamado = qty =>
-//   new Array(qty).fill().map(() => ({
-//     id: faker.random.uuid(),
-//     firstName: faker.name.firstName(),
-//     lastName: faker.name.lastName(),
-//     profileImg: faker.image.avatar(),
-//     semester: Math.round(Math.random() * 9) + 1,
-//     description: faker.lorem.paragraph(),
-//     major: Math.random() > 0.5 ? 'ITC' : 'INT',
-//     resume: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf'
-//   }));
-
 class OfferCard extends Component {
-  showRecommendedStudents = () => {
+  showRecommendedStudents = async () => {
     const {
       history: { push },
       offer: { name },
@@ -53,9 +40,10 @@ class OfferCard extends Component {
       students
     } = this.props;
     // Replace with an api call or something mamadísimo
+    const reqLength = offer.requirements.length;
     const functions = firebase.functions();
     const recommendedAlgo = functions.httpsCallable('recommendStudent');
-    const recommended = recommendedAlgo({ offer, students });
+    const recommended = await recommendedAlgo({ offer, students, reqLength });
     push({
       pathname: '/students',
       state: {
@@ -122,7 +110,7 @@ class OfferCard extends Component {
                 </TypographyWithIcon>
                 <TypographyWithIcon mt={5} variant="muted">
                   <FaRegClock />
-                  From {offer.scheduleDesc.startHour} hrs. to {offer.scheduleDesc.endHour} hrs.
+                  From {offer.scheduleDesc.startHour} to {offer.scheduleDesc.endHour}
                 </TypographyWithIcon>
                 <Typography color="primary" mt={20} mb={5} fontWeight="bold">
                   Major required

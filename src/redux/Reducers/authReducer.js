@@ -1,7 +1,8 @@
 const initState = {
   auth: [
     {
-      authError: null
+      authError: null,
+      companyChangePassword: null
     }
   ]
 };
@@ -32,6 +33,21 @@ const authReducer = (state = initState, action) => {
       return {
         ...state,
         authError: 'User already exist, please log in'
+      };
+    case 'COMPANY_PASSWORD_CHANGE':
+      return {
+        ...state,
+        companyChangePassword: 'Company Password Changed Succesfully'
+      };
+    case 'COMPANY_PASSWORD_ERR':
+      return {
+        ...state,
+        companyChangePassword: 'Company Password Error'
+      };
+    case 'COMPANY_PASSWORD_RESET':
+      return {
+        ...state,
+        companyChangePassword: null
       };
     default:
       return state;

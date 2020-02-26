@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import DashboardLayout from '@layouts/dashboard';
 import TopBarProgress from 'react-topbar-progress-indicator';
 import theme from 'theme';
@@ -18,6 +18,12 @@ TopBarProgress.config({
   barThickness: 2,
   shadowColor: theme.colors.default
 });
+
+function AuthIsLoaded() {
+  const auth = useSelector(state => state.firebase.auth);
+  if (auth.isEmpty) return true;
+  return false;
+}
 
 const App = ({ profile }) => {
   if (profile.rol === 'Company') {
@@ -43,8 +49,10 @@ const App = ({ profile }) => {
       </DashboardLayout>
     );
   }
-
-  return <Authentication />;
+  if (AuthIsLoaded()) {
+    return <Authentication />;
+  }
+  return <div />;
 };
 
 App.defaultProps = {

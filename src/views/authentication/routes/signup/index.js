@@ -305,7 +305,7 @@ class Login extends Component {
                 </Button>
               </Box>
               <Textarea
-                label="Description"
+                label="Description (What do you have most experience in and what projects would you like to work in)"
                 value={description}
                 onChange={this.handleChange}
                 name="description"

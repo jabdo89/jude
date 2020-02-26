@@ -5,14 +5,14 @@ import PropTypes from 'prop-types';
 import Typography from '@common/typography';
 import Pill from '@common/pill';
 
-const Info = ({ firstName, lastName, username, description, major, semester }) => (
+const Info = ({ firstName, lastName, description, major, semester }) => (
   <Fragment>
     <Typography mt={20} textAlign="center" variant="headingTitle" color="default">
       {firstName} {lastName}
     </Typography>
-    <Typography mt={5} textAlign="center" variant="muted" fontWeight="bold">
+    {/* <Typography mt={5} textAlign="center" variant="muted" fontWeight="bold">
       @{username}
-    </Typography>
+    </Typography> */}
     <Pill mx="auto" my={10} variant="soft" color="primary">
       Student
     </Pill>
@@ -37,7 +37,6 @@ const Info = ({ firstName, lastName, username, description, major, semester }) =
 Info.propTypes = {
   firstName: PropTypes.string.isRequired,
   lastName: PropTypes.string.isRequired,
-  username: PropTypes.string.isRequired,
   major: PropTypes.string.isRequired,
   semester: PropTypes.number.isRequired,
   description: PropTypes.string.isRequired

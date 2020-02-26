@@ -106,7 +106,7 @@ class OfferCard extends Component {
             </TypographyWithIcon>
             <TypographyWithIcon mt={5} variant="muted">
               <FaRegClock />
-              From {offer.scheduleDesc.startHour} hrs. to {offer.scheduleDesc.endHour} hrs.
+              From {offer.scheduleDesc.startHour} to {offer.scheduleDesc.endHour}
             </TypographyWithIcon>
             <Typography color="primary" mt={20} mb={5} fontWeight="bold">
               Major required
