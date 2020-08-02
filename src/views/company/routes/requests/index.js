@@ -6,7 +6,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { acceptStudentInterview, rejectStudentInterview } from '@actions/jobOfferActions';
 import { firestoreConnect } from 'react-redux-firebase';
-import UserDetailModal from '@templates/user-detail-modal';
+import UserDetailModal from '@templates/user-detail-modal-Request';
 import confirmation from '@templates/confirmation';
 import FilterBar from './components/filter-bar';
 import RequestCard from './components/request-card';
@@ -18,10 +18,11 @@ class RequestsView extends Component {
   state = {
     activeModal: false,
     selectedUser: {},
+    selectedJobOffer: {},
     jobOfferFilter: 'any'
   };
 
-  setUserModal = id => {
+  setUserModal = (id, sJID, request) => {
     const { activeModal } = this.state;
     const { Usuarios } = this.props;
     const usuario = Usuarios ? Usuarios[id] : null;
@@ -40,7 +41,11 @@ class RequestsView extends Component {
           semester: usuario.semester,
           description: usuario.description,
           major: usuario.major,
-          resume: usuario.curriculumPDF
+          resume: usuario.resume
+        },
+        selectedJobOffer: {
+          id: sJID,
+          request
         }
       });
     }
@@ -74,7 +79,7 @@ class RequestsView extends Component {
   };
 
   render() {
-    const { selectedUser, activeModal, jobOfferFilter } = this.state;
+    const { selectedUser, activeModal, jobOfferFilter, selectedJobOffer } = this.state;
     const { Requests, Usuarios, JobOffers, profile, JobOffersArray } = this.props;
     return (
       <Box pb={30}>
@@ -83,10 +88,17 @@ class RequestsView extends Component {
           jobOfferFilter={jobOfferFilter}
           updateJobOfferFilter={this.updateJobOfferFilter}
         />
+        <Box pb={30}>
+          These are the students that are interested in your job offers and the request you sent.
+          Click on interview to start chatting with them.
+        </Box>
         <Container>
           {Requests &&
             Requests.map(request => {
-              if (profile.userID === request.companyID && request.status === 'requestedByStudent') {
+              if (
+                profile.userID === request.companyID
+                // (request.status === 'requestedByStudent' || request.status === 'Interviewing')
+              ) {
                 if (jobOfferFilter === 'any') {
                   return (
                     <RequestCard
@@ -95,7 +107,8 @@ class RequestsView extends Component {
                       jobOffer={JobOffers[request.jobOfferID]}
                       acceptRequest={() => this.acceptRequest(request.id, request)}
                       deleteRequest={() => this.deleteRequest(request.id, request)}
-                      setUserModal={() => this.setUserModal(request.studentID)}
+                      setUserModal={() => this.setUserModal(request.studentID, request.id, request)}
+                      status={request.status}
                     />
                   );
                 }
@@ -108,7 +121,8 @@ class RequestsView extends Component {
                     jobOffer={JobOffers[request.jobOfferID]}
                     acceptRequest={() => this.acceptRequest(request.id, request)}
                     deleteRequest={() => this.deleteRequest(request.id)}
-                    setUserModal={() => this.setUserModal(request.studentID)}
+                    setUserModal={() => this.setUserModal(request.studentID, request.id, request)}
+                    status={request.status}
                   />
                 );
               }
@@ -119,6 +133,8 @@ class RequestsView extends Component {
               user={selectedUser}
               active={activeModal}
               closeButton={this.setUserModal}
+              sJID={selectedJobOffer.id}
+              request={selectedJobOffer.request}
             />
           )}
         </Container>
@@ -175,8 +191,7 @@ export default compose(
       },
       { collection: 'Usuarios', where: ['rol', '==', 'Student'] },
       {
-        collection: 'JobOffersyStudents',
-        where: ['status', '==', 'requestedByStudent']
+        collection: 'JobOffersyStudents'
       }
     ];
   })

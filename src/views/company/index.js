@@ -30,6 +30,9 @@ const Profile = Loadable({
 
 const Company = () => (
   <Switch>
+    <Route path="/job-offers">
+      <JobOffers />
+    </Route>
     <Route path="/students">
       <Students />
     </Route>
@@ -39,13 +42,10 @@ const Company = () => (
     <Route path="/messages">
       <Messages />
     </Route>
-    <Route path="/job-offers">
-      <JobOffers />
-    </Route>
     <Route path="/@:username">
       <Profile />
     </Route>
-    <Redirect to="/students" />
+    <Redirect to="/job-offers" />
   </Switch>
 );
 

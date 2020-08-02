@@ -35,6 +35,8 @@ class Messages extends Component {
     if (Conversations !== undefined) {
       Conversations = Conversations.sort((a, b) => b.lMessageTime - a.lMessageTime);
     }
+
+    let chatsCounter = 0;
     const { actualChat, currentUser, jobOfferFilter } = this.state;
     if (Conversations !== undefined && Usuarios !== undefined) {
       return (
@@ -52,10 +54,11 @@ class Messages extends Component {
                 Conversations.map(
                   ({ studentID, seen, lastMessage, jobOfferID, status, companyID }, idx) => {
                     if (
-                      status === 'Interviewing' ||
-                      (status === 'Hired' && profile.userID === companyID)
+                      (status === 'Interviewing' || status === 'Hired') &&
+                      profile.userID === companyID
                     ) {
                       if (jobOfferFilter === '') {
+                        chatsCounter += 1;
                         return (
                           <ConversationCard
                             key={idx.id}
@@ -68,6 +71,7 @@ class Messages extends Component {
                         );
                       }
                       if (jobOfferFilter === jobOfferID) {
+                        chatsCounter += 1;
                         return (
                           <ConversationCard
                             key={idx.id}
@@ -90,7 +94,9 @@ class Messages extends Component {
             {!actualChat ? (
               <Box height="100%" display="flex" alignItems="center" justifyContent="center" p={20}>
                 <Typography textAlign="center" variant="leadText">
-                  Selecciona una conversación
+                  {chatsCounter > 0
+                    ? 'Select a conversation'
+                    : 'No interviews started, check your request to start interviewing students!'}
                 </Typography>
               </Box>
             ) : (

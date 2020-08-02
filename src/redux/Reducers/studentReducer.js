@@ -3,7 +3,8 @@ const initState = {
     {
       studentError: null,
       requestErrorStudent: null,
-      requestErrorCompany: null
+      requestErrorCompany: null,
+      profileSave: null
     }
   ]
 };
@@ -38,6 +39,16 @@ const studentReducer = (state = initState, action) => {
       return {
         ...state,
         requestErrorCompany: null
+      };
+    case 'PROFILE_EDITED':
+      return {
+        ...state,
+        profileSave: 'Profile Saved'
+      };
+    case 'PROFILE_RESET':
+      return {
+        ...state,
+        profileSave: null
       };
     default:
       return state;

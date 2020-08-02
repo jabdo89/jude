@@ -2,7 +2,8 @@ const initState = {
   auth: [
     {
       authError: null,
-      companyChangePassword: null
+      companyChangePassword: null,
+      forgotPasswordError: null
     }
   ]
 };
@@ -48,6 +49,16 @@ const authReducer = (state = initState, action) => {
       return {
         ...state,
         companyChangePassword: null
+      };
+    case 'FORGOT_PASSWORD_SENT':
+      return {
+        ...state,
+        forgotPasswordError: 'Change Password Email Sent Succesfully!'
+      };
+    case 'FORGOT_PASSWORD_ERR':
+      return {
+        ...state,
+        forgotPasswordError: action.err.message
       };
     default:
       return state;

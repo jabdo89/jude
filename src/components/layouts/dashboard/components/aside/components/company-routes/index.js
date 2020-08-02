@@ -7,6 +7,15 @@ import { AsideLine, Option, Icon } from './elements';
 
 const CompanyRoutes = ({ location: { pathname }, username }) => (
   <Fragment>
+    <Link to="/job-offers">
+      <Option active={pathname.includes('job-offers')}>
+        <Icon>
+          <FiStar />
+        </Icon>
+        <p>Job Offers</p>
+        <AsideLine />
+      </Option>
+    </Link>
     <Link to="/students">
       <Option active={pathname.includes('students')}>
         <Icon>
@@ -30,16 +39,7 @@ const CompanyRoutes = ({ location: { pathname }, username }) => (
         <Icon>
           <FiMessageCircle />
         </Icon>
-        <p>Messages</p>
-        <AsideLine />
-      </Option>
-    </Link>
-    <Link to="/job-offers">
-      <Option active={pathname.includes('job-offers')}>
-        <Icon>
-          <FiStar />
-        </Icon>
-        <p>Job Offers</p>
+        <p>Interviews</p>
         <AsideLine />
       </Option>
     </Link>

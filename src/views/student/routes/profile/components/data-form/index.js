@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import firebase from 'firebase';
 import { connect } from 'react-redux';
-import { updateCurriculum } from '@actions/authActions';
+import { updateCurriculum, clearEditProfile } from '@actions/authActions';
 import { editProfile } from '@actions/jobOfferActions';
 import shortId from 'shortid';
+import { NotificationManager } from 'react-notifications';
+import 'react-notifications/lib/notifications.css';
 import Modal from '@common/modal';
 import Typography from '@common/typography';
 import Box from '@common/box';
@@ -120,6 +122,13 @@ class DataForm extends Component {
       skill,
       resume
     } = this.state;
+    const { profileSave } = this.props;
+
+    if (profileSave === 'Profile Saved') {
+      NotificationManager.success('Companies will now see your updated profile', ' Profile Saved');
+      this.props.clearEditProfile(this.state);
+    }
+
     return (
       <Box mt={20} px={20}>
         <Typography mb={30} variant="leadText">
@@ -248,14 +257,23 @@ DataForm.propTypes = {
     skills: PropTypes.array.isRequired
   }).isRequired,
   editProfile: PropTypes.func.isRequired,
-  updateCurriculum: PropTypes.func.isRequired
+  updateCurriculum: PropTypes.func.isRequired,
+  clearEditProfile: PropTypes.func.isRequired,
+  profileSave: PropTypes.string.isRequired
+};
+
+const mapStateToProps = state => {
+  return {
+    profileSave: state.student.profileSave
+  };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     editProfile: profile => dispatch(editProfile(profile)),
+    clearEditProfile: profile => dispatch(clearEditProfile(profile)),
     updateCurriculum: (url, user) => dispatch(updateCurriculum(url, user))
   };
 };
 
-export default connect(null, mapDispatchToProps)(DataForm);
+export default connect(mapStateToProps, mapDispatchToProps)(DataForm);

@@ -7,16 +7,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import Typography from '@common/typography';
 import Box from '@common/box';
-import {
-  Container,
-  Routes,
-  Content,
-  Route,
-  Divider,
-  NotificationButton,
-  Action,
-  Qty
-} from './elements';
+import { Container, Routes, Content, Divider, NotificationButton, Action, Qty } from './elements';
 import ResponsiveMenu from './components/responsive-menu';
 import NotificationsMenu from './components/notifications-menu';
 
@@ -64,9 +55,19 @@ class Navbar extends Component {
               <Action id="action"></Action>
             </Box>
             <Routes>
-              <Route active fontSize="11px">
+              {/* <Route active fontSize="11px">
                 Home
-              </Route>
+              </Route> */}
+              <Typography
+                mr={10}
+                as="h1"
+                fontSize="11px"
+                fontWeight="300"
+                capitalize
+                color="primary"
+              >
+                Notifications
+              </Typography>
             </Routes>
             <Divider />
             <NotificationButton onClick={this.toggleNotifications}>

@@ -53,16 +53,26 @@ class JobOffers extends Component {
     return (
       <Box pb={30}>
         <FilterBar toggleNewOfferModal={this.toggleNewOfferModal} />
+        <Box pb={30}>
+          These are your job offers. Check out <strong>Requests</strong> to see students interested
+          in them or head on over to <strong>Students</strong> to see all the students in Jude!
+        </Box>
         <Container>
-          {Offers.map((offer, idx) => (
-            <OfferCard
-              key={offer.id}
-              setEditOffer={() => this.toggleEditOfferModal(idx)}
-              deleteOffer={() => this.deleteOffer(offer.id)}
-              offer={offer}
-              profile={profile}
-            />
-          ))}
+          {Offers &&
+            Offers.map((offer, idx) => {
+              if (profile.userID === offer.company) {
+                return (
+                  <OfferCard
+                    key={offer.id}
+                    setEditOffer={() => this.toggleEditOfferModal(idx)}
+                    deleteOffer={() => this.deleteOffer(offer.id)}
+                    offer={offer}
+                    profile={profile}
+                  />
+                );
+              }
+              return null;
+            })}
         </Container>
         <NewOfferModal active={isNewOfferOpen} closeButton={this.toggleNewOfferModal} />
         {isEditOfferOpen && (

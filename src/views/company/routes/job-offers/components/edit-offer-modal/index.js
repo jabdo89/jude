@@ -10,9 +10,7 @@ import Input from '@common/input';
 import Select from '@common/select';
 import Textarea from '@common/textarea';
 import Button from '@common/button';
-import { Row, Requirement } from './elements';
-
-const weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+import { Requirement } from './elements';
 
 class NewOfferModal extends Component {
   constructor(props) {
@@ -22,10 +20,11 @@ class NewOfferModal extends Component {
       name: props.offerToEdit.name,
       budget: props.offerToEdit.budget.replace(',', ''),
       description: props.offerToEdit.description,
-      scheduleDesc: props.offerToEdit.scheduleDesc,
+      // scheduleDesc: props.offerToEdit.scheduleDesc,
       requirements: props.offerToEdit.requirements,
       requirement: '',
-      studentsNeeded: ''
+      studentsNeeded: '',
+      typeOfJob: props.offerToEdit.typeOfJob
     };
   }
 
@@ -75,15 +74,36 @@ class NewOfferModal extends Component {
       name,
       budget,
       description,
-      scheduleDesc,
+      typeOfJob,
+      // scheduleDesc,
       requirement,
       requirements,
       studentsNeeded,
       major
     } = this.state;
+
+    let budgetPer;
+    if (typeOfJob === 'Project') {
+      budgetPer = 'Budget for the project (Mexican Pesos)';
+    } else {
+      budgetPer = 'Monthly budget for the offer (Mexican Pesos)';
+    }
     return (
       <Modal size="large" title="Edit offer" active={active} closeButton={closeButton}>
         <form onSubmit={this.handleSubmit}>
+          <Select
+            label="Type of Job Offer"
+            onChange={this.handleInputChange}
+            value={typeOfJob}
+            name="typeOfJob"
+            mr={5}
+          >
+            <option value="" hidden></option>
+            <option value="Part Time">Part Time</option>
+            <option value="Home Office">Home Office</option>
+            <option value="Summer Job">Summer Job</option>
+            <option value="Project">Project</option>
+          </Select>
           <Input
             label="Offer name"
             required
@@ -94,7 +114,7 @@ class NewOfferModal extends Component {
             name="name"
           />
           <Input
-            label="Monthly budget for the offer"
+            label={budgetPer}
             required
             onChange={this.handleNumberChange}
             type="number"
@@ -129,58 +149,8 @@ class NewOfferModal extends Component {
             disabled
             name="description"
           />
-          <Row>
-            <Select
-              label="Week starts at"
-              required
-              onChange={this.handleScheduleDesc}
-              value={scheduleDesc.weekStart}
-              name="weekStart"
-              mr={5}
-            >
-              <option value="" hidden></option>
-              {weekDays.map(day => (
-                <option key={day} value={day}>
-                  {day}
-                </option>
-              ))}
-            </Select>
-            <Select
-              label="Week ends at"
-              required
-              onChange={this.handleScheduleDesc}
-              value={scheduleDesc.weekEnd}
-              name="weekEnd"
-            >
-              <option value="" hidden></option>
-              {weekDays.map(day => (
-                <option key={day} value={day}>
-                  {day}
-                </option>
-              ))}
-            </Select>
-          </Row>
-          <Row>
-            <Input
-              label="From"
-              required
-              onChange={this.handleScheduleDesc}
-              value={scheduleDesc.startHour}
-              name="startHour"
-              type="time"
-              mr={5}
-            />
-            <Input
-              label="To"
-              required
-              onChange={this.handleScheduleDesc}
-              value={scheduleDesc.endHour}
-              type="time"
-              name="endHour"
-            />
-          </Row>
           <Input
-            label="Requirements (press enter to add)"
+            label="Skills that you would prefer students to have (press enter to add)"
             onChange={this.handleInputChange}
             onKeyPress={this.addRequirement}
             type="text"
@@ -218,7 +188,7 @@ NewOfferModal.propTypes = {
     name: PropTypes.string,
     budget: PropTypes.string,
     description: PropTypes.string,
-    scheduleDesc: PropTypes.object,
+    typeOfJob: PropTypes.string,
     id: PropTypes.string,
     requirements: PropTypes.arrayOf(PropTypes.string)
   }).isRequired

@@ -75,6 +75,9 @@ class Company extends Component {
           semesterValue={semesterFilter}
           majorValue={majorFilter}
         />
+        <Box pb={30}>
+          By requesting a student you let them know you are interested in interviewing them.
+        </Box>
         <Container>
           {Usuarios &&
             Usuarios.map((user, index) => {

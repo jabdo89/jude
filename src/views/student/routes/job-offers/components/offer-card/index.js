@@ -9,7 +9,7 @@ import Avatar from '@common/avatar';
 import shortId from 'shortid';
 import Box from '@common/box';
 import Button from '@common/button';
-import { FaRegCalendarAlt, FaRegClock, FaGraduationCap } from 'react-icons/fa';
+import { FaRegCalendarAlt, FaGraduationCap, FaLocationArrow } from 'react-icons/fa';
 import Pill from '@common/pill';
 import Typography from '@common/typography';
 import {
@@ -31,8 +31,9 @@ class OfferCard extends Component {
 
   requestJob = e => {
     e.preventDefault();
-    const { offer } = this.props;
-    this.props.createStudentyJobOffer(offer.id, offer.company);
+    const { offer, profile } = this.props;
+    const name = `${profile.firstName} ${profile.lastName}`;
+    this.props.createStudentyJobOffer(offer.id, offer.company, name);
   };
 
   toggleFullText = () => this.setState(({ fullText }) => ({ fullText: !fullText }));
@@ -62,6 +63,13 @@ class OfferCard extends Component {
       );
       this.props.clearRequest(offer);
     }
+
+    let budget;
+    if (offer.typeOfJob === 'Project') {
+      budget = '';
+    } else {
+      budget = '/ month';
+    }
     return (
       <Card scaleOnHover>
         <CardTop>
@@ -69,7 +77,7 @@ class OfferCard extends Component {
             <Box alignItems="center" display="flex">
               <JobIcon />
               <Typography ml={10} variant="heading" color="lighter">
-                {offer.companyName}
+                {offer.typeOfJob}
               </Typography>
             </Box>
           </CardBody>
@@ -78,9 +86,10 @@ class OfferCard extends Component {
           <Box display="flex">
             <Avatar mr={10} size={60} src={profileImg || '/static/img/general/avatar.png'} />
             <Box display="flex" flexDirection="column" justifyContent="center">
+              <Typography variant="heading">{offer.companyName}</Typography>
               <Typography variant="heading">{offer.name}</Typography>
               <Pill color="secondary" variant="soft" size="small" mt={5}>
-                ${offer.budget} / month
+                ${offer.budget} {budget}
               </Pill>
             </Box>
           </Box>
@@ -102,12 +111,23 @@ class OfferCard extends Component {
             </Typography>
             <TypographyWithIcon variant="muted">
               <FaRegCalendarAlt />
-              {offer.scheduleDesc.weekStart} - {offer.scheduleDesc.weekEnd}
+              {offer.typeOfJob}
             </TypographyWithIcon>
-            <TypographyWithIcon mt={5} variant="muted">
+            <Typography color="primary" mt={20} mb={5} fontWeight="bold">
+              Location
+            </Typography>
+            <TypographyWithIcon variant="muted">
+              <FaLocationArrow />
+              {offer.location}
+            </TypographyWithIcon>
+            {/* <TypographyWithIcon mt={5} variant="muted">
               <FaRegClock />
               From {offer.scheduleDesc.startHour} to {offer.scheduleDesc.endHour}
-            </TypographyWithIcon>
+            </TypographyWithIcon> */}
+            <Typography color="primary" mt={20} mb={5} fontWeight="bold">
+              Website
+            </Typography>
+            <Typography variant="muted">{offer.website}</Typography>
             <Typography color="primary" mt={20} mb={5} fontWeight="bold">
               Major required
             </Typography>
@@ -128,7 +148,7 @@ class OfferCard extends Component {
                 ))}
             </TypographyWithIcon>
             <Typography color="primary" mt={20} mb={5} fontWeight="bold">
-              Requirements
+              Preferred skills to have
             </Typography>
             <Box flexWrap="wrap" display="flex">
               {offer.requirements.map(requirement => (
@@ -166,25 +186,30 @@ OfferCard.propTypes = {
     budget: PropTypes.string,
     major: PropTypes.string,
     description: PropTypes.string,
-    scheduleDesc: PropTypes.object,
+    typeOfJob: PropTypes.string,
+    website: PropTypes.string,
+    location: PropTypes.string,
+    //    scheduleDesc: PropTypes.object,
     companyName: PropTypes.string,
     requirements: PropTypes.arrayOf(PropTypes.string)
   }).isRequired,
   createStudentyJobOffer: PropTypes.func.isRequired,
   clearRequest: PropTypes.func.isRequired,
+  profile: PropTypes.object.isRequired,
   requestErrorStudent: PropTypes.string.isRequired,
   Usuarios: PropTypes.objectOf(PropTypes.object).isRequired
 };
 const mapStateToProps = state => {
   return {
+    profile: state.firebase.profile,
     requestErrorStudent: state.student.requestErrorStudent,
     Usuarios: state.firestore.data.Usuarios
   };
 };
 const mapDispatchToProps = dispatch => {
   return {
-    createStudentyJobOffer: (jobOfferID, companyID) =>
-      dispatch(createStudentyJobOffer(jobOfferID, companyID)),
+    createStudentyJobOffer: (jobOfferID, companyID, name) =>
+      dispatch(createStudentyJobOffer(jobOfferID, companyID, name)),
     clearRequest: activity => dispatch(clearRequest(activity))
   };
 };

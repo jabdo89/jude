@@ -36,7 +36,7 @@ const Company = () => (
     <Route path="/requests">
       <Requests />
     </Route>
-    <Route path="/messages">
+    <Route path="/interviews">
       <Messages />
     </Route>
     <Route path="/@:username">

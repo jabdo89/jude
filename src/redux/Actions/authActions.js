@@ -49,6 +49,7 @@ export const studentSignUp = newUser => {
                 .set({
                   profileImg: url,
                   resume: newUser.urlPDF,
+                  location: newUser.location,
                   email: newUser.email,
                   school: newUser.school,
                   userID: resp.user.uid,
@@ -172,5 +173,26 @@ export const companyChangePassword = email => {
 export const clearCompanyPassword = activity => {
   return dispatch => {
     dispatch({ type: 'COMPANY_PASSWORD_RESET', activity });
+  };
+};
+
+export const clearEditProfile = activity => {
+  return dispatch => {
+    dispatch({ type: 'PROFILE_RESET', activity });
+  };
+};
+
+export const forgotPassword = email => {
+  return (dispatch, getState, getFirebase) => {
+    const firebase = getFirebase();
+    firebase
+      .auth()
+      .sendPasswordResetEmail(email)
+      .then(() => {
+        dispatch({ type: 'FORGOT_PASSWORD_SENT' });
+      })
+      .catch(err => {
+        dispatch({ type: 'FORGOT_PASSWORD_ERR', err });
+      });
   };
 };

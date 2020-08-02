@@ -108,7 +108,7 @@ class ProfileCard extends Component {
                     color="default"
                   >
                     <CameraIcon />
-                    Cambiar foto
+                    Change Photo
                   </PhotoButton>
                 )
               )}

@@ -15,6 +15,11 @@ const Signup = Loadable({
   loading: TopBarProgress
 });
 
+const ForgotPassword = Loadable({
+  loader: () => import('./routes/forgotPassword'),
+  loading: TopBarProgress
+});
+
 const Public = () => (
   <AuthLayout isMobile={isMobile}>
     <Switch>
@@ -23,6 +28,9 @@ const Public = () => (
       </Route>
       <Route path="/signup">
         <Signup />
+      </Route>
+      <Route path="/forgotPassword">
+        <ForgotPassword />
       </Route>
       <Redirect to="/login" />
     </Switch>

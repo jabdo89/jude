@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "jude-8cd07"
+  },
+  "targets": {
+    "jude-8cd07": {
+      "hosting": {
+        "platform": [
+          "jude-8cd07"
+        ]
+      }
+    }
   }
 }

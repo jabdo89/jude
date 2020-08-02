@@ -29,7 +29,7 @@ const Divider = styled.hr`
 
 const DescriptionContainer = styled.div`
   overflow-x: auto;
-  word-break: break-all;
+  word-break: break-word;
 `;
 
 export { Card, BookIcon, CardTop, Divider, DescriptionContainer };

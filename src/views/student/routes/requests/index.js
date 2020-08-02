@@ -42,10 +42,17 @@ class RequestsView extends Component {
     return (
       <Box pb={30}>
         {/* <FilterBar /> */}
+        <Box pb={30}>
+          These are the Companies that are interested in you and the request you sent. Click on
+          interview to start chatting with them.
+        </Box>
         <Container>
           {Requests &&
             Requests.map(request => {
-              if (request.status === 'requestedByCompany' && request.studentID === profile.userID) {
+              if (
+                // (request.status === 'requestedByCompany' || request.status === 'Interviewing') &&
+                request.studentID === profile.userID
+              ) {
                 return (
                   <RequestCard
                     key={request.id}
@@ -53,6 +60,7 @@ class RequestsView extends Component {
                     acceptRequest={() => this.acceptRequest(request.id, request)}
                     deleteRequest={() => this.deleteRequest(request.id, request)}
                     company={Usuarios[request.companyID]}
+                    status={request.status}
                   />
                 );
               }
@@ -107,10 +115,7 @@ export default compose(
       { collection: 'Usuarios' },
       {
         collection: 'JobOffersyStudents',
-        where: [
-          ['status', '==', 'requestedByCompany'],
-          ['studentID', '==', props.profile.userID]
-        ]
+        where: [['studentID', '==', props.profile.userID]]
       }
     ];
   })

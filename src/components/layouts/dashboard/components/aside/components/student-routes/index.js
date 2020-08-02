@@ -25,12 +25,12 @@ const StudentRoutes = ({ location: { pathname }, username }) => (
         <AsideLine />
       </Option>
     </Link>
-    <Link to="/messages">
-      <Option active={pathname.includes('messages')}>
+    <Link to="/interviews">
+      <Option active={pathname.includes('interviews')}>
         <Icon>
           <FiMessageCircle />
         </Icon>
-        <p>Messages</p>
+        <p>Interviews</p>
         <AsideLine />
       </Option>
     </Link>

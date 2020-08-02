@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 import { MdArrowBack } from 'react-icons/md';
 import Typography from '@common/typography';
 import Box from '@common/box';
-import { BackButton, Container, Input, Select, Divider, FilterContainer } from './elements';
+import { BackButton, Container, Select, Divider, FilterContainer } from './elements';
 
 const FilterBar = ({
   isRecommendation,
@@ -33,10 +33,6 @@ const FilterBar = ({
       </Box>
     ) : (
       <Fragment>
-        <Input
-          value=""
-          placeholder="By requesting a student you let them know you are interested in interviewing them."
-        />
         <FilterContainer>
           <Typography variant="muted">Semester</Typography>
           <Select
@@ -68,8 +64,18 @@ const FilterBar = ({
             }}
           >
             <option value="any">any</option>
+            <option value="Mechanical Engineer">Mechanical Engineer</option>
+            <option value="Accounting">Accounting</option>
+            <option value="Economics">Economics</option>
             <option value="Computer Science">Computer Science</option>
-            <option value="Business and Technology">Business and Technology</option>
+            <option value="Business & Technology">Business & Technology</option>
+            <option value="Chemical Engineer">Chemical Engineer</option>
+            <option value="Marketing">Marketing</option>
+            <option value="Finance">Finance</option>
+            <option value="Mechatronic Engineer">Mechatronic Engineer</option>
+            <option value="Graphic Designer">Graphic Designer</option>
+            <option value="Business Administration">Business Administration</option>
+            <option value="Lawyer">Lawyer</option>
           </Select>
         </FilterContainer>
       </Fragment>

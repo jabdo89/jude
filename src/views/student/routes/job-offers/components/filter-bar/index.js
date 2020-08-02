@@ -14,7 +14,7 @@ const FilterBar = ({
     <Input
       value={requirementValue}
       onChange={event => {
-        requirementFilterUpdate(event.target.value);
+        requirementFilterUpdate(event.target.value.toUpperCase());
       }}
       leftIcon={<FiSearch />}
       placeholder="Search by requirement"

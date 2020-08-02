@@ -20,7 +20,7 @@ const Divider = styled.hr`
 
 const TextContainer = styled.div`
   overflow-x: auto;
-  word-break: break-all;
+  word-break: break-word;
 `;
 
 const TypographyWithIcon = styled(Typography)`

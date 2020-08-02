@@ -7,9 +7,23 @@ import Pill from '@common/pill';
 import Button from '@common/button';
 import { FiCheck, FiX } from 'react-icons/fi';
 import Avatar from '@common/avatar';
-import { Container, Span } from './elements';
+import { Container, Span, StagePill } from './elements';
 
-const RequestCard = ({ request, acceptRequest, deleteRequest, company }) => (
+function getColor(status) {
+  if (status === 'Interviewing') return 'warning';
+  if (status === 'requestedByCompany') return 'warning';
+  if (status === 'requestedByStudent') return 'success';
+  return null;
+}
+
+function getMessage(status) {
+  if (status === 'Interviewing') return 'Interviewing';
+  if (status === 'requestedByCompany') return 'Confirmation Pending';
+  if (status === 'requestedByStudent') return 'Requested by You';
+  return null;
+}
+
+const RequestCard = ({ request, acceptRequest, deleteRequest, company, status }) => (
   <Card scaleOnHover scale={1.011}>
     <Container>
       <Box display="flex" alignItems="center" mr="auto">
@@ -24,28 +38,41 @@ const RequestCard = ({ request, acceptRequest, deleteRequest, company }) => (
           <Typography mt={5} pr="10" fontSize="0.85rem">
             Company <Span color="primary">{request.companyName}</Span>
           </Typography>
+          <Typography mt={5} pr="10" fontSize="0.85rem">
+            Website <Span color="primary">{request.website}</Span>
+          </Typography>
           <Typography mt={5} variant="muted">
             {request.description}
           </Typography>
         </Box>
       </Box>
       <Box display="flex" flexDirection="column" alignItems="center">
-        <Box ml="auto" display="flex">
-          <Button onClick={acceptRequest} variant="soft" mr={5} color="success" size="small">
-            Accept
-            <FiCheck />
-          </Button>
-          <Button onClick={deleteRequest} variant="soft" color="danger" size="small">
-            Delete
-            <FiX />
-          </Button>
-        </Box>
-        {/* <Box display="flex" flexDirection="column" mt={10} alignItems="center">
-          <Typography fontSize="10px">Status with company</Typography>
-          <StagePill size="small" variant="outlined" color={getColor(request.stage)}>
-            {request.stage}
-          </StagePill>
-        </Box> */}
+        {status === 'requestedByCompany' ? (
+          <div>
+            <Box ml="auto" display="flex">
+              <Button onClick={acceptRequest} variant="soft" mr={5} color="success" size="small">
+                Interview
+                <FiCheck />
+              </Button>
+              <Button onClick={deleteRequest} variant="soft" color="danger" size="small">
+                Delete
+                <FiX />
+              </Button>
+            </Box>
+            <Box display="flex" flexDirection="column" mt={10} alignItems="center">
+              <Typography fontSize="10px">Status with company</Typography>
+              <StagePill size="small" variant="outlined" color={getColor(status)}>
+                {getMessage(status)}
+              </StagePill>
+            </Box>
+          </div>
+        ) : (
+          <Box display="flex" flexDirection="column" mt={10} alignItems="center">
+            <StagePill size="small" variant="outlined" color={getColor(status)}>
+              {getMessage(status)}
+            </StagePill>
+          </Box>
+        )}
       </Box>
     </Container>
   </Card>
@@ -58,6 +85,7 @@ RequestCard.propTypes = {
     name: PropTypes.string,
     companyLogoUrl: PropTypes.string,
     companyName: PropTypes.string,
+    website: PropTypes.string,
     school: PropTypes.string,
     budget: PropTypes.string,
     description: PropTypes.string,
@@ -77,7 +105,8 @@ RequestCard.propTypes = {
   }).isRequired,
   acceptRequest: PropTypes.func.isRequired,
   deleteRequest: PropTypes.func.isRequired,
-  company: PropTypes.object.isRequired
+  company: PropTypes.object.isRequired,
+  status: PropTypes.string.isRequired
 };
 
 export default RequestCard;

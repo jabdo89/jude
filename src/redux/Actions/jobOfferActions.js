@@ -9,7 +9,7 @@ export const createJobOffer = jobOffer => {
     const db = firebase.firestore();
     db.collection('JobOffers')
       .add({
-        scheduleDesc: jobOffer.scheduleDesc,
+        typeOfJob: jobOffer.typeOfJob,
         requirements: jobOffer.requirements,
         major: jobOffer.majors,
         name: jobOffer.name,
@@ -18,8 +18,10 @@ export const createJobOffer = jobOffer => {
         createdDate: new Date(),
         company: authID,
         companyName: profile.companyName,
+        website: profile.website,
+        location: jobOffer.location,
         hired: 0,
-        needed: jobOffer.studentsNeeded,
+        needed: 1,
         requested: 0,
         interviewed: 0
       })
@@ -53,8 +55,10 @@ export const createJobOfferyStudent = (jobOffer, user, jobOfferObj) => {
           db.collection('Notifications')
             .add({
               JobOffer: jobOfferObj.name,
+              jobOfferId: jobOffer,
               type: 'New Request',
-              userID: user.id
+              userID: user.id,
+              createdDate: new Date()
             })
             .then(() => {
               dispatch({ type: 'JOBOFFER_REQUESTED_COMPANY', jobOffer });
@@ -66,7 +70,7 @@ export const createJobOfferyStudent = (jobOffer, user, jobOfferObj) => {
       });
   };
 };
-export const createStudentyJobOffer = (jobOffer, companyUID) => {
+export const createStudentyJobOffer = (jobOffer, companyUID, studentName) => {
   return (dispatch, getState, getFirebase) => {
     const authID = getState().firebase.auth.uid;
     const firebase = getFirebase();
@@ -96,6 +100,14 @@ export const createStudentyJobOffer = (jobOffer, companyUID) => {
               db.collection('JobOffers')
                 .doc(jobOffer)
                 .update({ requested: numerRequested + 1 });
+            });
+          db.collection('Notifications')
+            .add({
+              JobOffer: studentName,
+              studentID: authID,
+              type: 'New Request',
+              userID: companyUID,
+              createdDate: new Date()
             })
             .then(() => {
               dispatch({ type: 'JOBOFFER_REQUESTED_STUDENT', jobOffer });
@@ -112,6 +124,7 @@ export const clearRequest = activity => {
     dispatch({ type: 'REQUEST_RESET', activity });
   };
 };
+
 export const clearRequestCompany = activity => {
   return dispatch => {
     dispatch({ type: 'REQUEST_RESET_COMPANY', activity });
@@ -239,13 +252,17 @@ export const acceptStudentInterview = (sJID, request) => {
           .then(snapshot2 => {
             user = snapshot2.data();
             let notificationName;
+            let OtherName;
             if (state.profile.rol === 'Company') {
               notificationName = info.name;
+              OtherName = `${user.firstName} ${user.lastName}`;
             } else {
               notificationName = `${user.firstName} ${user.lastName}`;
+              OtherName = info.name;
             }
             db.collection('Notifications').add({
               JobOffer: notificationName,
+              other: OtherName,
               type: 'Confirmed Request',
               userID
             });
@@ -280,13 +297,17 @@ export const rejectStudentInterview = (jobOfferID, request) => {
           .then(snapshot2 => {
             user = snapshot2.data();
             let notificationName;
+            let OtherName;
             if (state.profile.rol === 'Company') {
               notificationName = info.name;
+              OtherName = `${user.firstName} ${user.lastName}`;
             } else {
               notificationName = `${user.firstName} ${user.lastName}`;
+              OtherName = info.name;
             }
             db.collection('Notifications').add({
               JobOffer: notificationName,
+              other: OtherName,
               type: 'Request Denied',
               userID
             });
@@ -370,6 +391,12 @@ export const editProfile = newProfile => {
         semester: newProfile.semester,
         skills: newProfile.skills,
         email: newProfile.email
+      })
+      .then(() => {
+        dispatch({ type: 'PROFILE_EDITED', newProfile });
+      })
+      .catch(err => {
+        dispatch({ type: 'PROFILE_ERROR', err });
       });
   };
 };
@@ -397,7 +424,7 @@ export const editJobOffer = newJobOffer => {
     db.collection('JobOffers')
       .doc(newJobOffer.id)
       .update({
-        scheduleDesc: newJobOffer.scheduleDesc,
+        typeOfJob: newJobOffer.typeOfJob,
         requirements: newJobOffer.requirements
       });
   };
@@ -410,5 +437,19 @@ export const deleteJobOffer = newJobOffer => {
     db.collection('JobOffers')
       .doc(newJobOffer)
       .delete();
+    db.collection('JobOffersyStudents')
+      .where('jobOfferID', '==', newJobOffer)
+      .get()
+      // eslint-disable-next-line consistent-return
+      .then(snapshot => {
+        if (snapshot.empty) {
+          return null;
+        }
+        snapshot.forEach(doc => {
+          db.collection('JobOffersyStudents')
+            .doc(doc.id)
+            .delete();
+        });
+      });
   };
 };

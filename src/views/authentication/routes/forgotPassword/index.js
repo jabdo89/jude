@@ -1,42 +1,46 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { signIn } from '@actions/authActions';
+import { forgotPassword } from '@actions/authActions';
 import Typography from '@common/typography';
 import Box from '@common/box';
 import Button from '@common/button';
-import { FaRegUserCircle, FaKey } from 'react-icons/fa';
+import { FaRegUserCircle } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { Form, Input } from './elements';
 
 class Login extends Component {
   state = {
-    email: '',
-    password: '',
-    fireError: '',
-    rol: ''
+    email: ''
   };
 
   handleChange = ({ target }) => this.setState({ [target.name]: target.value });
 
   handleSubmit = e => {
     e.preventDefault();
-    const { signIn: localeSignin } = this.props;
+    const { forgotPassword: localeForgotPassword } = this.props;
 
-    localeSignin(this.state);
+    localeForgotPassword(this.state.email);
   };
 
   render() {
-    const { authError } = this.props;
-    const { email, password } = this.state;
+    const { forgotPasswordError } = this.props;
+    const { email } = this.state;
+
+    let errorColor;
+    if (forgotPasswordError === 'Change Password Email Sent Succesfully!') {
+      errorColor = 'success';
+    } else {
+      errorColor = 'danger';
+    }
     return (
       <Fragment>
         <Form onSubmit={this.handleSubmit}>
           <Typography variant="headingTitle" textAlign="center">
-            SIGN IN
+            Forgot Password?
           </Typography>
           <Typography mb={30} textAlign="center">
-            TO ACCESS THE PORTAL
+            Enter your account email to change your password
           </Typography>
           <Input
             leftIcon={<FaRegUserCircle />}
@@ -46,23 +50,15 @@ class Login extends Component {
             name="email"
             mb={10}
           />
-          <Input
-            leftIcon={<FaKey />}
-            type="password"
-            placeholder="Enter password here"
-            value={password}
-            onChange={this.handleChange}
-            name="password"
-          />
           <Button mt={30} color="gradient" fullWidth>
-            Login
+            Send Forgot Password Email
           </Button>
-          <Typography mt={20} textAlign="center" color="danger">
-            {authError}
+          <Typography mt={20} textAlign="center" color={errorColor}>
+            {forgotPasswordError}
           </Typography>
-          <Link to="/forgotPassword">
+          <Link to="/login">
             <Typography ml={5} textAlign="center" fontSize="0.85rem" color="primary">
-              Forgot Password
+              Back to Log In
             </Typography>
           </Link>
           <Box display="flex" justifyContent="center" mt={20}>
@@ -82,23 +78,23 @@ class Login extends Component {
 }
 
 Login.defaultProps = {
-  authError: ''
+  forgotPasswordError: ''
 };
 
 Login.propTypes = {
-  signIn: PropTypes.func.isRequired,
-  authError: PropTypes.string
+  forgotPassword: PropTypes.func.isRequired,
+  forgotPasswordError: PropTypes.string
 };
 
 const mapStateToProps = state => {
   return {
-    authError: state.auth.authError
+    forgotPasswordError: state.auth.forgotPasswordError
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    signIn: newUser => dispatch(signIn(newUser))
+    forgotPassword: newUser => dispatch(forgotPassword(newUser))
   };
 };
 

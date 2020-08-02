@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "taregt": "platform",
     "public": "build",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [

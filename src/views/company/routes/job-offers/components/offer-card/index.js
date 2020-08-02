@@ -13,7 +13,7 @@ import shortId from 'shortid';
 import { MdSchool } from 'react-icons/md';
 import { withRouter } from 'react-router-dom';
 import Box from '@common/box';
-import { FaRegCalendarAlt, FaRegClock, FaGraduationCap } from 'react-icons/fa';
+import { FaRegCalendarAlt, FaGraduationCap, FaLocationArrow } from 'react-icons/fa';
 import Pill from '@common/pill';
 import { FiEdit3, FiX } from 'react-icons/fi';
 import Typography from '@common/typography';
@@ -55,6 +55,10 @@ class OfferCard extends Component {
 
   render() {
     const { offer, setEditOffer, deleteOffer, profile } = this.props;
+    let action;
+    if (offer.typeOfJob === 'Project') {
+      action = '/ month';
+    }
     return (
       <Card scaleOnHover>
         <CardTop>
@@ -62,7 +66,7 @@ class OfferCard extends Component {
             <Box alignItems="center" display="flex">
               <JobIcon />
               <Typography ml={10} variant="heading" color="lighter">
-                Offer
+                {offer.typeOfJob}
               </Typography>
             </Box>
           </CardBody>
@@ -89,7 +93,7 @@ class OfferCard extends Component {
             <Box display="flex" flexDirection="column" justifyContent="center">
               <Typography variant="heading">{offer.name}</Typography>
               <Pill color="secondary" variant="soft" size="small" mt={5}>
-                ${offer.budget} / month
+                ${offer.budget} {action}
               </Pill>
             </Box>
           </Box>
@@ -106,12 +110,23 @@ class OfferCard extends Component {
                 </Typography>
                 <TypographyWithIcon variant="muted">
                   <FaRegCalendarAlt />
-                  {offer.scheduleDesc.weekStart} - {offer.scheduleDesc.weekEnd}
+                  {offer.typeOfJob}
                 </TypographyWithIcon>
-                <TypographyWithIcon mt={5} variant="muted">
+                <Typography color="primary" mt={20} mb={5} fontWeight="bold">
+                  Location
+                </Typography>
+                <TypographyWithIcon variant="muted">
+                  <FaLocationArrow />
+                  {offer.location}
+                </TypographyWithIcon>
+                {/* <TypographyWithIcon mt={5} variant="muted">
                   <FaRegClock />
                   From {offer.scheduleDesc.startHour} to {offer.scheduleDesc.endHour}
-                </TypographyWithIcon>
+                </TypographyWithIcon> */}
+                <Typography color="primary" mt={20} mb={5} fontWeight="bold">
+                  Website
+                </Typography>
+                <Typography variant="muted">{offer.website}</Typography>
                 <Typography color="primary" mt={20} mb={5} fontWeight="bold">
                   Major required
                 </Typography>
@@ -132,7 +147,7 @@ class OfferCard extends Component {
                     ))}
                 </TypographyWithIcon>
                 <Typography color="primary" mt={20} mb={5} fontWeight="bold">
-                  Requirements
+                  Preferred skills to have
                 </Typography>
                 <Box flexWrap="wrap" display="flex">
                   {offer.requirements.map(requirement => (
@@ -182,7 +197,10 @@ OfferCard.propTypes = {
     budget: PropTypes.string,
     major: PropTypes.string,
     description: PropTypes.string,
-    scheduleDesc: PropTypes.object,
+    typeOfJob: PropTypes.string,
+    website: PropTypes.string,
+    location: PropTypes.string,
+    // scheduleDesc: PropTypes.object,
     requirements: PropTypes.arrayOf(PropTypes.string)
   }).isRequired,
   setEditOffer: PropTypes.func.isRequired,

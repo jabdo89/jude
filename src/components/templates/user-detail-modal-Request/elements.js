@@ -22,7 +22,7 @@ const Pending = styled.div`
 const Column = styled(Box)`
   flex-basis: ${props => props.basis}%;
   margin-right: 20px;
-  word-break: break-word;
+  word-break: break-all;
 
   &:last-child {
     margin-right: 0px;

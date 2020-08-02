@@ -31,6 +31,8 @@ class Messages extends Component {
       Conversations = Conversations.sort((a, b) => b.lMessageTime - a.lMessageTime);
     }
     const { actualChat, currentUser } = this.state;
+
+    let chatsCounter = 0;
     if (Conversations !== undefined) {
       return (
         <Container>
@@ -41,6 +43,7 @@ class Messages extends Component {
                 Conversations.map(
                   ({ companyID, studentID, status, seen, lastMessage, jobOfferName }, idx) => {
                     if (status === 'Interviewing' && studentID === profile.userID) {
+                      chatsCounter += 1;
                       return (
                         <ConversationCard
                           key={idx.id}
@@ -61,7 +64,9 @@ class Messages extends Component {
             {!actualChat ? (
               <Box height="100%" display="flex" alignItems="center" justifyContent="center" p={20}>
                 <Typography textAlign="center" variant="leadText">
-                  Selecciona una conversación
+                  {chatsCounter > 0
+                    ? 'Select a conversation'
+                    : 'No interviews started, check your request to start interviewing!'}
                 </Typography>
               </Box>
             ) : (

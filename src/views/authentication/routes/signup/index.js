@@ -19,7 +19,8 @@ import {
   FaRegUser,
   FaGraduationCap,
   FaHashtag,
-  FaBuilding
+  FaBuilding,
+  FaLocationArrow
 } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { Form, Input, Select, Column } from './elements';
@@ -60,10 +61,10 @@ class Login extends Component {
     event.preventDefault();
     const storage = firebase.storage();
     const { image, email, resume } = this.state;
-    if (!resume) {
-      toast.secondary('Resume required', 'You need to upload your resume to signup');
-      return;
-    }
+    // if (!resume) {
+    //   toast.secondary('Resume required', 'You need to upload your resume to signup');
+    //   return;
+    // }
     if (image.file !== null) {
       const uploadTask = storage.ref(`images/${email}`).put(image.file);
       uploadTask.on(
@@ -116,7 +117,7 @@ class Login extends Component {
             });
         }
       );
-    } else {
+    } else if (resume) {
       const uploadTaskPDF = storage.ref(`curriculums/${email}`).put(resume);
       uploadTaskPDF.on(
         'state_changed',
@@ -142,6 +143,9 @@ class Login extends Component {
             });
         }
       );
+    } else {
+      const { studentSignUp: localeSignUp } = this.props;
+      localeSignUp(this.state);
     }
   };
 
@@ -164,9 +168,18 @@ class Login extends Component {
   };
 
   changeStep = step => {
-    const { email, firstName, lastName, password, mayor, semester, school } = this.state;
+    const { email, firstName, lastName, password, mayor, semester, school, location } = this.state;
     if (step === 2) {
-      if (!email || !firstName || !lastName || !password || !mayor || !semester || !school) {
+      if (
+        !email ||
+        !firstName ||
+        !lastName ||
+        !password ||
+        !mayor ||
+        !semester ||
+        !school ||
+        !location
+      ) {
         toast.secondary('Wait', 'Every field is required');
         return;
       }
@@ -188,7 +201,8 @@ class Login extends Component {
       showCropModal,
       image,
       school,
-      resume
+      resume,
+      location
     } = this.state;
     return (
       <Fragment>
@@ -237,8 +251,19 @@ class Login extends Component {
                     mb={5}
                   >
                     <option value="">Major</option>
+                    <option value="Accounting">Accounting</option>
+                    <option value="Business & Technology">Business & Technology</option>
+                    <option value="Business Administration">Business Administration</option>
                     <option value="Computer Science">Computer Science</option>
-                    <option value="Business and Technology">Business and Technology</option>
+                    <option value="Chemical Engineer">Chemical Engineer</option>
+                    <option value="Economics">Economics</option>
+                    <option value="Finance">Finance</option>
+                    <option value="Graphic Designer">Graphic Designer</option>
+                    <option value="International Relations">International Relations</option>
+                    <option value="Lawyer">Lawyer</option>
+                    <option value="Marketing">Marketing</option>
+                    <option value="Mechanical Engineer">Mechanical Engineer</option>
+                    <option value="Mechatronic Engineer">Mechatronic Engineer</option>
                   </Select>
                 </Column>
                 <Column basis="35">
@@ -253,17 +278,31 @@ class Login extends Component {
                   />
                 </Column>
               </Box>
-              <Select
-                leftIcon={<FaBuilding />}
-                value={school}
-                onChange={this.handleChange}
-                name="school"
-                mb={10}
-              >
-                <option value="">Select your school here</option>
-                <option value="ITESM">ITESM</option>
-                <option value="UANL">UANL</option>
-              </Select>
+              <Box mb={10} display="flex">
+                <Select
+                  leftIcon={<FaBuilding />}
+                  value={school}
+                  onChange={this.handleChange}
+                  name="school"
+                  mr={5}
+                >
+                  <option value="">Select your school here</option>
+                  <option value="ITESM">ITESM</option>
+                  <option value="UANL">UANL</option>
+                  <option value="UDEM">UDEM</option>
+                </Select>{' '}
+                <Select
+                  leftIcon={<FaLocationArrow />}
+                  value={location}
+                  onChange={this.handleChange}
+                  name="location"
+                  ml={5}
+                >
+                  <option value="">Select your location here</option>
+                  <option value="Monterrey, Nuevo Leon">Monterrey, Nuevo Leon</option>
+                  <option value="Tampico, Tamaulipas">Tampico, Tamaulipas</option>
+                </Select>
+              </Box>
               <Input
                 leftIcon={<FaKey />}
                 type="password"
@@ -317,7 +356,7 @@ class Login extends Component {
                   <Dropzone
                     height="100"
                     accept="application/pdf"
-                    defaultMessage="Drag your PDF resume here"
+                    defaultMessage="For your privacy dont include phone or email in resume"
                     acceptMessage="Drop your resume here"
                     rejectMessage="File format not supported"
                     setFile={this.setPdf}
