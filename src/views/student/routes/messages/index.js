@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Box from '@common/box';
 import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
+import firebase from "firebase"
 import { connect } from 'react-redux';
 import Typography from '@common/typography';
 import NavbarActionPortal from '@templates/navbar-action-portal';
@@ -14,14 +15,67 @@ import { Container, Column, ListContainer } from './elements';
 class Messages extends Component {
   state = {
     actualChat: null,
-    currentUser: null
+    currentUser: null,
+    messages:[]
   };
 
+  // setActualChat = (idx, companyID) => {
+  //   this.setState({ actualChat: null });
+  //   const { Conversations } = this.props;
+  //   const { Usuarios } = this.props;
+  //   this.setState({ actualChat: Conversations[idx] });
+  //   this.setState({ currentUser: Usuarios[companyID] });
+    
+  // };
+  closeChat = () => {
+    this.setState({ actualChat: null });
+  };
+
+  getMessages=(chat) => {
+    const messagesRef = firebase
+      .database()
+      .ref(`/messages/${chat.id}`)
+      .limitToLast(100);
+
+    messagesRef.on("value", (snapshot) => {
+      if (snapshot.empty) {
+        console.log("heheh")
+        this.setState((prevState) => ({
+          messages: null,
+        }));
+      }
+      let messagesObj = snapshot.val();
+      let messages = [];
+      if (messagesObj !== null) {
+        Object.keys(messagesObj).forEach((key) =>
+          messages.push(messagesObj[key])
+        );
+        messages = messages.map((message) => {
+          return {
+            message: message.message,
+            sender: message.sender,
+            id: message.id,
+            timestamp: message.timestamp,
+          };
+        });
+        this.setState((prevState) => ({
+          messages: messages,
+        }));
+      }
+    });
+  }
+
   setActualChat = (idx, companyID) => {
+    this.closeChat()
     const { Conversations } = this.props;
     const { Usuarios } = this.props;
-    this.setState({ actualChat: Conversations[idx] });
-    this.setState({ currentUser: Usuarios[companyID] });
+    if (idx === -1) {
+      this.setState({ actualChat: null });
+    } else {
+      this.setState({ actualChat: Conversations[idx] });
+      this.setState({ currentUser: Usuarios[companyID] });
+      this.getMessages(Conversations[idx])
+    }
   };
 
   render() {
@@ -30,7 +84,7 @@ class Messages extends Component {
     if (Conversations !== undefined) {
       Conversations = Conversations.sort((a, b) => b.lMessageTime - a.lMessageTime);
     }
-    const { actualChat, currentUser } = this.state;
+    const { actualChat, currentUser,messages } = this.state;
 
     let chatsCounter = 0;
     if (Conversations !== undefined) {
@@ -74,6 +128,7 @@ class Messages extends Component {
                 closeChat={() => this.setActualChat(-1)}
                 chat={actualChat}
                 user={currentUser}
+                messages={messages}
               />
             )}
           </Column>

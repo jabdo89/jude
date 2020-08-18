@@ -31,16 +31,6 @@ class ChatContent extends Component {
     message: ''
   };
 
-  componentDidMount() {
-    const { chat } = this.props;
-    this.props.getMessages(chat.id);
-  }
-
-  componentDidUpdate() {
-    const { chat } = this.props;
-    this.props.getMessages(chat.id);
-  }
-
   setRef = ref => {
     if (ref) {
       // eslint-disable-next-line no-param-reassign
@@ -58,7 +48,7 @@ class ChatContent extends Component {
   };
 
   render() {
-    const { user, closeChat, messages, profile } = this.props;
+    const { user, closeChat, profile,messages } = this.props;
     const { message } = this.state;
     if (user !== null) {
       return (
@@ -135,7 +125,6 @@ ChatContent.propTypes = {
 const mapStateToProps = state => {
   return {
     profile: state.firebase.profile,
-    messages: state.company
   };
 };
 const mapDispatchToProps = dispatch => {
