@@ -21,9 +21,9 @@ class Messages extends Component {
   };
 
   getMessages = chat => {
-    this.setState(prevState => ({
+    this.setState(() => ({
       messages: null
-    }))
+    }));
 
     const messagesRef = firebase
       .database()
@@ -32,11 +32,11 @@ class Messages extends Component {
 
     messagesRef.on('value', snapshot => {
       if (snapshot.empty) {
-        this.setState(prevState => ({
+        this.setState(() => ({
           messages: null
         }));
       }
-      let messagesObj = snapshot.val();
+      const messagesObj = snapshot.val();
       let messages = [];
       if (messagesObj !== null) {
         Object.keys(messagesObj).forEach(key => messages.push(messagesObj[key]));
@@ -48,8 +48,8 @@ class Messages extends Component {
             timestamp: message.timestamp
           };
         });
-        this.setState(prevState => ({
-          messages: messages
+        this.setState(() => ({
+          messages
         }));
       }
     });
