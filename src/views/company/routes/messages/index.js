@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import firebase from "firebase"
+import firebase from 'firebase';
 import Box from '@common/box';
 import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
@@ -17,49 +17,50 @@ class Messages extends Component {
     actualChat: null,
     currentUser: null,
     jobOfferFilter: '',
-    messages:[]
+    messages: []
   };
 
-  getMessages=(chat) => {
+  getMessages = chat => {
+    this.setState(prevState => ({
+      messages: null
+    }))
+
     const messagesRef = firebase
       .database()
       .ref(`/messages/${chat.id}`)
       .limitToLast(100);
 
-    messagesRef.on("value", (snapshot) => {
+    messagesRef.on('value', snapshot => {
       if (snapshot.empty) {
-        console.log("heheh")
-        this.setState((prevState) => ({
-          messages: null,
+        this.setState(prevState => ({
+          messages: null
         }));
       }
       let messagesObj = snapshot.val();
       let messages = [];
       if (messagesObj !== null) {
-        Object.keys(messagesObj).forEach((key) =>
-          messages.push(messagesObj[key])
-        );
-        messages = messages.map((message) => {
+        Object.keys(messagesObj).forEach(key => messages.push(messagesObj[key]));
+        messages = messages.map(message => {
           return {
             message: message.message,
             sender: message.sender,
             id: message.id,
-            timestamp: message.timestamp,
+            timestamp: message.timestamp
           };
         });
-        this.setState((prevState) => ({
-          messages: messages,
+        this.setState(prevState => ({
+          messages: messages
         }));
       }
     });
-  }
-  
+  };
+
   closeChat = () => {
     this.setState({ actualChat: null });
   };
 
   setActualChat = (idx, studentID) => {
-    this.closeChat()
+    this.closeChat();
     const { Conversations } = this.props;
     const { Usuarios } = this.props;
     if (idx === -1) {
@@ -67,7 +68,7 @@ class Messages extends Component {
     } else {
       this.setState({ actualChat: Conversations[idx] });
       this.setState({ currentUser: Usuarios[studentID] });
-      this.getMessages(Conversations[idx])
+      this.getMessages(Conversations[idx]);
     }
   };
 
@@ -83,7 +84,7 @@ class Messages extends Component {
     }
 
     let chatsCounter = 0;
-    const { actualChat, currentUser, jobOfferFilter,messages } = this.state;
+    const { actualChat, currentUser, jobOfferFilter, messages } = this.state;
     if (Conversations !== undefined && Usuarios !== undefined) {
       return (
         <Container>

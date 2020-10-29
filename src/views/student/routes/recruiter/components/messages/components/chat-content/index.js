@@ -1,12 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import {
-  sendMessage,
-  getMessages,
-  watchTaskRemovedEvent,
-  watchTaskAddedEvent
-} from '@actions/jobOfferActions';
+import { sendMessage } from '@actions/recruiterActions';
 import Typography from '@common/typography';
 import Box from '@common/box';
 import { MdSend, MdClear } from 'react-icons/md';
@@ -57,13 +52,8 @@ class ChatContent extends Component {
             <Box p={10} display="flex" alignItems="center">
               <Avatar mr={10} size={50} src={user.profileImg || '/static/img/general/avatar.png'} />
               <Typography mr="auto" variant="leadText">
-                {user.companyName}
+                {user.firstName} {user.lastName}
               </Typography>
-              {/* <Box display="flex" alignItems="center">
-                <ActionButton size="small" color="danger" variant="soft" mr={5}>
-                  Reject <MdCancel />
-                </ActionButton>
-              </Box> */}
               <Tooltip tag="Close chat">
                 <CloseButton onClick={closeChat} variant="link" color="danger">
                   <MdClear />
@@ -128,10 +118,7 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = dispatch => {
   return {
-    getMessages: convID => dispatch(getMessages(convID)),
-    sendMessage: (activity, convID) => dispatch(sendMessage(activity, convID)),
-    watchTaskAddedEvent: convID => dispatch(watchTaskAddedEvent(convID)),
-    watchTaskRemovedEvent: convID => dispatch(watchTaskRemovedEvent(convID))
+    sendMessage: (activity, convID) => dispatch(sendMessage(activity, convID))
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(ChatContent);

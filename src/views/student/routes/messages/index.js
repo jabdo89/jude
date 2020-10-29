@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Box from '@common/box';
 import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
-import firebase from "firebase"
+import firebase from 'firebase';
 import { connect } from 'react-redux';
 import Typography from '@common/typography';
 import NavbarActionPortal from '@templates/navbar-action-portal';
@@ -16,7 +16,7 @@ class Messages extends Component {
   state = {
     actualChat: null,
     currentUser: null,
-    messages:[]
+    messages: []
   };
 
   // setActualChat = (idx, companyID) => {
@@ -25,48 +25,48 @@ class Messages extends Component {
   //   const { Usuarios } = this.props;
   //   this.setState({ actualChat: Conversations[idx] });
   //   this.setState({ currentUser: Usuarios[companyID] });
-    
+
   // };
   closeChat = () => {
     this.setState({ actualChat: null });
   };
 
-  getMessages=(chat) => {
+  getMessages = chat => {
+    this.setState(() => ({
+      messages: null
+    }));
     const messagesRef = firebase
       .database()
       .ref(`/messages/${chat.id}`)
       .limitToLast(100);
 
-    messagesRef.on("value", (snapshot) => {
+    messagesRef.on('value', snapshot => {
       if (snapshot.empty) {
-        console.log("heheh")
-        this.setState((prevState) => ({
-          messages: null,
+        this.setState(() => ({
+          messages: null
         }));
       }
-      let messagesObj = snapshot.val();
+      const messagesObj = snapshot.val();
       let messages = [];
       if (messagesObj !== null) {
-        Object.keys(messagesObj).forEach((key) =>
-          messages.push(messagesObj[key])
-        );
-        messages = messages.map((message) => {
+        Object.keys(messagesObj).forEach(key => messages.push(messagesObj[key]));
+        messages = messages.map(message => {
           return {
             message: message.message,
             sender: message.sender,
             id: message.id,
-            timestamp: message.timestamp,
+            timestamp: message.timestamp
           };
         });
-        this.setState((prevState) => ({
-          messages: messages,
+        this.setState(() => ({
+          messages
         }));
       }
     });
-  }
+  };
 
   setActualChat = (idx, companyID) => {
-    this.closeChat()
+    this.closeChat();
     const { Conversations } = this.props;
     const { Usuarios } = this.props;
     if (idx === -1) {
@@ -74,7 +74,7 @@ class Messages extends Component {
     } else {
       this.setState({ actualChat: Conversations[idx] });
       this.setState({ currentUser: Usuarios[companyID] });
-      this.getMessages(Conversations[idx])
+      this.getMessages(Conversations[idx]);
     }
   };
 
@@ -84,7 +84,7 @@ class Messages extends Component {
     if (Conversations !== undefined) {
       Conversations = Conversations.sort((a, b) => b.lMessageTime - a.lMessageTime);
     }
-    const { actualChat, currentUser,messages } = this.state;
+    const { actualChat, currentUser, messages } = this.state;
 
     let chatsCounter = 0;
     if (Conversations !== undefined) {

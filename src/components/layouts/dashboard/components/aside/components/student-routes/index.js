@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
-import { FiLayers, FiMessageCircle, FiStar, FiUser } from 'react-icons/fi';
+import { FiLayers, FiMessageCircle, FiStar, FiUser, FiUsers } from 'react-icons/fi';
 import { AsideLine, Option, Icon } from './elements';
 
 const StudentRoutes = ({ location: { pathname }, username }) => (
@@ -22,6 +22,15 @@ const StudentRoutes = ({ location: { pathname }, username }) => (
           <FiLayers />
         </Icon>
         <p>Requests</p>
+        <AsideLine />
+      </Option>
+    </Link>
+    <Link to="/recruiters">
+      <Option active={pathname.includes('recruiters')}>
+        <Icon>
+          <FiUsers />
+        </Icon>
+        <p>Recruiters</p>
         <AsideLine />
       </Option>
     </Link>

@@ -62,7 +62,7 @@ class ChatContent extends Component {
   };
 
   render() {
-    const { user, closeChat, profile, chat,messages } = this.props;
+    const { user, closeChat, profile, chat, messages } = this.props;
     const { message } = this.state;
     let action;
     if (chat.status === 'Interviewing') {
@@ -155,7 +155,6 @@ ChatContent.propTypes = {
   profile: PropTypes.object,
   messages: PropTypes.arrayOf(PropTypes.object),
   closeChat: PropTypes.func.isRequired,
-  getMessages: PropTypes.func.isRequired,
   sendMessage: PropTypes.func.isRequired,
   hireStudentInterview: PropTypes.func.isRequired,
   rejectStudentInterviewWChat: PropTypes.func.isRequired
@@ -163,7 +162,7 @@ ChatContent.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    profile: state.firebase.profile,
+    profile: state.firebase.profile
   };
 };
 const mapDispatchToProps = dispatch => {

@@ -113,6 +113,7 @@ export default compose(
         collection: 'JobOffers'
       },
       { collection: 'Usuarios' },
+      { collection: 'Recruiters' },
       {
         collection: 'JobOffersyStudents',
         where: [['studentID', '==', props.profile.userID]]

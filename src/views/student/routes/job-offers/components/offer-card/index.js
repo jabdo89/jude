@@ -189,7 +189,6 @@ OfferCard.propTypes = {
     typeOfJob: PropTypes.string,
     website: PropTypes.string,
     location: PropTypes.string,
-    //    scheduleDesc: PropTypes.object,
     companyName: PropTypes.string,
     requirements: PropTypes.arrayOf(PropTypes.string)
   }).isRequired,

@@ -23,6 +23,11 @@ const Profile = Loadable({
   loading: TopBarProgress
 });
 
+const Recruiter = Loadable({
+  loader: () => import('./routes/recruiter'),
+  loading: TopBarProgress
+});
+
 const Test = Loadable({
   loader: () => import('./routes/test'),
   loading: TopBarProgress
@@ -35,6 +40,9 @@ const Company = () => (
     </Route>
     <Route path="/requests">
       <Requests />
+    </Route>
+    <Route path="/recruiters">
+      <Recruiter />
     </Route>
     <Route path="/interviews">
       <Messages />

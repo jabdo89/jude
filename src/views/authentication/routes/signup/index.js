@@ -264,6 +264,7 @@ class Login extends Component {
                     <option value="Marketing">Marketing</option>
                     <option value="Mechanical Engineer">Mechanical Engineer</option>
                     <option value="Mechatronic Engineer">Mechatronic Engineer</option>
+                    <option value="Demo">Demo</option>
                   </Select>
                 </Column>
                 <Column basis="35">
@@ -290,6 +291,7 @@ class Login extends Component {
                   <option value="ITESM">ITESM</option>
                   <option value="UANL">UANL</option>
                   <option value="UDEM">UDEM</option>
+                  <option value="UNAM">UNAM</option>
                 </Select>{' '}
                 <Select
                   leftIcon={<FaLocationArrow />}
@@ -301,6 +303,7 @@ class Login extends Component {
                   <option value="">Select your location here</option>
                   <option value="Monterrey, Nuevo Leon">Monterrey, Nuevo Leon</option>
                   <option value="Tampico, Tamaulipas">Tampico, Tamaulipas</option>
+                  <option value="Mexico City">Mexico City</option>
                 </Select>
               </Box>
               <Input
