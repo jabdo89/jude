@@ -40,7 +40,8 @@ const Recruiter = ({ profile }) => {
     const db = firebase.firestore();
 
     const query = () => {
-      db.collection('Recruiters')
+      db.collection('Usuarios')
+        .where('rol', '==', 'Recruiter')
         // eslint-disable-next-line func-names
         .onSnapshot(function(querySnapshot) {
           const info = [];
@@ -53,7 +54,7 @@ const Recruiter = ({ profile }) => {
     };
     query();
   }, []);
-  if (profile.recruiterID == null) {
+  if (profile.recruiterID == null || profile.recruiterID === '') {
     return (
       <Box pb={30}>
         {/* <FilterBar

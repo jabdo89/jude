@@ -8,6 +8,7 @@ import Company from './views/company';
 import Student from './views/student';
 import Admin from './views/admin';
 import Authentication from './views/authentication';
+import Recruiter from './views/recruiters';
 
 TopBarProgress.config({
   barColors: {
@@ -46,6 +47,13 @@ const App = ({ profile }) => {
     return (
       <DashboardLayout admin>
         <Admin />
+      </DashboardLayout>
+    );
+  }
+  if (profile.rol === 'Recruiter') {
+    return (
+      <DashboardLayout recruiter>
+        <Recruiter />
       </DashboardLayout>
     );
   }

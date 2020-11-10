@@ -163,7 +163,7 @@ export default compose(
     if (props.profile.userID === undefined) return [];
 
     return [
-      { collection: 'Usuarios', where: ['rol', '==', 'Company'] },
+      { collection: 'Usuarios' },
       {
         collection: 'JobOffersyStudents',
         where: [

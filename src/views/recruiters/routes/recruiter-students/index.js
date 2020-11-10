@@ -57,22 +57,22 @@ class Messages extends Component {
     });
   };
 
-  setActualChat = idx => {
+  setActualChat = (idx, studentID) => {
     this.closeChat();
-    const { Recruiters, Conversaciones, profile } = this.props;
+    const { Students, Conversaciones } = this.props;
     if (idx === -1) {
       this.setState({ actualChat: null });
     } else {
       this.setState({ actualChat: Conversaciones[idx] });
-      this.setState({ currentUser: Recruiters[profile.recruiterID] });
+      this.setState({ currentUser: Students[studentID] });
       this.getMessages(Conversaciones[idx]);
     }
   };
 
   render() {
-    const { Recruiters, profile, Conversaciones } = this.props;
+    const { Students, profile, Conversaciones } = this.props;
     const { actualChat, currentUser, messages } = this.state;
-    if (Conversaciones === undefined || Recruiters === undefined) {
+    if (Conversaciones === undefined || Students === undefined) {
       return null;
     }
     return (
@@ -81,15 +81,15 @@ class Messages extends Component {
           <NavbarActionPortal>{/* <SearchBar /> */}</NavbarActionPortal>
           <ListContainer>
             {Conversaciones &&
-              Conversaciones.map(({ lastMessage, studentID }, idx) => {
-                if (profile.userID !== studentID) {
+              Conversaciones.map(({ lastMessage, studentID, recruiterID }, idx) => {
+                if (recruiterID !== profile.userID) {
                   return null;
                 }
                 return (
                   <ConversationCard
                     key={idx.id}
-                    openChat={() => this.setActualChat(idx)}
-                    user={Recruiters[profile.recruiterID]}
+                    openChat={() => this.setActualChat(idx, studentID)}
+                    user={Students[studentID]}
                     jobOfferName="Recruiter"
                     lastMessage={lastMessage}
                     seen={true}
@@ -102,7 +102,7 @@ class Messages extends Component {
           {!actualChat ? (
             <Box height="100%" display="flex" alignItems="center" justifyContent="center" p={20}>
               <Typography textAlign="center" variant="leadText">
-                Start Chating with your Recrutier
+                Start Chating with your Students
               </Typography>
             </Box>
           ) : (
@@ -122,18 +122,18 @@ class Messages extends Component {
 Messages.defaultProps = {
   profile: undefined,
   Conversaciones: undefined,
-  Recruiters: undefined
+  Students: undefined
 };
 
 Messages.propTypes = {
   profile: PropTypes.object,
   Conversaciones: PropTypes.arrayOf(PropTypes.object),
-  Recruiters: PropTypes.objectOf(PropTypes.object)
+  Students: PropTypes.objectOf(PropTypes.object)
 };
 function mapStateToProps(state) {
   return {
     Conversaciones: state.firestore.ordered.RecruitersyStudents,
-    Recruiters: state.firestore.data.Usuarios,
+    Students: state.firestore.data.Usuarios,
     profile: state.firebase.profile
   };
 }

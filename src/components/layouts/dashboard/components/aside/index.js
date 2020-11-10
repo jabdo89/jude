@@ -6,9 +6,10 @@ import ProfileData from './components/profile-data';
 import CompanyRoutes from './components/company-routes';
 import StudentRoutes from './components/student-routes';
 import AdminRoutes from './components/admin-routes';
+import RecruiterRoutes from './components/recruiter-routes';
 import { Container, LogoContainer, Logo, OptionsContainer } from './elements';
 
-const Aside = ({ admin, student, company }) => (
+const Aside = ({ admin, student, company, recruiter }) => (
   <Container>
     <LogoContainer>
       <Logo alt="Jude" src="/static/img/brand/jude_logo.png" />
@@ -20,6 +21,7 @@ const Aside = ({ admin, student, company }) => (
       {company && <CompanyRoutes />}
       {student && <StudentRoutes />}
       {admin && <AdminRoutes />}
+      {recruiter && <RecruiterRoutes />}
     </OptionsContainer>
     <ProfileData />
   </Container>
@@ -28,13 +30,15 @@ const Aside = ({ admin, student, company }) => (
 Aside.defaultProps = {
   admin: false,
   student: false,
-  company: false
+  company: false,
+  recruiter: false
 };
 
 Aside.propTypes = {
   admin: PropTypes.bool,
   student: PropTypes.bool,
-  company: PropTypes.bool
+  company: PropTypes.bool,
+  recruiter: PropTypes.bool
 };
 
 export default withRouter(Aside);

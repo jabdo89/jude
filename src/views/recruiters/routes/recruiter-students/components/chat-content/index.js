@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { sendMessage, rejectRecruiter } from '@actions/recruiterActions';
+import { sendMessage } from '@actions/recruiterActions';
 import Typography from '@common/typography';
 import Box from '@common/box';
-import { MdSend, MdClear, MdCancel } from 'react-icons/md';
+import { MdSend, MdClear } from 'react-icons/md';
+// , MdCancel
 import Avatar from '@common/avatar';
 import Input from '@common/input';
 import Tooltip from '@common/tooltip';
@@ -16,7 +17,7 @@ import {
   MessagesContainer,
   Scroll,
   CloseButton,
-  ActionButton,
+  // ActionButton,
   Form
 } from './elements';
 
@@ -41,12 +42,6 @@ class ChatContent extends Component {
     this.setState({ message: '' });
   };
 
-  handleReject = () => {
-    const { chat, closeChat, profile } = this.props;
-    closeChat();
-    this.props.rejectRecruiter(chat.id, profile.userID);
-  };
-
   render() {
     const { user, closeChat, profile, messages } = this.props;
     const { message } = this.state;
@@ -59,18 +54,6 @@ class ChatContent extends Component {
               <Typography mr="auto" variant="leadText">
                 {user.firstName} {user.lastName}
               </Typography>
-              <Box display="flex" alignItems="center">
-                <ActionButton
-                  size="small"
-                  color="danger"
-                  variant="soft"
-                  mr={5}
-                  onClick={this.handleReject}
-                >
-                  Find New Recruiter <MdCancel />
-                </ActionButton>
-              </Box>
-
               <Tooltip tag="Close chat">
                 <CloseButton onClick={closeChat} variant="link" color="danger">
                   <MdClear />
@@ -125,8 +108,7 @@ ChatContent.propTypes = {
   profile: PropTypes.object,
   messages: PropTypes.arrayOf(PropTypes.object),
   closeChat: PropTypes.func.isRequired,
-  sendMessage: PropTypes.func.isRequired,
-  rejectRecruiter: PropTypes.func.isRequired
+  sendMessage: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {
@@ -136,9 +118,7 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = dispatch => {
   return {
-    sendMessage: (activity, convID) => dispatch(sendMessage(activity, convID)),
-    rejectRecruiter: (RecruiterStudentID, studentID) =>
-      dispatch(rejectRecruiter(RecruiterStudentID, studentID))
+    sendMessage: (activity, convID) => dispatch(sendMessage(activity, convID))
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(ChatContent);
